@@ -44,7 +44,8 @@ next-env.d.ts
 next-prod.*.log
 /next-dev.*.log
 /home-check.png
-/reference-sources/
+/reference-sources/*
+!/reference-sources/source-index.json
 /templates/
 /scripts/
 /public/_next/
