@@ -1,0 +1,881 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <base href="/templates/dlove-10/">
+  <script src="/vendor/trikun-bridge.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Món Quà Đặc Biệt Cho Bạn 🎁</title>
+    <meta name="language" content="zh-CN">
+    <meta name="description" content="Một món quà số ấm áp và bất ngờ dành cho những dịp thật đặc biệt. Hãy mở ra và cảm nhận yêu thương!">
+
+    <!-- Favicon and Icons -->
+    <link rel="icon" href="./image/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="./image/logo.png">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Món Quà Đặc Biệt Dành Riêng Cho Bạn 🎁">
+    <meta property="og:description"
+        content="Một món quà số đầy cảm xúc đang chờ bạn mở ra. Nhấn để khám phá những điều bất ngờ yêu thương!">
+    <meta property="og:image" content="https://happybirthdaydeargift.vercel.app/image/logo.png">
+    <!-- <meta property="og:url" content="https://happybirthdaydeargift.vercel.app/?websiteId=686d4ef53c910ba1bee5ec5c"> -->
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Món Quà Đặc Biệt Dành Riêng Cho Bạn 🎁">
+    <meta name="twitter:description"
+        content="Một món quà số đầy cảm xúc đang chờ bạn mở ra. Nhấn để khám phá những điều bất ngờ yêu thương!">
+    <meta name="twitter:image" content="https://happybirthdaydeargift.vercel.app/image/birthday-gift.jpg">
+
+    <link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/sun0225SUN/photos/img/20210715233345.png">
+    <link rel="stylesheet" href="./css/index.css?v=f06526b86534">
+    <link rel="stylesheet" href="./css/create-ux.css?v=5a5bb12f29ee">
+    <link rel="stylesheet" href="./css/text-style.css?v=3dab82355f16">
+    <link href="/templates/dlove-10/assets/1a32fb095f959a40.bin" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="/templates/dlove-10/assets/39c0b346e622b986.bin" rel="stylesheet">
+    <link href="/templates/dlove-10/assets/de01a9b091fcf39a.bin" rel="stylesheet">
+    <link rel="stylesheet" href="/templates/dlove-10/assets/d6f4fdf10922001a.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="/templates/dlove-10/assets/ceb5744f2e10d55b.js"></script>
+    <script src="/templates/dlove-10/assets/50a3b463094ded73.js"></script>
+</head>
+
+<body>
+    <button id="langSwitchBtn"
+        style="position:fixed;top:20px;right:150px;z-index:10000004;padding:8px 16px;border-radius:8px;background:#fff;color:#222;border:1px solid #dadce0;cursor:pointer;">
+        EN/VI
+    </button>
+    <!-- Google Login Button -->
+    <div id="googleAuthContainer" style="
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 10003;
+        font-family: Arial, sans-serif;
+    ">
+        <button id="googleLoginBtn" style="
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: none;
+            border: 1px solid #dadce0;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #3c4043;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        ">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+                <path fill="#4285f4"
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                <path fill="#34a853"
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                <path fill="#fbbc05"
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                <path fill="#ea4335"
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+            </svg>
+        </button>
+
+        <div id="userInfo" style="
+            display: none;
+            align-items: center;
+            padding: 8px 12px;
+            background: none;
+            border: 1px solid #dadce0;
+            border-radius: 24px;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        ">
+            <img id="userAvatar" style="
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                margin-right: 8px;
+            ">
+            <div style="margin-right: 12px;">
+                <div id="userName" style="font-weight: 500; color: #ffffff;"></div>
+                <div id="userEmail" style="font-size: 12px; color: #ffffff;"></div>
+            </div>
+            <button id="logoutBtn"
+                style="padding: 4px 8px; background: none; border: 1px solid #dadce0; border-radius: 4px; font-size: 12px; cursor: pointer; color: #fbfbfc;"
+                data-i18n="logout">Đăng xuất</button>
+        </div>
+    </div>
+
+
+    </div>
+    <canvas id="matrix-rain" style="display: none;"></canvas>
+    <canvas style="position:absolute;width:100%;height:100%;z-index:9999;display:none;" class="canvas"></canvas>
+        <div class="overlay">
+        <div class="stars-container" id="starsContainer"></div>
+        <div class="content-display" id="contentDisplay">
+            <p id="contentText"></p>
+        </div>
+        <div class="firework-container" id="fireworkContainer"></div>
+
+        <!-- Phong Thư -->
+        <div id="envelopeContainer" style="display: none;">
+            <div class="letter">
+                <div class="valentines" id="valentinesWrapper">
+                    <!-- Overlay vô hình để nhận mouse events -->
+                    <div class="envelope-overlay"></div>
+                    <div class="envelope"></div>
+                    <div class="front"></div>
+                    <div class="card" id="envelopeCard">
+                        <div class="text">Happy
+Men's
+Day!</div>
+                        <div class="heart"></div>
+                    </div>
+                    <div class="hearts">
+                        <div class="one"></div>
+                        <div class="two"></div>
+                        <div class="three"></div>
+                        <div class="four"></div>
+                        <div class="five"></div>
+                    </div>
+                </div>
+                <div class="shadow"></div>
+            </div>
+        </div>
+
+        <button class="music-control" id="musicControl" title="Play/Pause Music">
+            ▶
+        </button>
+
+        <button class="settings-button" id="settingsButton" title="Settings">
+            ⚙
+        </button>
+
+        <!-- Settings hint element -->
+        <div id="settingsHint" class="settings-hint">
+            <div class="hint-text" data-i18n="settingsHint">ấn vào đây để setting theo ý muốn</div>
+        </div>
+
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 data-i18n="settings">⚙️ Cài Đặt Trang Web</h2>
+                    <span class="close">×</span>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3 data-i18n="music">🎵 Cài Đặt Âm Thanh</h3>
+                        <div class="form-group">
+                            <label for="backgroundMusic" data-i18n="backgroundMusic">Nhạc Nền:</label>
+                            <select id="backgroundMusic">
+                                <option value="./music/nhacnenfree.mp3">Nhạc nền miễn phí (Mặc định)</option>
+                                <option value="./music/happy-birthday.mp3">Happy Birthday (Miễn phí)</option>
+                                <option value="./music/happybirthday_domixi.mp3">Happy Birthday (Độ Mixi)</option>
+                                <option value="./music/happybirtday_uia.mp3">Happy Birthday (Mèo UIA)</option>
+                                <option value="./music/happybirthday.mp3">Happy Birthday (Piano)</option>
+                                <option value="./music/postcardnam.mp3">Podcast chúc mừng (Giọng nam)</option>
+                                <option value="./music/podcardnu.mp3">Podcast chúc mừng (Giọng nữ)</option>
+                                <option value="./music/anhnangcuaanh.mp3">Ánh nắng của anh</option>
+                                <option value="./music/buiphan.mp3">Bụi phấn</option>
+                                <option value="./music/buocnhevaotimanh.mp3">Bước nhẹ vào tim anh</option>
+                                <option value="./music/codoidieu.mp3">Có đôi điều</option>
+                                <option value="./music/coem.mp3">Có em</option>
+                                <option value="./music/denbenanh.mp3">Đến bên anh</option>
+                                <option value="./music/dunglamtraitimanhdau.mp3">Đừng làm trái tim anh đau</option>
+                                <option value="./music/emlacogiaovungcao.mp3">Em là cô giáo vùng cao</option>
+                                <option value="./music/emlacogiaovungcaoremix.mp3">Em là cô giáo vùng cao (Remix)</option>
+                                <option value="./music/emnay.mp3">Em này</option>
+                                <option value="./music/givemeyourforever.mp3">Give Me Your Forever</option>
+                                <option value="./music/lambantraianhe.mp3">Làm bạn trai anh nhé</option>
+                                <option value="./music/lathuguithay.mp3">Lá thư gửi thầy</option>
+                                <option value="./music/loithayco.mp3">Lời thầy cô</option>
+                                <option value="./music/minhcungnhaudongbang.mp3">Mình cùng nhau đóng băng</option>
+                                <option value="./music/motdoi.mp3">Một đời</option>
+                                <option value="./music/music.mp3">Nhạc nền ngẫu nhiên</option>
+                                <option value="./music/neunhucohaitraitim.mp3">Nếu như có hai trái tim</option>
+                                <option value="./music/ngayxuaay.mp3">Ngày xưa ấy</option>
+                                <option value="./music/nguoidautien.mp3">Người đầu tiên</option>
+                                <option value="./music/nguoigieomamxanh.mp3">Người gieo mầm xanh</option>
+                                <option value="./music/nguoithay.mp3">Người thầy</option>
+                                <option value="./music/Như 1 vì tinh tú.mp3">Như một vì tinh tú</option>
+                                <option value="./music/perfect.mp3">Perfect</option>
+                                <option value="./music/phepmau.mp3">Phép màu</option>
+                                <option value="./music/suynghitronganh.mp3">Suy nghĩ trong anh</option>
+                                <option value="./music/tinhyeudieuky.mp3">Tình yêu diệu kỳ</option>
+                                <option value="./music/trentinhbanduoitinhyeu.mp3">Trên tình bạn dưới tình yêu</option>
+                                <option value="./music/tungngayyeuem.mp3">Từng ngày yêu em</option>
+                                <option value="./music/yeuemratnhieu.mp3">Yêu em rất nhiều</option>
+                                <option value="./music/coemcho.mp3">Có em cho</option>
+                                <option value="./music/untilyou.mp3">Until You</option>
+                            </select>
+                            <div class="music-preview-actions" style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+                                <button type="button" id="previewMusicButton" style="padding:4px 10px;border:none;border-radius:5px;background:#ff69b4;color:#fff;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.2);font-size:13px;line-height:1;">
+                                    🎧 Nghe thử
+                                </button>
+                                <span id="previewMusicStatus" style="font-size:12px;color:#555;">Chưa phát</span>
+                            </div>
+                            <audio id="musicPreviewAudio" preload="none" style="display:none;"></audio>
+                        </div>
+                        <div class="form-group">
+                            <label for="audioFileInput">Hoặc tải lên file âm thanh:</label>
+                            <input type="file" id="audioFileInput" accept="audio/*" style="width: 100%; padding: 8px;">
+                            <div id="audioPreviewContainer" style="margin-top: 10px;"></div>
+                            <input type="hidden" id="audioDataInput" value="">
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 data-i18n="countdown">⏰ Cài Đặt Thời Gian</h3>
+                        <div class="form-group">
+                            <label for="countdownTime" data-i18n="countdownTime">Thời Gian Đếm Ngược:</label>
+                            <select id="countdownTime">
+                                <option value="3" data-i18n="sec3">3 giây</option>
+                                <option value="5" data-i18n="sec5">5 giây</option>
+                                <option value="10" data-i18n="sec10">10 giây</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 data-i18n="matrix">🌧️ Cài Đặt Hiệu Ứng Mưa Chữ</h3>
+                        <div class="form-group">
+                            <label for="matrixText" data-i18n="matrixText">chữ chính mưa chữ:</label>
+                            <input type="text" id="matrixText" value="HAPPYBIRTHDAY"
+                                placeholder="Nhập chữ cho hiệu ứng mưa chữ" data-i18n-placeholder="matrixText">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="colorTheme">Chọn màu:</label>
+                            <div class="color-theme-buttons">
+                                <button type="button" class="color-theme-btn active" data-theme="pink">
+                                    <div class="color-preview pink-preview"></div>
+                                    <span data-i18n="pinkTheme">Hồng ngọt ngào</span>
+                                </button>
+                                <button type="button" class="color-theme-btn" data-theme="blue">
+                                    <div class="color-preview blue-preview"></div>
+                                    <span data-i18n="blueTheme">Xanh dương mát mẻ</span>
+                                </button>
+                                <button type="button" class="color-theme-btn" data-theme="purple">
+                                    <div class="color-preview purple-preview"></div>
+                                    <span data-i18n="purpleTheme">Tím mộng mơ</span>
+                                </button>
+                                <button type="button" class="color-theme-btn" data-theme="custom">
+                                    <div class="color-preview custom-preview"></div>
+                                    <span data-i18n="customTheme">Tùy chỉnh màu</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-row" id="customColorSection" style="display: none;">
+                            <div class="form-group">
+                                <label for="matrixColor1" data-i18n="matrixColor1">Màu mưa chữ 1:</label>
+                                <input type="color" id="matrixColor1" value="#ff69b4">
+                            </div>
+                            <div class="form-group">
+                                <label for="matrixColor2" data-i18n="matrixColor2">Màu mưa chữ 2:</label>
+                                <input type="color" id="matrixColor2" value="#ff1493">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 data-i18n="sequence">✨ Cài Đặt chữ chính</h3>
+                        <div class="form-group">
+                            <label for="sequenceText" data-i18n="sequenceText">Nội Dung chữ chính:</label>
+                            <span data-i18n="noteSequence"
+                                style="color: rgb(132, 132, 132); font-weight: normal; font-size: 12px; display: block; margin-bottom: 5px;">
+                                lưu ý: hãy ngăn cách bằng dấu | để tách từ, không nên để một dòng quá dài
+                            </span>
+                            <input type="text" id="sequenceText" value="HAPPY|TEACHER\'S|DAY|20/11"
+                                placeholder="Ví dụ: CHÚC|MỪNG|SINH|NHẬT|..." data-i18n-placeholder="sequenceText">
+                        </div>
+                        <div class="form-group" id="sequenceColorSection" style="display: none;">
+                            <label for="sequenceColor" data-i18n="sequenceColor">Màu chữ chính:</label>
+                            <input type="color" id="sequenceColor" value="#ff69b4">
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>💌 Cài Đặt Lá Thư</h3>
+                        <div class="form-group">
+                            <label for="envelopeText">💌 Nội dung trên phong thư:</label>
+                            <textarea id="envelopeText" rows="3" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ddd; font-family: inherit; resize: vertical;"
+                                placeholder="Nhập nội dung (nhấn Enter để xuống dòng)"></textarea>
+                           
+                        </div>
+                        <div class="form-group">
+                            <label for="letterTitle">Tiêu đề lá thư:</label>
+                            <input type="text" id="letterTitle" value=""
+                                placeholder="Nhập tiêu đề lá thư">
+                        </div>
+                        <div class="form-group">
+                            <label for="letterContent">Nội dung lá thư:</label>
+                            <textarea id="letterContent" rows="8" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ddd; font-family: inherit; resize: vertical;"
+                                placeholder="Nhập nội dung lá thư"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="letterSignature">Chữ ký:</label>
+                            <input type="text" id="letterSignature" value=""
+                                placeholder="Nhập chữ ký">
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 id="photosSectionTitle">🖼️ Ảnh Bay (Tối đa 15 ảnh)</h3>
+                        <div class="form-group">
+                            <label for="photoFileInput">Chọn ảnh (có thể chọn nhiều ảnh cùng lúc):</label>
+                            <input type="file" id="photoFileInput" accept="image/*" multiple style="width: 100%; padding: 8px;">
+                            <div style="margin-top: 10px; font-size: 12px; color: #666;">
+                                Bạn có thể chọn tối đa 15 ảnh. Nếu chọn nhiều hơn, chỉ 15 ảnh đầu tiên sẽ được sử dụng.
+                            </div>
+                        </div>
+                        <div id="photoGallerySettings" style="margin-top: 15px;">
+                            <!-- Preview ảnh sẽ được hiển thị ở đây -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="isSave" data-i18n="isSave">Lưu QR vĩnh viễn:</label>
+                        <input type="checkbox" id="isSave" style="margin-left: 10px;">
+                        <span id="saveForeverPriceLabel" style="margin-left: 5px; font-size: 12px; color: #666;" data-i18n="saveForeverPrice"></span>
+                    </div>
+                    <div class="settings-p"
+                        style="margin-bottom: 12px; background: #fff8e1; color: #b26a00; border-radius: 7px; padding: 10px 14px; font-size: 15px; box-shadow: 0 1px 6px rgba(0,0,0,0.04);">
+                        <div class="settings-p" style="margin-bottom: 4px;">
+                            ⏳ Hạn sử dụng là <b id="expireDate">30 ngày</b>
+                        </div>
+                    </div>
+                    <button id="applySettings" class="apply-settings-btn" data-i18n="apply">🎉 Áp Dụng Cài Đặt</button>
+                </div>
+            </div>
+        </div>
+
+        <audio id="birthdayAudio" loop>
+            <source src="./music/happybirtday_uia.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <div class="copyright" data-i18n="copyright">
+            Website được tạo bởi tiktok: <a
+                href="https://www.tiktok.com/@iamtritoan?is_from_webapp=1&sender_device=pc">iamtritoan</a>
+        </div>
+
+        <div id="orientation-lock">
+            <div class="phone-icon">
+                <img src="./image/screen.png" alt="">
+            </div>
+            <p style="font-size: 12px; color: #a59f9f; text-align: center; margin-top: 10px; padding: 15px; font-style: italic;">Lưu ý: nếu bạn mở qua zalo thì sẽ không thể xoay được màn hình, hãy ấn dấu ... và ấn mở sang một trình duyệt khác. <br>Nên mở QR qua camera của iphone hoặc tiện ích quét qr của iphone sẽ đẹp hơn và tiện hơn</p>
+        </div>
+        <!-- Modal Payment-->
+        <div id="paymentModal"
+            style="display:none; position:fixed; top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:99999;">
+            <div
+                style="position:relative; margin: 5% auto; width: 90%; max-width: 800px; background:white; padding:20px; border-radius:10px;">
+                <button onclick="document.getElementById('paymentModal').style.display='none'"
+                    style="position:absolute;top:10px;right:10px;">✖</button>
+                <iframe id="paymentIframe" style="width:100%; height:600px; border:none;"></iframe>
+            </div>
+        </div>
+
+        <div id="contentWarningModal" style="
+            display:none;
+            position:fixed;
+            top:0;
+            left:0;
+            width:100vw;
+            height:100vh;
+            background:rgba(0,0,0,0.45);
+            z-index:100000;
+            align-items:center;
+            justify-content:center;
+            padding:16px;
+        ">
+            <div style="
+                background:#fff;
+                border-radius:16px;
+                max-width:420px;
+                width:100%;
+                box-shadow:0 15px 40px rgba(0,0,0,0.15);
+                padding:24px;
+                font-family:'Arial',sans-serif;
+            ">
+                <h3 style="margin:0 0 12px;font-size:20px;color:#d84315;">⚠️ Cảnh báo</h3>
+                <p style="margin:0 0 20px;font-size:15px;color:#333;line-height:1.5;">
+                    Bạn chưa chỉnh sửa nội dung, bạn có muốn tiếp tục tạo không?
+                </p>
+                <p style="margin:-12px 0 20px;font-size:12px;color:#666;line-height:1.4;">
+                    Gợi ý: bạn có thể chỉnh sửa nội dung tại nút ⚙ Cài Đặt ở góc trên bên phải.
+                </p>
+                <div style="display:flex;gap:12px;justify-content:flex-end;">
+                    <button id="contentWarningCancel" style="
+                        flex:1;
+                        padding:10px 14px;
+                        border-radius:8px;
+                        border:1px solid #ddd;
+                        background:#f5f5f5;
+                        cursor:pointer;
+                        font-weight:600;
+                    ">Hủy</button>
+                    <button id="contentWarningContinue" style="
+                        flex:1;
+                        padding:10px 14px;
+                        border-radius:8px;
+                        border:none;
+                        background:#ff6f61;
+                        color:#fff;
+                        font-weight:600;
+                        cursor:pointer;
+                    ">Tiếp tục</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Lá Thư -->
+        <div class="wrapperLetterForm" style="display: none;">
+            <div class="boxLetter">
+                <i class="fa-solid fa-xmark"></i>
+                <div class="formLetter">
+                    <div class="heartLetter">
+                        <div class="heartLetterItem"></div>
+                    </div>
+                    <div class="heartLetter">
+                        <div class="heartLetterItem"></div>
+                    </div>
+                    <div class="wrapperLetter">
+                        <div class="giftbox">
+                            <div class="img">
+                                <img src="./image/giftbox.png" alt="">
+                            </div>
+                        </div>
+                        <div class="textLetter">
+                            <h2></h2>
+                            <p class="contentLetter"></p>
+                            <div class="heartAnimation">
+                                <img src="./image/heartAnimation.gif" alt="">
+                            </div>
+                        </div>
+                        <div class="mewmew1">
+                            <img src="./image/mewmew.gif" alt="">
+                        </div>
+                        <div class="mewmew2">
+                            <img src="./image/mewmew.gif" alt="">
+                        </div>
+                        <div class="signature"><br></div>
+                    </div>
+                    <button class="close-arrow-btn">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="before"></div>
+            </div>
+        </div>
+
+        <!-- Gallery Ảnh Bay (được tạo động) -->
+        <div id="photoGallery" style="display: none;">
+            <!-- Ảnh sẽ được tạo động vào đây -->
+        </div>
+        <!-- Nút Full màn hình, chỉ hiện trên Android -->
+        <button id="fullscreenBtn" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 990010;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background: #222;
+    color: #fff;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    cursor: pointer;
+    display: none;
+">
+            <img style="
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+" src="./image/full.png" alt="">
+        </button>
+        
+        <script type='text/javascript'>
+            // Bypass for developers
+            const keyName = 'key';
+            const keyValue = '9ac7ec230e0e4513578f309d6d3579ad';
+
+            // Handle via config
+            /* DisableDevtool removed */
+        </script>
+        <script src="./lang.js?v=1faa7c787fd9"></script>
+        <!-- V2: bỏ socket.io CDN (dùng polling thay thế trong jscp/payment.js). -->
+        <!-- Load order: config.js (constants) → payment.js (polling) → api.js (uses
+             API_BASE) → auth.js → voucher.js → settings.js → main.js (uses
+             birthdayAPI + paymentManager + socketManager) → ui.js. -->
+        <script src="./jscp/config.js?v=107a2ed90404"></script>
+        <script src="./jscp/payment.js?v=397efa6f110b"></script>
+        <script src="./jscp/api.js?v=bbe25cc5fdf8"></script>
+        <script src="./jscp/auth.js?v=534a2a797b23"></script>
+        <script src="./jscp/voucher.js?v=cd6df603b398"></script>
+        <script src="./jscp/music-source.js?v=1fcc67678bba"></script>
+        <script src="./jscp/text-layout.js?v=79cc31dae12a"></script>
+        <script src="./jscp/photo-gallery.js?v=76b544cef2cb"></script>
+        <script src="./jscp/settings.js?v=eff94d4d4e0f"></script>
+        <script src="./jscp/main.js?v=944f69470ad7"></script>
+        <script src="./jscp/letter-layout.js?v=e57c169acc37"></script>
+        <script src="./jscp/text-style.js?v=9f6331ce46d0"></script>
+        <script src="./jscp/ui.js?v=7a696137d8cc"></script>
+        <script src="./jscp/letter-draft.js?v=6b464fde3874"></script>
+        <script src="./jscp/create-ux.js?v=4063df3455db"></script>
+        
+        <!-- Script cho Lá Thư -->
+        <script>
+            // Biến toàn cục để quản lý hiệu ứng gõ chữ
+            let indexText = 0;
+            let indexTextContent = 0;
+            let timoutTextLetter;
+            let timoutTextLetterContent;
+            
+            // Hàm lấy nội dung lá thư từ settings
+            function getLetterTitle() {
+                return window.settings?.letterTitle ?? "Thầy cô thân mến!";
+            }
+            
+            function getLetterContent() {
+                return window.settings?.letterContent ?? `Cảm ơn thầy cô vì đã luôn là ngọn hải đăng sơi sáng, dẫn đường và truyền cảm hứng cho em luôn nỗ lực trong học tập cũng như cuộc sống hàng ngày.
+    Nhân dịp 20/11 chúng em cũng không biết nói gì hơn ngoài lời cảm ơn sâu sắc đến thầy cô`;
+            }
+            
+            function getLetterSignature() {
+                return window.settings?.letterSignature ?? "Tập thể 12A1";
+            }
+            
+            function getEnvelopeText() {
+                return window.settings?.envelopeText || "Happy\nTeacher's\nDay!";
+            }
+
+            const textLetterH2 = getLetterTitle();
+            const textLetterP = getLetterContent();
+
+            function textCharLetter() {
+                const textLetter = document.querySelector('.textLetter h2');
+                if (!textLetter) return;
+                
+                const title = getLetterTitle();
+                if (indexText < title.length) {
+                    textLetter.textContent += title[indexText];
+                    indexText++;
+                    setTimeout(textCharLetter, 500);
+                } else {
+                    clearInterval(timoutTextLetter);
+                    setTimeout(() => {
+                        funcTimeoutLetterContent();
+                    }, 500);
+                }
+            }
+
+            function funcTimeoutLetter() {
+                const textLetter = document.querySelector('.textLetter h2');
+                if (!textLetter) return;
+                
+                indexText = 0;
+                textLetter.textContent = '';
+                clearInterval(timoutTextLetter);
+                timoutTextLetter = setInterval(() => {
+                    textCharLetter();
+                }, 100);
+            }
+
+            function textCharLetterContent() {
+                const textLetterContent = document.querySelector('.contentLetter');
+                if (!textLetterContent) return;
+                
+                const content = getLetterContent();
+                if (indexTextContent < content.length) {
+                    textLetterContent.textContent += content[indexTextContent];
+                    indexTextContent++;
+                    // Tự động scroll đến phần đang được gõ
+                    textLetterContent.scrollTop = textLetterContent.scrollHeight;
+                    // Delay cố định 50ms cho mỗi ký tự để tốc độ đồng đều
+                    timoutTextLetterContent = setTimeout(textCharLetterContent, 50);
+                } else {
+                    clearTimeout(timoutTextLetterContent);
+                    // Scroll đến cuối cùng khi hết thư
+                    textLetterContent.scrollTop = textLetterContent.scrollHeight;
+                    
+                    // Cập nhật chữ ký
+                    const signatureElement = document.querySelector('.signature');
+                    if (signatureElement) {
+                        signatureElement.innerHTML = '<br>' + getLetterSignature();
+                    }
+                }
+            }
+
+            function funcTimeoutLetterContent() {
+                const textLetterContent = document.querySelector('.contentLetter');
+                if (!textLetterContent) return;
+                
+                indexTextContent = 0;
+                textLetterContent.textContent = '';
+                clearTimeout(timoutTextLetterContent);
+                textCharLetterContent();
+            }
+
+            // Hàm hiển thị phong thư
+            function showEnvelope() {
+                window.TeacherText?.hide();
+                const envelopeContainer = document.getElementById('envelopeContainer');
+                if (envelopeContainer) {
+                    // Cập nhật text trên phong thư từ settings
+                    const cardText = envelopeContainer.querySelector('.card .text');
+                    if (cardText) {
+                        const envelopeText = getEnvelopeText();
+                        cardText.textContent = envelopeText;
+                    }
+                    
+                    envelopeContainer.style.display = 'flex';
+                    
+                    // Setup event listeners sau khi phong thư được hiển thị
+                    setTimeout(() => {
+                        const valentines = document.getElementById('valentinesWrapper');
+                        const envelope = envelopeContainer.querySelector('.envelope');
+                        const overlay = envelopeContainer.querySelector('.envelope-overlay');
+                        const card = document.getElementById('envelopeCard');
+                        
+                        if (!valentines || !card) {
+                            console.error('Không tìm thấy valentines hoặc card');
+                            return;
+                        }
+                        
+                        console.log('Elements found:', valentines, envelope, overlay, card);
+                        
+                        // Hàm xử lý hover
+                        function handleMouseEnter() {
+                            console.log('Mouse enter - moving card up');
+                            card.style.top = '-90px';
+                        }
+                        
+                        function handleMouseLeave() {
+                            console.log('Mouse leave - moving card down');
+                            card.style.top = '5px';
+                        }
+                        
+                        // Gắn event vào overlay (chắc chắn có thể nhận events vì nó ở trên cùng)
+                        if (overlay) {
+                            overlay.addEventListener('mouseenter', function(e) {
+                                console.log('Mouse enter overlay', e);
+                                handleMouseEnter();
+                            });
+                            overlay.addEventListener('mouseleave', function(e) {
+                                console.log('Mouse leave overlay', e);
+                                handleMouseLeave();
+                            });
+                            console.log('Events attached to overlay');
+                        }
+                        
+                        // Gắn event vào envelope (phần thân phong thư)
+                        if (envelope) {
+                            envelope.addEventListener('mouseenter', function(e) {
+                                console.log('Mouse enter envelope', e);
+                                handleMouseEnter();
+                            });
+                            envelope.addEventListener('mouseleave', function(e) {
+                                console.log('Mouse leave envelope', e);
+                                handleMouseLeave();
+                            });
+                            console.log('Events attached to envelope');
+                        }
+                        
+                        // Cũng gắn vào valentines để đảm bảo
+                        valentines.addEventListener('mouseenter', function(e) {
+                            console.log('Mouse enter valentines', e);
+                            handleMouseEnter();
+                        });
+                        valentines.addEventListener('mouseleave', function(e) {
+                            console.log('Mouse leave valentines', e);
+                            handleMouseLeave();
+                        });
+                        console.log('Events attached to valentines');
+
+                        // Xử lý click vào card để mở lá thư (bao gồm cả vùng mở rộng)
+                        function handleCardClick(e) {
+                            e.stopPropagation();
+                            console.log('Card clicked - opening letter');
+                            showLetterForm();
+                        }
+                        
+                        // Gắn click vào card
+                        card.addEventListener('click', handleCardClick);
+                        
+                        // Cũng gắn click vào valentines để dễ click hơn - click vào bất kỳ đâu trên phong thư đều mở được
+                        valentines.addEventListener('click', function(e) {
+                            // Tránh double trigger nếu click trực tiếp vào card
+                            if (e.target !== card && !card.contains(e.target)) {
+                                console.log('Valentines clicked - opening letter');
+                                showLetterForm();
+                            }
+                        });
+                        
+                        // Gắn click vào overlay để dễ click hơn
+                        if (overlay) {
+                            overlay.addEventListener('click', function(e) {
+                                console.log('Overlay clicked - opening letter');
+                                showLetterForm();
+                            });
+                        }
+                        
+                        // Click ra ngoài phong thư để ẩn phong thư
+                        envelopeContainer.addEventListener('click', function(e) {
+                            // Chỉ ẩn nếu click vào background, không phải vào valentines hoặc các phần tử con
+                            if (!valentines.contains(e.target)) {
+                                console.log('Clicked outside envelope - hiding envelope');
+                                envelopeContainer.style.display = 'none';
+                            }
+                        });
+                        
+                        console.log('All event listeners attached');
+                    }, 500);
+                }
+            }
+
+            // Hàm hiển thị lá thư
+            function showLetterForm() {
+                const wrapperLetterForm = document.querySelector('.wrapperLetterForm');
+                const envelopeContainer = document.getElementById('envelopeContainer');
+                
+                if (wrapperLetterForm) {
+                    // Ẩn phong thư
+                    if (envelopeContainer) {
+                        envelopeContainer.style.display = 'none';
+                    }
+                    
+                    // Cập nhật trạng thái nút mũi tên trước khi hiển thị lá thư
+                    updateArrowButtonVisibility();
+                    
+                    // Xóa nội dung cũ trước khi hiển thị lá thư mới
+                    const textLetter = document.querySelector('.textLetter h2');
+                    const textLetterContent = document.querySelector('.contentLetter');
+                    const signatureElement = document.querySelector('.signature');
+                    
+                    // Clear các timeout/interval cũ
+                    clearInterval(timoutTextLetter);
+                    clearTimeout(timoutTextLetterContent);
+                    
+                    // Reset index về 0
+                    indexText = 0;
+                    indexTextContent = 0;
+                    
+                    // Xóa nội dung cũ
+                    if (textLetter) textLetter.textContent = '';
+                    if (textLetterContent) textLetterContent.textContent = '';
+                    if (signatureElement) signatureElement.innerHTML = '<br>' + getLetterSignature();
+                    
+                    // Hiển thị lá thư
+                    wrapperLetterForm.style.display = 'block';
+                    
+                    // Bắt đầu animation với nội dung mới
+                    funcTimeoutLetter();
+                    
+                    // Phát nhạc nếu có
+                    const bgm = document.getElementById('birthdayAudio');
+                    if (bgm) {
+                        bgm.volume = 0.6;
+                        bgm.play().catch(() => { });
+                    }
+                }
+            }
+
+            // Hàm kiểm tra và ẩn/hiện nút mũi tên dựa trên mảng ảnh
+            function updateArrowButtonVisibility() {
+                const closeArrowBtn = document.querySelector('.close-arrow-btn');
+                if (!closeArrowBtn) return;
+                
+                const photosArray = window.settings?.photos || [];
+                const hasPhotos = photosArray && photosArray.length > 0;
+                
+                if (hasPhotos) {
+                    closeArrowBtn.style.display = 'flex';
+                } else {
+                    closeArrowBtn.style.display = 'none';
+                }
+            }
+
+            // Đăng ký các hàm để có thể gọi từ bên ngoài
+            window.showEnvelope = showEnvelope;
+            window.showLetterForm = showLetterForm;
+            window.updateArrowButtonVisibility = updateArrowButtonVisibility;
+            
+            // Xử lý sự kiện cho lá thư (các element này luôn tồn tại trong DOM)
+            document.addEventListener('DOMContentLoaded', function() {
+                const faXmark = document.querySelector('.fa-xmark');
+                const closeArrowBtn = document.querySelector('.close-arrow-btn');
+                const wrapperLetterForm = document.querySelector('.wrapperLetterForm');
+                const bgm = document.getElementById('birthdayAudio');
+                
+                // Kiểm tra và cập nhật trạng thái nút mũi tên ban đầu
+                updateArrowButtonVisibility();
+
+                // Xử lý đóng lá thư bằng nút X
+                if (faXmark) {
+                    faXmark.addEventListener('click', function() {
+                        if (wrapperLetterForm) {
+                            wrapperLetterForm.style.display = 'none';
+                        }
+                        // Nhạc tiếp tục phát khi đóng lá thư
+                        // Không dừng nhạc ở đây
+                    });
+                }
+
+                // Xử lý đóng lá thư bằng nút mũi tên - hiển thị gallery ảnh bay
+                if (closeArrowBtn) {
+                    closeArrowBtn.addEventListener('click', function() {
+                        // Ẩn lá thư
+                        if (wrapperLetterForm) {
+                            wrapperLetterForm.style.display = 'none';
+                        }
+                        
+                        // Ẩn phong thư nếu còn hiển thị
+                        const envelopeContainer = document.getElementById('envelopeContainer');
+                        if (envelopeContainer) {
+                            envelopeContainer.style.display = 'none';
+                        }
+                        
+                        // Ẩn các element khác
+                        const contentDisplay = document.getElementById('contentDisplay');
+                        const starsContainer = document.getElementById('starsContainer');
+                        const fireworkContainer = document.getElementById('fireworkContainer');
+                        
+                        if (contentDisplay) contentDisplay.style.display = 'none';
+                        if (starsContainer) starsContainer.style.display = 'none';
+                        if (fireworkContainer) fireworkContainer.style.display = 'none';
+                        
+                        // Hiển thị gallery ảnh bay
+                        const photoGallery = document.getElementById('photoGallery');
+                        if (photoGallery) {
+                            // Cập nhật gallery với ảnh từ settings
+                            const photosArray = window.settings?.photos || [];
+                            console.log('Opening gallery with photos:', photosArray); // Debug
+                            
+                            if (typeof updatePhotoGallery === 'function') {
+                                updatePhotoGallery(photosArray);
+                            }
+                            
+                            photoGallery.style.display = 'block';
+                            
+                            // updatePhotoGallery creates fresh animations with their full repeat cycle.
+
+                            // Click vào gallery để đóng
+                            photoGallery.onclick = function(event) {
+                                if (event.target === photoGallery) photoGallery.style.display = 'none';
+                            };
+                        }
+                        
+                        // Nhạc tiếp tục phát khi mở gallery ảnh bay
+                        // Không dừng nhạc ở đây
+                    });
+                }
+            });
+        </script>
+</body>
+
+</html>

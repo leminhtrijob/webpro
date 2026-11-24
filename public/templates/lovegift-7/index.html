@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/templates/lovegift-7/">
+  <script src="/vendor/trikun-bridge.js"></script>
+    <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=0c82ff26-621b-4b33-a29b-e127d22136ac
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Gửi yêu thương</title>
+    <meta name="description"
+          content="💕 Gửi yêu thương đến người bạn thương! Tạo món quà đặc biệt với trái tim và lời nhắn ngọt ngào nhé! 🌹✨">
+    <meta name="keywords" content="love gift, quà tặng, tình yêu, love, gửi yêu thương, người thương">
+    <link rel="canonical" href="https://lovegift.online/">
+    <meta property="og:title" content="💝 Love Gift - Gửi yêu thương đến người bạn thương 💝">
+    <meta property="og:description"
+          content="💕 Gửi yêu thương đến người bạn thương! Tạo món quà đặc biệt với trái tim và lời nhắn ngọt ngào nhé! 🌹✨">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lovegift.online/">
+    <meta property="og:image" content="/templates/lovegift-7/assets/749cd5bc7eadbb6b.png">
+    <meta property="og:image:height" content="575">
+    <meta property="og:image:width" content="288">
+    <meta name="twitter:title" content="💝 Love Gift - Gửi yêu thương đến người bạn thương 💝">
+    <meta name="twitter:description"
+          content="💕 Gửi yêu thương đến người bạn thương! Tạo món quà đặc biệt với trái tim và lời nhắn ngọt ngào nhé! 🌹✨">
+    <meta name="twitter:image" content="/templates/lovegift-7/assets/749cd5bc7eadbb6b.png">
+    <meta name="twitter:site" content="@lovegift online">
+    <link rel="canonical" href="https://lovegift.online/">
+    <meta property="og:image:alt" content="Trang bìa của lovegift online" />
+    <meta name="twitter:image:alt" content="Trang bìa của lovegift online" />
+    <meta property="og:site_name" content="lovegift online" />
+    <meta name="twitter:creator" content="@lovegift online" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="author" content="lovegift online">
+    <meta name="copyright" content="© 2025 lovegift online">
+    <link rel="icon" href="/templates/lovegift-7/assets/749cd5bc7eadbb6b.png">
+    <link rel="stylesheet" href="/templates/lovegift-7/assets/dbe397d0d04e2b3f.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="/templates/lovegift-7/assets/8498d3387f70df5b.bin" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            font-family: 'Quicksand', sans-serif;
+            background: radial-gradient(circle at center, #1a0012, #000000);
+            cursor: grab;
+        }
+
+        body:active {
+            cursor:auto;
+        }
+
+        #container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            perspective: 2000px;
+            perspective-origin: 50% 50%;
+            transform-style: preserve-3d;
+            overflow: hidden;
+        }
+
+        #scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+.text-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.05s linear;
+    backface-visibility: hidden;
+    perspective: 1500px;
+}
+
+        .floating-text {
+            position: absolute;
+            left: 50%;
+            transform-style: preserve-3d;
+            will-change: transform;
+            white-space: nowrap;
+            pointer-events: none;
+            backface-visibility: hidden;
+            transition: all 0.3s ease;
+            transform-origin: center center;
+            text-align: center;
+            transform: translateX(-50%);
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+        }
+
+        .floating-text img {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 105, 180, 0.6);
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.5), 0 0 30px rgba(255, 20, 147, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .floating-text img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        .depth-layer-1 {
+            transform: translateZ(-250px) scale(1.2);
+            opacity: 0.5;
+            filter: none;
+            font-size: calc(16px + 0.8vw);
+        }
+
+        .depth-layer-2 {
+            transform: translateZ(-125px) scale(1.1);
+            opacity: 0.7;
+            filter: none;
+            font-size: calc(19px + 0.8vw);
+        }
+
+        .depth-layer-3 {
+            transform: translateZ(0) scale(1);
+            opacity: 0.9;
+            filter: blur(0);
+            font-size: calc(22px + 0.8vw);
+            text-shadow: 0 0 15px currentColor;
+        }
+
+        .depth-layer-4 {
+            transform: translateZ(125px) scale(0.9);
+            opacity: 1;
+            filter: blur(0);
+            font-size: calc(25px + 0.8vw);
+            text-shadow: 0 0 25px currentColor;
+        }
+
+        .depth-layer-5 {
+            transform: translateZ(250px) scale(0.8);
+            opacity: 1;
+            filter: blur(0);
+            font-size: calc(28px + 0.8vw);
+            text-shadow: 0 0 35px currentColor;
+        }
+
+        .heart-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center,
+                rgba(255, 105, 180, 0.15) 0%,
+                rgba(255, 20, 147, 0.08) 30%,
+                rgba(255, 20, 147, 0.02) 60%,
+                transparent 80%);
+            pointer-events: none;
+            animation: heartPulse 5s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: #ff69b4;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: twinkle var(--duration) infinite alternate ease-in-out;
+            box-shadow: 0 0 3px #ff69b4;
+        }
+
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.15;
+            mix-blend-mode: screen;
+            pointer-events: none;
+            animation: nebulaFloat 20s infinite alternate ease-in-out;
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: var(--min-opacity); }
+            100% { opacity: var(--max-opacity); }
+        }
+
+        @keyframes nebulaFloat {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(20px, 20px, 50px); }
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
+        }
+        #musicToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 20px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(185, 28, 28, 0.3));
+            border: 2px solid rgba(220, 38, 38, 0.6);
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4), 0 0 20px rgba(220, 38, 38, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #fff;
+            backdrop-filter: blur(10px);
+        }
+
+        #musicToggle:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.4), rgba(220, 38, 38, 0.5));
+            border-color: rgba(239, 68, 68, 0.9);
+            box-shadow: 0 6px 25px rgba(239, 68, 68, 0.6), 0 0 30px rgba(239, 68, 68, 0.4);
+            transform: scale(1.1);
+        }
+
+        #musicToggle:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes pulse-heart {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4), 0 0 20px rgba(220, 38, 38, 0.2);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(239, 68, 68, 0.6), 0 0 30px rgba(239, 68, 68, 0.4);
+            }
+        }
+
+        #musicToggle.playing {
+            animation: pulse-heart 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="scene">
+            <div class="heart-bg"></div>
+        </div>
+    </div>
+
+<script>
+        // Defaults - sẽ bị ghi đè nếu có config từ API
+        let texts = [
+            "Luôn luôn bên nhau",
+            "Love u so much",
+            "I love you",
+            "Yêu em nhiều",
+            "Anh yêu em nhiều lắm"
+        ];
+
+        let images = ["/demo/photos/1.jpg", "/demo/photos/2.jpg", "/demo/photos/3.jpg", "/demo/photos/4.jpg", "/demo/photos/5.jpg", "/demo/photos/6.jpg"];
+        let musicUrl = '/demo/music/romantic.mp3'; // Không có nhạc mặc định: chỉ phát nhạc người dùng tải lên
+
+        const icons = ["❤️", "💖", "💝", "💗", "🌹", "✨", "💫", "⭐"];
+        const colors = [
+            '#ff69b4',
+            '#ff1493',
+            '#ff007f',
+            '#ff69b4',
+            '#ffb6c1'
+        ];
+
+        const container = document.getElementById('container');
+        const scene = document.getElementById('scene');
+        const isMobileDevice = window.innerWidth <= 768;
+        const maxElements = isMobileDevice ? 55 : 80;
+        let rotateX = 0, rotateY = 0;
+        let scale = 1;
+        let isDragging = false;
+        let startX, startY, lastX, lastY;
+        const textElements = [];
+
+        function createTextContainer() {
+            const textContainer = document.createElement('div');
+            textContainer.className = 'text-container';
+            scene.appendChild(textContainer);
+            return textContainer;
+        }
+
+function createFloatingText(container, spreadInitial = false) {
+    const element = document.createElement('div');
+    element.className = 'floating-text';
+    
+    // Xác định nội dung: tỉ lệ ảnh đồng nhất 18% cho mọi thiết bị
+    const imageRate = 0.18;
+    const rand = Math.random();
+    if (rand < imageRate && images.length > 0) {
+        const img = document.createElement('img');
+        img.src = images[Math.floor(Math.random() * images.length)];
+        element.appendChild(img);
+    } else if (rand < 0.35) {
+        element.innerText = icons[Math.floor(Math.random() * icons.length)];
+    } else {
+        element.innerText = texts[Math.floor(Math.random() * texts.length)];
+    }
+
+    // Thiết lập layers và vị trí
+    const depthLayers = ['depth-layer-1', 'depth-layer-2', 'depth-layer-3', 'depth-layer-4', 'depth-layer-5'];
+    const layerIndex = Math.floor(Math.random() * depthLayers.length); // Randomize layer
+    const selectedLayer = depthLayers[layerIndex];
+    element.classList.add(selectedLayer);
+
+    // Tính toán vị trí ngẫu nhiên trên toàn màn hình
+    const viewportWidth = window.innerWidth;
+    const spreadWidth = viewportWidth * 0.8; // Sử dụng 80% chiều rộng màn hình
+    const x = (Math.random() * spreadWidth) - (spreadWidth / 2); // Vị trí từ -40% đến +40% chiều rộng
+
+    // Độ sâu của các lớp với khoảng cách ngẫu nhiên
+    const baseZ = selectedLayer.includes('1') ? -250 :
+                 selectedLayer.includes('2') ? -125 :
+                 selectedLayer.includes('3') ? 0 :
+                 selectedLayer.includes('4') ? 125 : 250;
+    const randomZ = baseZ + (Math.random() * 50 - 25); // Thêm độ ngẫu nhiên cho độ sâu
+
+    // Hiệu ứng màu sắc và độ trong suốt
+    const depthFactor = Math.abs(randomZ) / 500;
+    const hue = 330 + Math.random() * 30;
+    const saturation = 100 - depthFactor * 15;
+    const lightness = 85 - depthFactor * 25;
+
+    // Set opacity ban đầu là 0 để fade in
+    element.style.opacity = '0';
+    element.style.color = `hsla(${hue}, ${saturation}%, ${lightness}%, ${1 - depthFactor * 0.15})`;
+
+    // Tăng cường hiệu ứng phát sáng
+    const glowIntensity = 1 - depthFactor * 0.4;
+    element.style.textShadow = `
+        0 0 ${20 * glowIntensity}px currentColor,
+        0 0 ${30 * glowIntensity}px currentColor,
+        0 0 ${40 * glowIntensity}px currentColor
+    `;
+
+    // Thêm rotation ngẫu nhiên ban đầu
+    const initialRotation = Math.random() * 20 - 10;
+
+    // Vị trí y ban đầu: batch đầu trải đều khắp viewport để rơi xuống ngay,
+    // các element sinh sau vẫn rơi từ trên xuống.
+    const initialY = spreadInitial
+        ? -50 + Math.random() * 190
+        : -50 - (Math.random() * 20);
+
+    // Thiết lập transform ban đầu với rotation
+    element.style.transform = `
+        translate(-50%, 0)
+        translate3d(${x}px, ${initialY}vh, ${randomZ}px)
+        rotateY(${initialRotation}deg)
+        rotateX(${Math.random() * 10 - 5}deg)
+    `;
+
+    // Thêm element vào container
+    container.appendChild(element);
+
+    // Tính toán các thông số chuyển động
+    const baseSpeed = 0.05;
+    const randomFactor = Math.random() * 0.08;
+    const layerSpeedFactor = selectedLayer.includes('1') ? 0.7 :
+                            selectedLayer.includes('2') ? 0.85 :
+                            selectedLayer.includes('3') ? 1 :
+                            selectedLayer.includes('4') ? 1.15 : 1.3;
+
+    // Fade in ngay lập tức
+    const startDelay = Date.now();
+    requestAnimationFrame(() => {
+        element.style.opacity = '1';
+        element.style.transition = 'opacity 0.3s ease-in';
+    });
+
+    // Thêm vào mảng textElements với các thuộc tính chuyển động đa dạng hơn
+    textElements.push({
+        element,
+        x,
+        z: randomZ,
+        speed: (baseSpeed + randomFactor) * layerSpeedFactor,
+        y: initialY,
+        layer: selectedLayer,
+        wobbleSpeed: Math.random() * 0.002 + 0.001,
+        wobbleAmount: Math.random() * 0.8 + 0.3, // Tăng độ lắc
+        startDelay: startDelay,
+        rotationSpeed: Math.random() * 0.002 - 0.001, // Tăng tốc độ xoay
+        verticalWobbleSpeed: Math.random() * 0.003 + 0.001,
+        initialScale: 0.8 + Math.random() * 0.4,
+        horizontalDrift: Math.random() * 2 - 1, // Thêm độ trôi ngang
+        rotationOffset: initialRotation
+    });
+}
+function updateElements() {
+    const textContainer = scene.querySelector('.text-container');
+    if (!textContainer) return;
+
+    textElements.forEach((text, index) => {
+        // Thêm độ trễ ban đầu
+        if (Date.now() < text.startDelay) return;
+
+        // Tính toán chuyển động rơi theo đường cong
+        const fallProgress = Math.min((text.y + 50) / 200, 1);
+        const easedSpeed = text.speed * (1 - Math.pow(fallProgress, 2) * 0.3);
+        text.y += easedSpeed;
+
+        // Tạo chuyển động lắc tự nhiên
+        const time = Date.now() * text.wobbleSpeed;
+        const horizontalWobble = Math.sin(time) * text.wobbleAmount * (1 - fallProgress);
+        const verticalWobble = Math.cos(time * 1.5) * 0.3 * (1 - fallProgress);
+        
+        // Hiệu ứng xoay nhẹ theo độ sâu
+        const rotateAmount = text.z > 0 ? 
+            Math.sin(time * 0.5) * 2 * (1 - fallProgress) : 
+            Math.sin(time * 0.5) * -2 * (1 - fallProgress);
+
+        // Áp dụng transform với các hiệu ứng
+        text.element.style.transform = `
+            translate(-50%, 0)
+            translate3d(
+                ${text.x + horizontalWobble * 5}px,
+                ${text.y + verticalWobble}vh,
+                ${text.z}px
+            )
+            rotateY(${rotateAmount}deg)
+            rotateX(${verticalWobble * 2}deg)
+            rotateZ(${horizontalWobble * 1.5}deg)
+        `;
+
+        // Điều chỉnh opacity dựa trên vị trí
+        const fadeStart = 140;
+        const fadeEnd = 150;
+        if (text.y > fadeStart) {
+            const fadeProgress = (text.y - fadeStart) / (fadeEnd - fadeStart);
+            text.element.style.opacity = 1 - fadeProgress;
+        }
+
+        // Tạo mới khi phần tử đạt đến cuối
+        if (text.y > fadeEnd) {
+            text.element.remove();
+            textElements.splice(index, 1);
+            createFloatingText(textContainer);
+        }
+    });
+    requestAnimationFrame(updateElements);
+}
+
+        function createParticles() {
+            for (let i = 0; i < 200; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                scene.appendChild(particle);
+            }
+        }
+
+function init() {
+    createParticles();
+    const textContainer = createTextContainer();
+    
+    // Tạo text ngay lập tức - batch đầu trải đều khắp viewport
+    for (let i = 0; i < maxElements; i++) {
+        createFloatingText(textContainer, true);
+    }
+    updateElements();
+}
+
+        container.addEventListener('mousedown', e => {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            lastX = rotateY;
+            lastY = rotateX;
+        });
+
+        container.addEventListener('mousemove', e => {
+            if (!isDragging) return;
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
+            rotateY = lastX + deltaX * 0.5;
+            rotateX = lastY + deltaY * 0.5;
+            updateSceneTransform();
+        });
+
+        container.addEventListener('mouseup', () => isDragging = false);
+        container.addEventListener('mouseleave', () => isDragging = false);
+
+        container.addEventListener('wheel', e => {
+            e.preventDefault();
+            const delta = e.deltaY * -0.001;
+            scale = Math.min(Math.max(0.5, scale + delta), 2);
+            updateSceneTransform();
+        });
+
+        // Touch support (mobile): 1 ngón để xoay, 2 ngón để zoom
+        let pinchStartDist = 0;
+        let pinchStartScale = 1;
+
+        const getTouchDist = (t1, t2) => {
+            const dx = t2.clientX - t1.clientX;
+            const dy = t2.clientY - t1.clientY;
+            return Math.hypot(dx, dy);
+        };
+
+        container.addEventListener('touchstart', e => {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                lastX = rotateY;
+                lastY = rotateX;
+            } else if (e.touches.length === 2) {
+                isDragging = false;
+                pinchStartDist = getTouchDist(e.touches[0], e.touches[1]);
+                pinchStartScale = scale;
+            }
+        }, { passive: true });
+
+        let touchRafPending = false;
+        let pendingTouch = null;
+        const processTouchMove = () => {
+            touchRafPending = false;
+            const t = pendingTouch;
+            if (!t) return;
+            if (t.count === 1 && isDragging) {
+                const deltaX = t.x1 - startX;
+                const deltaY = t.y1 - startY;
+                rotateY = lastX + deltaX * 0.35;
+                rotateX = lastY + deltaY * 0.35;
+                updateSceneTransform();
+            } else if (t.count >= 2 && pinchStartDist > 0) {
+                const dx = t.x2 - t.x1;
+                const dy = t.y2 - t.y1;
+                const dist = Math.hypot(dx, dy);
+                const ratio = dist / pinchStartDist;
+                scale = Math.min(Math.max(0.5, pinchStartScale * ratio), 2);
+                updateSceneTransform();
+            }
+        };
+
+        container.addEventListener('touchmove', e => {
+            if (e.touches.length >= 1) {
+                e.preventDefault();
+                pendingTouch = {
+                    count: e.touches.length,
+                    x1: e.touches[0].clientX,
+                    y1: e.touches[0].clientY,
+                    x2: e.touches[1] ? e.touches[1].clientX : 0,
+                    y2: e.touches[1] ? e.touches[1].clientY : 0,
+                };
+                if (!touchRafPending) {
+                    touchRafPending = true;
+                    requestAnimationFrame(processTouchMove);
+                }
+            }
+        }, { passive: false });
+
+        const endTouch = () => {
+            isDragging = false;
+            pinchStartDist = 0;
+        };
+        container.addEventListener('touchend', endTouch);
+        container.addEventListener('touchcancel', endTouch);
+
+        function updateSceneTransform() {
+            const textContainer = scene.querySelector('.text-container');
+            if (textContainer) {
+                textContainer.style.transform = `
+                    scale(${scale})
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
+                `;
+            }
+        }
+
+        // ==================== CONFIG LOADING ====================
+        const urlParams = new URLSearchParams(window.location.search);
+        const cfgId = urlParams.get('id');
+
+        const customTitles = {
+            'QO0izY3s2Jpega2koh1L': 'Chúc mừng sinh nhật Tài'
+        };
+        if (cfgId && customTitles[cfgId]) {
+            document.title = customTitles[cfgId];
+        }
+
+        function applyConfig(cfg) {
+            if (cfg.messages && cfg.messages.length > 0) {
+                texts = cfg.messages;
+            }
+            images = (cfg.images && cfg.images.length > 0) ? cfg.images : images;
+            if (cfg.music) {
+                musicUrl = cfg.music;
+            }
+        }
+
+        function startApp() {
+            init();
+            initMusicPlayer();
+        }
+
+        if (cfgId) {
+            fetch('https://lovegift.online/api/settings/' + cfgId)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.success && data.data && data.data.settings) {
+                        var s = data.data.settings;
+                        var cfg = {};
+
+                        if (s.arrayText && s.arrayText.length > 0) {
+                            cfg.messages = s.arrayText;
+                        }
+                        if (s.image && s.image.length > 0) {
+                            cfg.images = s.image;
+                        }
+                        if (s.music) {
+                            cfg.music = s.music;
+                        }
+
+                        applyConfig(cfg);
+                        console.log("Config loaded from API:", cfg);
+                    }
+                    startApp();
+                })
+                .catch(function(err) {
+                    console.error("Lỗi load config từ API:", err);
+                    startApp();
+                });
+        } else {
+            startApp();
+        }
+
+        // Music Player
+        function initMusicPlayer() {
+            // Không có nhạc người dùng → không tạo nút loa, không phát
+            if (!musicUrl) return;
+            const audio = new Audio(musicUrl);
+            audio.loop = true;
+
+            const musicBtn = document.createElement('button');
+            musicBtn.id = 'musicToggle';
+            musicBtn.innerHTML = '<i class="fas fa-volume-xmark"></i>';
+            document.body.appendChild(musicBtn);
+
+            let isPlaying = false;
+
+            const updateButton = () => {
+                if (isPlaying) {
+                    musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+                    musicBtn.classList.add('playing');
+                } else {
+                    musicBtn.innerHTML = '<i class="fas fa-volume-xmark"></i>';
+                    musicBtn.classList.remove('playing');
+                }
+            };
+
+            const playMusic = () => {
+                audio.play()
+                    .then(() => {
+                        isPlaying = true;
+                        updateButton();
+                    })
+                    .catch(() => {
+                        console.log('Autoplay blocked.');
+                    });
+            };
+
+            const pauseMusic = () => {
+                audio.pause();
+                isPlaying = false;
+                updateButton();
+            };
+
+            musicBtn.addEventListener('click', () => {
+                if (isPlaying) {
+                    pauseMusic();
+                } else {
+                    playMusic();
+                }
+            });
+
+            // Try autoplay, if blocked wait for user interaction
+            audio.play()
+                .then(() => {
+                    isPlaying = true;
+                    updateButton();
+                })
+                .catch(() => {
+                    console.log('Autoplay blocked, waiting for user interaction');
+                    const interactionEvents = ['click', 'touchstart', 'keydown', 'scroll', 'mousemove', 'pointerdown'];
+                    const interactionHandler = () => {
+                        playMusic();
+                        interactionEvents.forEach(evt => {
+                            document.removeEventListener(evt, interactionHandler, { capture: true });
+                        });
+                    };
+                    interactionEvents.forEach(evt => {
+                        document.addEventListener(evt, interactionHandler, { once: true, capture: true });
+                    });
+                });
+        }
+    </script>
+</body>
+</html>

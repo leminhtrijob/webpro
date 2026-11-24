@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+/.browser-login-profile/
+/.layout-audit/
+next-prod.*.log
+/next-dev.*.log
+/home-check.png
+/reference-sources/
+/templates/
+/scripts/
+/public/_next/
+/HETHONG_TRIKUN_NOTE.md
+!.env.example

@@ -1,0 +1,2466 @@
+  html,
+  body {
+      margin: 0px;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+  }
+
+  #orientation-lock {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.96);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      color: #fff;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      font-size: 18px;
+      display: none;
+      transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  #orientation-lock .phone-icon {
+      font-size: 64px;
+      opacity: 0.92;
+      animation: phone-bounce-smooth 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      filter: drop-shadow(0 4px 16px #fff3);
+      transition: filter 0.4s, opacity 0.4s;
+  }
+
+  @keyframes phone-bounce-smooth {
+      0% {
+          transform: rotate(-45deg) scale(1);
+          opacity: 0.8;
+      }
+
+      20% {
+          transform: rotate(-45deg) scale(1.05);
+          opacity: 1;
+      }
+
+      40% {
+          transform: rotate(45deg) scale(1.1);
+          opacity: 1;
+      }
+
+      60% {
+          transform: rotate(45deg) scale(1.1);
+          opacity: 1;
+      }
+
+      80% {
+          transform: rotate(-45deg) scale(1.05);
+          opacity: 1;
+      }
+
+      100% {
+          transform: rotate(-45deg) scale(1);
+          opacity: 0.8;
+      }
+  }
+
+  #matrix-rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 104%;
+      height: 100%;
+      z-index: 9999;
+      pointer-events: none;
+  }
+
+  #settingsModal {
+      z-index: 11000 !important;
+  }
+
+  body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      position: relative;
+  }
+
+
+  /* Enhanced Heart Effect */
+  .heart {
+      position: fixed;
+      z-index: 1000;
+      pointer-events: none;
+      color: #ff6b6b;
+      font-size: 20px;
+      animation: float-heart 4s ease-in-out forwards;
+  }
+
+  @keyframes float-heart {
+      0% {
+          transform: translateY(0) scale(0);
+          opacity: 0;
+      }
+
+      10% {
+          transform: translateY(-20px) scale(1);
+          opacity: 1;
+      }
+
+      90% {
+          opacity: 1;
+      }
+
+      100% {
+          transform: translateY(-700px) scale(0);
+          opacity: 0;
+      }
+  }
+
+
+  .content-display {
+      position: fixed;
+      top: 2%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 85vw;
+      max-width: 650px;
+      min-height: 160px;
+      max-height: 230px;
+      background:
+          linear-gradient(145deg, #ffffff 0%, #fefefe 100%),
+          radial-gradient(circle at 50% 50%, rgba(255, 192, 203, 0.05) 0%, transparent 60%);
+      border: none;
+      border-radius: 20px;
+      padding: 40px 35px;
+      box-shadow:
+          0 20px 60px rgba(255, 105, 180, 0.15),
+          0 10px 30px rgba(0, 0, 0, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, 0.9),
+          inset 0 -1px 0 rgba(255, 192, 203, 0.1);
+      backdrop-filter: blur(20px);
+
+      /* Mặc định ẩn */
+      opacity: 0;
+      display: none;
+      pointer-events: none;
+
+      font-family: 'Crimson Text', serif;
+      overflow-y: auto;
+      /* Luôn cho phép scroll */
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 105, 180, 0.3) transparent;
+      scroll-behavior: smooth;
+      box-sizing: border-box;
+      z-index: 10;
+
+      /* Romantic paper texture
+            background-image:
+                radial-gradient(circle at 100% 50%, transparent 20%, rgba(255, 240, 245, 0.3) 21%, rgba(255, 240, 245, 0.3) 34%, transparent 35%, transparent),
+                linear-gradient(0deg, rgba(255, 240, 245, 0.1) 50%, transparent 50%);
+            background-size: 30px 60px, 100% 4px; */
+
+      /* Romantic border decoration */
+      border: 3px solid transparent;
+      /* background-clip: padding-box; */
+
+      /* Animation cho hiệu ứng xuất hiện */
+      transition: all 0.5s ease;
+  }
+
+  .content-display::after {
+      content: '💕';
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 24px;
+      opacity: 0.6;
+      animation: heartbeat 2s ease-in-out infinite;
+  }
+
+  .content-display.show {
+      display: block;
+      opacity: 1 !important;
+      pointer-events: auto;
+      background: rgba(255, 255, 255, 0.98) !important;
+  }
+
+  .content-display p {
+      margin: 0;
+      padding: 0;
+      color: #2c1810;
+      font-size: clamp(18px, 3vw, 24px);
+      line-height: 2.2;
+      text-align: center;
+      font-weight: 400;
+      font-family: 'Dancing Script', 'Brush Script MT', 'Lucida Handwriting', 'Comic Sans MS', cursive;
+      width: 100%;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+      min-height: fit-content;
+      display: block;
+      text-shadow: 0 1px 2px rgba(255, 105, 180, 0.1);
+      letter-spacing: 0.5px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+
+      /* Romantic text effects */
+      background: linear-gradient(45deg, #8b4513, #a0522d, #8b4513, #6b3410);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: romanticText 8s ease-in-out infinite;
+  }
+
+  @keyframes romanticBorder {
+
+      0%,
+      100% {
+          background-position: 0% 50%;
+      }
+
+      50% {
+          background-position: 100% 50%;
+      }
+  }
+
+  @keyframes heartbeat {
+
+      0%,
+      100% {
+          transform: scale(1);
+          opacity: 0.6;
+      }
+
+      50% {
+          transform: scale(1.2);
+          opacity: 0.9;
+      }
+  }
+
+  @keyframes floatingHearts {
+
+      0%,
+      100% {
+          transform: translateY(0px);
+      }
+
+      50% {
+          transform: translateY(-5px);
+      }
+  }
+
+
+  .typewriter-text {
+      display: inline;
+  }
+
+  .typewriter-cursor {
+      display: inline-block;
+      background-color: #333;
+      margin-left: 2px;
+      width: 2px;
+      height: 1.2em;
+      animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+
+      0%,
+      50% {
+          opacity: 1;
+      }
+
+      51%,
+      100% {
+          opacity: 0;
+      }
+  }
+
+
+
+
+  .firework-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      z-index: 200;
+  }
+
+  .firework {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 20px;
+      background: radial-gradient(circle, #fff 0%, transparent 70%);
+      border-radius: 50% 50% 0 0;
+      transform-origin: bottom center;
+      opacity: 0;
+      animation: fireworkExplode 1s ease forwards;
+  }
+
+  @keyframes fireworkExplode {
+      0% {
+          opacity: 1;
+          transform: translateY(0) scaleY(1);
+      }
+
+      100% {
+          opacity: 0;
+          transform: translateY(-100px) scaleY(3);
+      }
+  }
+
+
+  @media screen and (max-height: 500px) and (orientation: landscape) {
+      .content-display::after {
+          top: 5px;
+          right: 5px;
+          font-size: 20px;
+      }
+
+      .content-display {
+          width: 45vw;
+          min-height: 50px;
+          max-height: 80px;
+          padding: 5px 8px;
+          top: 10px;
+      }
+
+      .content-display p {
+          font-size: 13px !important;
+      }
+
+      .firework-container {
+          width: 100px;
+          height: 100px;
+      }
+  }
+
+  .music-control {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10001;
+      box-shadow: 0 4px 15px rgba(250, 250, 250, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      color: rgb(205, 202, 202);
+      outline: none;
+  }
+
+  .music-control:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(255, 107, 157, 0.6);
+  }
+
+  .music-control:active {
+      transform: scale(0.95);
+  }
+
+  .music-control.playing {
+      animation: musicPulse 1.5s infinite;
+  }
+
+  @keyframes musicPulse {
+
+      0%,
+      100% {
+          transform: scale(1);
+          box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+      }
+
+      50% {
+          transform: scale(1.05);
+          box-shadow: 0 8px 25px rgba(255, 107, 157, 0.8);
+      }
+  }
+
+  .settings-button {
+      position: fixed;
+      top: 20px;
+      right: 90px;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #b20404, #2a1717);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10001;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: rgb(255, 255, 255);
+      outline: none;
+  }
+
+  .settings-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+  }
+
+  .settings-button:active {
+      transform: scale(0.95);
+  }
+
+  /* Modal container */
+  .modal {
+      display: none;
+      position: fixed;
+      z-index: 10002;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      /* background-color: rgba(0, 0, 0, 0.5); */
+      overflow: auto;
+      animation: fadeIn 0.3s ease-in-out;
+  }
+
+  /* Modal animation */
+  @keyframes fadeIn {
+      from {
+          opacity: 0;
+      }
+
+      to {
+          opacity: 1;
+      }
+  }
+
+  /* Modal content */
+  .modal-content {
+      background-color: #ffffff;
+      margin: 3vh auto;
+      padding: 0;
+      border: none;
+      width: 90%;
+      max-width: 600px;
+      height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+  }
+
+  /* Modal header */
+  .modal-header {
+      background: linear-gradient(135deg, #b69f08, #181818);
+      padding: 15px 20px;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .modal-header h2 {
+      margin: 0;
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+  }
+
+  .close {
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+  }
+
+  .close:hover,
+  .close:focus {
+      color: #ffeb3b;
+  }
+
+  /* Modal body */
+  .modal-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #f9f9f9;
+  }
+
+  /* Settings section */
+  .settings-section {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .settings-section h3 {
+      margin: 0 0 15px;
+      font-size: 18px;
+      color: #333;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 8px;
+  }
+
+  /* Form group */
+  .form-group {
+      margin-bottom: 15px;
+  }
+
+  .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #444;
+      font-size: 14px;
+  }
+
+  .form-group input[type="color"] {
+      width: 100%;
+      height: 40px;
+      padding: 0;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-color: transparent;
+      box-shadow: inset 0 0 0 1px #ddd, inset 0 -1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  /* Form row for side-by-side inputs */
+  .form-row {
+      display: flex;
+      gap: 15px;
+  }
+
+  .form-row .form-group {
+      flex: 1;
+  }
+
+  /* Inputs and selects */
+  .modal-content select,
+  .modal-content input[type="text"],
+  .modal-content input[type="file"],
+  .modal-content input[type="color"],
+  .modal-content textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      background: #fff;
+      transition: border-color 0.2s ease;
+      box-sizing: border-box;
+      white-space: normal !important;
+      /* Thêm dòng này */
+      word-wrap: normal !important;
+      /* Thêm dòng này */
+  }
+
+  .modal-content select:focus,
+  .modal-content input[type="text"]:focus,
+  .modal-content input[type="file"]:focus,
+  .modal-content input[type="color"]:focus,
+  .modal-content textarea:focus {
+      border-color: #ff6b9d;
+      outline: none;
+  }
+
+  .modal-content textarea {
+      min-height: 80px;
+      resize: vertical;
+      font-family: inherit;
+      line-height: 1.4;
+      white-space: pre-wrap !important;
+      /* Chỉ cho textarea */
+  }
+
+  /* CSS cho Photo Preview trong Settings - Gọn gàng, compact */
+  .photo-item {
+      margin-bottom: 8px;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #f9f9f9;
+      width: auto;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      display: inline-block;
+      vertical-align: top;
+  }
+
+  .photo-item .form-group {
+      margin-bottom: 0;
+  }
+
+  .photo-item label {
+      display: none !important;
+  }
+
+  .photo-preview {
+      position: relative;
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+  }
+
+  .photo-preview-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      display: block;
+      object-fit: cover;
+  }
+
+  .remove-photo-btn {
+      position: absolute !important;
+      top: -6px !important;
+      right: -6px !important;
+      background: #f44336 !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 50% !important;
+      width: 15px !important;
+      height: 15px !important;
+      cursor: pointer !important;
+      font-size: 10px !important;
+      line-height: 1 !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      z-index: 10 !important;
+      padding: 0 !important;
+      font-weight: bold !important;
+      min-width: 15px !important;
+      min-height: 15px !important;
+  }
+
+  .remove-photo-btn:hover {
+      background: #d32f2f !important;
+      transform: scale(1.1) !important;
+  }
+
+
+  #photoGallerySettings {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+  }
+
+
+
+  /* Buttons */
+  .modal-content button {
+      background: linear-gradient(135deg, #b69f08, #181818);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .modal-content button:hover {
+      background: linear-gradient(135deg, #181818, #b69f08);
+      transform: translateY(-2px);
+  }
+
+  .modal-content button:active {
+      transform: translateY(0);
+  }
+
+
+  .stars-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+      pointer-events: none;
+      display: none;
+  }
+
+  .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite;
+  }
+
+  .star.large {
+      width: 4px;
+      height: 4px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  }
+
+  .star.medium {
+      width: 3px;
+      height: 3px;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  }
+
+  .star.small {
+      width: 2px;
+      height: 2px;
+      box-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
+  }
+
+  @keyframes twinkle {
+
+      0%,
+      100% {
+          opacity: 0.3;
+          transform: scale(1);
+      }
+
+      50% {
+          opacity: 1;
+          transform: scale(1.2);
+      }
+  }
+
+  .star:nth-child(2n) {
+      animation-delay: 0.5s;
+  }
+
+  .star:nth-child(3n) {
+      animation-delay: 1s;
+  }
+
+  .star:nth-child(4n) {
+      animation-delay: 1.5s;
+  }
+
+  .star:nth-child(5n) {
+      animation-delay: 0.8s;
+  }
+
+  .star:nth-child(6n) {
+      animation-delay: 1.2s;
+  }
+
+
+  .copyright {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.3);
+      font-family: 'Arial', sans-serif;
+      z-index: 5000;
+      pointer-events: none;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      user-select: none;
+      transition: opacity 0.3s ease;
+  }
+
+  .copyright a {
+      color: rgba(255, 255, 255, 0.4);
+      font-weight: 600;
+  }
+
+  .copyright:hover {
+      opacity: 0.8;
+  }
+
+ 
+
+  /* Settings hint styling */
+  .settings-hint {
+      position: fixed;
+      top: 70px;
+      right: 90px;
+      z-index: 10002;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: showHint 3s ease-in-out forwards;
+      pointer-events: none;
+  }
+
+  .hint-text {
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  @keyframes showHint {
+      0% {
+          opacity: 0;
+          transform: translateY(-10px);
+      }
+      20% {
+          opacity: 1;
+          transform: translateY(0);
+      }
+      80% {
+          opacity: 1;
+          transform: translateY(0);
+      }
+      100% {
+          opacity: 0;
+          transform: translateY(-10px);
+      }
+  }
+
+  /* Color theme buttons styling */
+  .color-theme-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+  }
+
+  .color-theme-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 8px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+  }
+
+  .color-theme-btn:hover {
+      border-color: #ff6b6b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+  }
+
+  .color-theme-btn.active {
+      border-color: #ff6b6b;
+      background: #fff5f5;
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  }
+
+  .color-preview {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      margin-bottom: 8px;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .pink-preview {
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+  }
+
+  .blue-preview {
+      background: linear-gradient(135deg, #87ceeb, #4169e1);
+  }
+
+  .purple-preview {
+      background: linear-gradient(135deg, #dda0dd, #9370db);
+  }
+
+  .custom-preview {
+      background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #d39b9b);
+  }
+
+  .color-theme-btn span {
+      font-size: 12px;
+      font-weight: 500;
+      color: #fdfdfd;
+  }
+
+  .color-theme-btn.active span {
+      color: #ff6b6b;
+      font-weight: 600;
+  }
+
+  /* CSS cho Phong Thư */
+  #envelopeContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100000;
+  }
+
+  .letter {
+      position: relative;
+      z-index: 1;
+  }
+
+  .valentines {
+      position: relative;
+      top: 50px;
+      cursor: pointer;
+      animation: up 3s linear infinite;
+      pointer-events: auto;
+      z-index: 20;
+      min-width: 300px;
+      min-height: 200px;
+  }
+
+  .envelope-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 200px;
+      z-index: 25;
+      pointer-events: auto;
+      background: transparent;
+  }
+
+  @keyframes up {
+      0%,
+      100% {
+          transform: translateY(0);
+      }
+      50% {
+          transform: translateY(-30px);
+      }
+  }
+
+  .envelope {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      background-color: #f08080;
+      z-index: 2;
+      pointer-events: auto;
+  }
+
+  .envelope:before {
+      background-color: #f08080;
+      content: "";
+      position: absolute;
+      width: 212px;
+      height: 212px;
+      transform: rotate(45deg);
+      top: -105px;
+      left: 44px;
+      border-radius: 30px 0 0 0;
+  }
+
+  .card {
+      position: absolute;
+      background-color: #eae2b7;
+      width: 270px;
+      height: 170px;
+      top: 5px;
+      left: 15px;
+      box-shadow: -5px -5px 100px rgba(0, 0, 0, 0.4);
+      transition: top 0.5s ease;
+      cursor: pointer;
+      z-index: 2;
+  }
+
+  /* Vùng click mở rộng cho card */
+  .card::after {
+      content: "";
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      right: -50px;
+      bottom: -50px;
+      z-index: 1;
+      cursor: pointer;
+      pointer-events: auto;
+  }
+
+  .card:before {
+      content: "";
+      position: absolute;
+      border: 3px solid #003049;
+      border-style: dotted;
+      width: 240px;
+      height: 140px;
+      left: 12px;
+      top: 12px;
+  }
+
+  .text {
+      position: absolute;
+      font-family: 'Brush Script MT', cursive;
+      font-size: 30px;
+      text-align: center;
+      line-height: 25px;
+      top: 19px;
+      left: 85px;
+      color: #003049;
+  }
+
+  .heart {
+      background-color: #d62828;
+      display: inline-block;
+      height: 30px;
+      margin: 0 10px;
+      position: relative;
+      top: 110px;
+      left: 105px;
+      transform: rotate(-45deg);
+      width: 30px;
+  }
+
+  .heart:before,
+  .heart:after {
+      content: "";
+      background-color: #d62828;
+      border-radius: 50%;
+      height: 30px;
+      position: absolute;
+      width: 30px;
+  }
+
+  .heart:before {
+      top: -15px;
+      left: 0;
+  }
+
+  .heart:after {
+      left: 15px;
+      top: 0;
+  }
+
+  .hearts {
+      position: absolute;
+      top: 0;
+  }
+
+  .one,
+  .two,
+  .three,
+  .four,
+  .five {
+      background-color: red;
+      display: inline-block;
+      height: 10px;
+      margin: 0 10px;
+      position: relative;
+      transform: rotate(-45deg);
+      width: 10px;
+      top: 50px;
+  }
+
+  .one:before,
+  .one:after,
+  .two:before,
+  .two:after,
+  .three:before,
+  .three:after,
+  .four:before,
+  .four:after,
+  .five:before,
+  .five:after {
+      content: "";
+      background-color: red;
+      border-radius: 50%;
+      height: 10px;
+      position: absolute;
+      width: 10px;
+  }
+
+  .one:before,
+  .two:before,
+  .three:before,
+  .four:before,
+  .five:before {
+      top: -5px;
+      left: 0;
+  }
+
+  .one:after,
+  .two:after,
+  .three:after,
+  .four:after,
+  .five:after {
+      left: 5px;
+      top: 0;
+  }
+
+  .one {
+      left: 10px;
+      animation: heart 1s ease-out infinite;
+  }
+
+  .two {
+      left: 30px;
+      animation: heart 2s ease-out infinite;
+  }
+
+  .three {
+      left: 50px;
+      animation: heart 1.5s ease-out infinite;
+  }
+
+  .four {
+      left: 70px;
+      animation: heart 2.3s ease-out infinite;
+  }
+
+  .five {
+      left: 90px;
+      animation: heart 1.7s ease-out infinite;
+  }
+
+  @keyframes heart {
+      0% {
+          transform: translateY(0) rotate(-45deg) scale(0.3);
+          opacity: 1;
+      }
+      100% {
+          transform: translateY(-150px) rotate(-45deg) scale(1.3);
+          opacity: 0.5;
+      }
+  }
+
+  .front {
+      position: absolute;
+      border-right: 180px solid #f4978e;
+      border-top: 95px solid transparent;
+      border-bottom: 100px solid transparent;
+      left: 120px;
+      top: 5px;
+      width: 0;
+      height: 0;
+      z-index: 3;
+      pointer-events: none !important;
+  }
+
+  .front:before {
+      position: absolute;
+      content: "";
+      border-left: 300px solid #f8ad9d;
+      border-top: 195px solid transparent;
+      left: -120px;
+      top: -95px;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+  }
+
+  .shadow {
+      position: absolute;
+      width: 330px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.3);
+      top: 265px;
+      left: -15px;
+      animation: scale 3s linear infinite;
+      z-index: -1;
+  }
+
+  @keyframes scale {
+      0%,
+      100% {
+          transform: scaleX(1);
+      }
+      50% {
+          transform: scaleX(0.85);
+      }
+  }
+
+  /* CSS cho Gallery Ảnh Bay */
+  #photoGallery {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 10001;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(2px);
+  }
+
+  .flying-photo {
+      position: absolute;
+      max-width: 400px;
+      max-height: 400px;
+      border-radius: 20px;
+      overflow: visible;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
+                  0 0 20px rgba(255, 255, 255, 0.3),
+                  0 0 40px rgba(255, 255, 255, 0.2),
+                  0 0 60px rgba(255, 255, 255, 0.1);
+      /* Animation sẽ được set động qua JavaScript */
+      opacity: 0;
+      filter: brightness(1.05);
+      cursor: pointer;
+      transition: box-shadow 0.3s ease, filter 0.3s ease;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .flying-photo:hover {
+      z-index: 10;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6),
+                  0 0 30px rgba(255, 255, 255, 0.4),
+                  0 0 50px rgba(255, 255, 255, 0.3),
+                  0 0 70px rgba(255, 255, 255, 0.2);
+      filter: brightness(1.15);
+  }
+
+  .flying-photo img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 20px;
+      filter: brightness(1.02);
+      transition: filter 0.3s ease;
+      display: block;
+  }
+
+  .flying-photo:hover img {
+      filter: brightness(1.1);
+  }
+
+  @keyframes glowPulse {
+      0%, 100% {
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
+                      0 0 20px rgba(255, 255, 255, 0.3),
+                      0 0 40px rgba(255, 255, 255, 0.2),
+                      0 0 60px rgba(255, 255, 255, 0.1);
+      }
+      50% {
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
+                      0 0 30px rgba(255, 255, 255, 0.4),
+                      0 0 60px rgba(255, 255, 255, 0.3),
+                      0 0 90px rgba(255, 255, 255, 0.15);
+      }
+  }
+
+  @keyframes flyAcross {
+      0% {
+          left: -350px;
+          opacity: 0;
+          transform: translateY(-50%) rotate(-5deg) scale(0.8);
+      }
+      5% {
+          opacity: 1;
+      }
+      50% {
+          transform: translateY(-50%) rotate(0deg) scale(1);
+      }
+      95% {
+          opacity: 1;
+      }
+      100% {
+          left: var(--td-view-width, 100vw);
+          opacity: 0;
+          transform: translateY(-50%) rotate(5deg) scale(0.8);
+      }
+  }
+
+  /* Animation delay sẽ được set động qua JavaScript */
+  .flying-photo {
+      animation-delay: 0s;
+      animation-duration: 12s;
+  }
+
+  /* Responsive cho mobile */
+  @media (max-width: 480px) {
+      .flying-photo {
+          max-width: 200px;
+          max-height: 280px;
+      }
+
+      /* Responsive cho Photo Preview trên mobile portrait - Gọn gàng */
+      .photo-preview {
+          width: 60px !important;
+          height: 60px !important;
+      }
+
+      .photo-preview-img {
+          width: 60px !important;
+          height: 60px !important;
+      }
+
+      .remove-photo-btn {
+          width: 14px !important;
+          height: 14px !important;
+          font-size: 9px !important;
+          top: -5px !important;
+          right: -5px !important;
+          background: #f44336 !important;
+          min-width: 14px !important;
+          min-height: 14px !important;
+      }
+
+      #photoGallerySettings {
+          gap: 6px !important;
+      }
+
+      #photoFileInput {
+          padding: 6px !important;
+          font-size: 13px !important;
+      }
+  }
+
+  /* CSS cho Lá Thư */
+  .wrapperLetterForm {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 10000;
+      background: rgba(0, 0, 0, 0.2);
+      display: none;
+      backdrop-filter: blur(1px);
+  }
+
+  .boxLetter {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .boxLetter .formLetter {
+      position: relative;
+      width: 600px;
+      height: 350px;
+      background-color: #FFEBEB;
+      border-radius: 20px;
+      z-index: 100;
+      padding: 20px 15px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  .formLetter .wrapperLetter {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border: 2px dashed #FF6666;
+      border-radius: inherit;
+      display: flex;
+  }
+
+  .boxLetter .before {
+      position: absolute;
+      width: 600px;
+      height: 350px;
+      background: #fff;
+      transform: rotate(-15deg);
+      border-radius: 20px;
+      z-index: 10;
+  }
+
+  .formLetter .heartLetter {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #FFEBEB;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+  }
+
+  .heartLetter .heartLetterItem {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      transform: rotate(45deg);
+      background: #FF6666;
+  }
+
+  .heartLetter:first-child {
+      right: 5px;
+      top: 10px;
+  }
+
+  .heartLetter:nth-child(2) {
+      left: 5px;
+      bottom: 10px;
+  }
+
+  .heartLetterItem::before,
+  .heartLetterItem::after {
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: inherit;
+  }
+
+  .heartLetterItem::before {
+      top: -50%;
+  }
+
+  .heartLetterItem::after {
+      left: -50%;
+  }
+
+  .giftbox {
+      position: relative;
+      width: 40%;
+      height: 100%;
+  }
+
+  .giftbox .img {
+      position: absolute;
+      width: 160px;
+      bottom: -10px;
+      left: 0px;
+      z-index: 100;
+  }
+
+  .giftbox img {
+      width: 100%;
+  }
+
+  .textLetter {
+      width: 100%;
+      flex-direction: column;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      user-select: none;
+  }
+
+  .textLetter h2 {
+      font-size: 30px;
+      font-weight: 700;
+      font-family: 'Dancing Script', cursive;
+  }
+
+  .textLetter .contentLetter {
+      font-size: 19px;
+      text-align: center;
+      padding: 0px 30px;
+      margin-top: 10px;
+      margin-bottom: 30px;
+      font-family: 'Dancing Script', cursive;
+      position: initial;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+  }
+
+  .fa-xmark {
+      position: absolute;
+      right: 20px;
+      top: 10%;
+      color: #fff;
+      cursor: pointer;
+      font-size: 25px;
+      z-index: 200;
+  }
+
+  .close-arrow-btn {
+      position: absolute;
+      right: 8px;
+      bottom: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #FF6666;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 200;
+      z-index: 2000;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      box-shadow: 0 2px 8px rgba(255, 102, 102, 0.3);
+  }
+
+  .close-arrow-btn i {
+      font-size: 18px;
+  }
+
+  .close-arrow-btn:hover {
+      transform: scale(1.1);
+      background-color: #ff4444;
+  }
+
+  .close-arrow-btn:active {
+      transform: scale(0.95);
+  }
+
+  .heartAnimation {
+      position: absolute;
+      width: 150px;
+      bottom: 0;
+  }
+
+  .heartAnimation img {
+      width: 100%;
+  }
+
+  .mewmew1,
+  .mewmew2 {
+      position: absolute;
+      width: 90px;
+  }
+
+  .mewmew1 {
+      bottom: 0;
+      left: 0;
+  }
+
+  .mewmew2 {
+      bottom: 0;
+      right: 0;
+  }
+
+  .mewmew1 img,
+  .mewmew2 img {
+      width: 100%;
+  }
+
+  .signature {
+      position: absolute;
+      bottom: 10px;
+      right: 90px;
+      font-weight: 700;
+      font-family: 'Dancing Script', cursive;
+      font-size: 20px;
+      color: #FF6666;
+      font-style: italic;
+      text-align: right;
+      z-index: 5;
+  }
+
+  /* Tối ưu cho điện thoại */
+  @media (max-width: 480px) {
+      .boxLetter .formLetter {
+          width: 92vw;
+          height: 55vh;
+          max-height: 60vh;
+      }
+
+      .formLetter .wrapperLetter {
+          overflow: hidden;
+      }
+
+      /* .giftbox {
+          display: none;
+      } */
+
+      .textLetter {
+          padding: 6px 4px;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+      }
+
+      .textLetter h2 {
+          font-size: 24px;
+          flex-shrink: 0;
+          margin-bottom: 5px;
+      }
+
+      .textLetter .contentLetter {
+          font-size: 16px;
+          flex: 1 1 auto;
+          width: 100%;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          padding: 0 12px;
+          margin-bottom: 24px;
+          min-height: 0;
+      }
+
+      .heartAnimation {
+          position: absolute;
+          width: 120px;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 1;
+      }
+
+      .signature {
+          right: 70px;
+          bottom: 8px;
+          font-size: 16px;
+      }
+  }
+
+  @media screen and (max-height: 500px) and (orientation: landscape) {
+    .music-control {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+        top: 10px;
+        right: 10px;
+    }
+
+    .settings-button {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+        top: 10px;
+        right: 65px;
+    }
+
+    .modal-content {
+        width: 89%;
+        height: 88vh;
+        padding-bottom: 0px;
+
+    }
+
+    #settingsModal .modal-header {
+        position: static !important;
+        /* Không sticky/fixed */
+        background: none !important;
+        /* Bỏ background */
+        padding: 0px 8px !important;
+        /* Giảm padding */
+        min-height: 0 !important;
+        height: auto !important;
+        flex-direction: row !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+
+    #settingsModal .modal-header h2 {
+        display: none !important;
+        /* Ẩn tiêu đề */
+    }
+
+    #settingsModal .close {
+        font-size: 22px !important;
+        color: #222 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 28px !important;
+        height: 28px !important;
+        line-height: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .modal-body {
+        padding: 15px;
+        overflow-y: auto;
+        max-height: calc(90vh - 70px);
+    }
+
+    .settings-section {
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+
+    .settings-section h3 {
+        font-size: 16px;
+        margin: 0 0 10px;
+        padding-bottom: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+        margin-bottom: 3px;
+    }
+
+    .form-group input[type="color"] {
+        height: 30px;
+    }
+
+    .modal-content select,
+    .modal-content input[type="text"],
+    .modal-content input[type="file"],
+    .modal-content input[type="color"],
+    .modal-content textarea {
+        padding: 6px;
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .modal-content textarea {
+        min-height: 60px;
+    }
+
+    /* Responsive cho Photo Preview trên mobile landscape - Gọn gàng */
+    .photo-preview {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .photo-preview-img {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .remove-photo-btn {
+        width: 12px !important;
+        height: 12px !important;
+        font-size: 8px !important;
+        top: -4px !important;
+        right: -4px !important;
+        background: #f44336 !important;
+        min-width: 12px !important;
+        min-height: 12px !important;
+    }
+
+    #photoGallerySettings {
+        gap: 5px !important;
+    }
+
+
+
+
+    .settings-p {
+        font-size: 12px;
+    }
+
+    /* Optimize form layout for landscape */
+    .form-row {
+        gap: 10px;
+    }
+
+    /* Ensure scrollable content */
+    .modal-body {
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    /* Adjust page info section */
+    .modal-body>div:first-child {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    /* Compact button styling */
+    .apply-settings-btn {
+        position: sticky;
+        bottom: 0;
+        background: linear-gradient(135deg, #b69f08, #181818) !important;
+        border-radius: 20 !important;
+        margin: 0 !important;
+        padding: 7px !important;
+        margin-bottom: 20px !important;
+        width: 100% !important;
+        position: static !important;
+
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .copyright {
+        bottom: 5px;
+        right: 10px;
+        font-size: 8px;
+    }
+
+    #pricingContainer {
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        border-radius: 15px 15px 0 0 !important;
+        height: 70vh !important;
+        overflow-y: auto !important;
+        padding-bottom: 0px !important;
+        /* Để không che nút */
+        z-index: 10000 !important;
+    }
+
+    .pricing-header span,
+    strong {
+        font-size: 12px !important;
+    }
+
+    #pricingDetails {
+        font-size: 8px !important;
+    }
+
+    .pricing-tip label {
+        font-size: 10px !important;
+    }
+
+
+    #voucherList {
+        max-height: 60px !important;
+        font-size: 10px !important;
+        margin-bottom: 4px !important;
+    }
+
+    #voucherSection {
+        padding-top: 4px !important;
+        margin-top: 4px !important;
+        font-size: 9px !important;
+    }
+
+    #voucherSection .voucher-item label {
+        font-size: 10px !important;
+    }
+
+    #tipAmount {
+        width: 55px !important;
+        font-size: 11px !important;
+        padding: 2px 4px !important;
+        margin-left: 4px !important;
+    }
+
+    #totalPrice {
+        font-size: 14px !important;
+    }
+
+    #actionButton {
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        padding: 5px !important;
+        z-index: 10001;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+        margin: 0;
+    }
+
+    #togglePricing {
+        font-size: 14px !important;
+        top: 2px !important;
+        right: 2px !important;
+        padding: 2px !important;
+        border-radius: 2px !important;
+    }
+
+    #googleLoginBtn {
+        font-size: 12px !important;
+        padding: 6px 10px !important;
+        min-width: 90px !important;
+        height: 32px !important;
+        border-radius: 6px !important;
+        margin-bottom: 6px !important;
+    }
+
+    #logoutBtn {
+        font-size: 12px !important;
+        padding: 2px 5px !important;
+        min-width: 90px !important;
+        height: 32px !important;
+        border-radius: 6px !important;
+        margin-bottom: 6px !important;
+    }
+
+    #userInfo {
+        font-size: 11px !important;
+        gap: 4px !important;
+    }
+
+    #paymentModal>div {
+        width: 50vw !important;
+        padding: 8px !important;
+        border-radius: 8px !important;
+        margin: 2vw auto !important;
+    }
+
+    #paymentModal iframe {
+        height: 36vw !important;
+        min-height: 36vw !important;
+        max-height: 36vh !important;
+    }
+
+    #paymentModal button {
+        top: 6px !important;
+        right: 6px !important;
+        font-size: 18px !important;
+    }
+
+    .success-notification-popup {
+        max-width: 90vw !important;
+        width: 90vw !important;
+        padding: 10px !important;
+        font-size: 13px !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    .success-notification-popup h3 {
+        font-size: 14px !important;
+        margin-bottom: 5px !important;
+    }
+
+    .success-notification-popup button {
+        padding: 2px 5px !important;
+        font-size: 13px !important;
+    }
+
+    /* Payment Method Section Responsive for Landscape Mobile */
+    #paymentMethodSection {
+        margin-top: 4px !important;
+        padding-top: 4px !important;
+    }
+
+    #paymentMethodSection > div:first-child {
+        margin-bottom: 4px !important;
+    }
+
+    #paymentMethodSection > div:first-child span {
+        font-size: 10px !important;
+    }
+
+    #paymentMethodSection > div:first-child strong {
+        font-size: 10px !important;
+    }
+
+    #paymentMethodSection > div:last-child {
+        gap: 4px !important;
+    }
+
+    .payment-method-container {
+        padding: 4px !important;
+        border-radius: 4px !important;
+    }
+
+    .payment-method-container label {
+        font-size: 9px !important;
+    }
+
+    .payment-method-container input[type="radio"] {
+        transform: scale(1.0) !important;
+        margin-right: 6px !important;
+    }
+
+    .payment-method-container strong {
+        font-size: 9px !important;
+    }
+
+    .payment-method-container div[style*="font-size: 11px"] {
+        font-size: 7px !important;
+    }
+
+    .payment-method-container img {
+        width: 12px !important;
+        height: 12px !important;
+        margin-right: 4px !important;
+    }
+
+    .payment-method-container span[style*="font-size: 16px"] {
+        font-size: 12px !important;
+        margin-right: 4px !important;
+    }
+
+    /* Responsive cho Phong Thư trên mobile landscape */
+    #envelopeContainer {
+        padding: 10px !important;
+    }
+
+    .valentines {
+        top: 0 !important;
+        min-width: 200px !important;
+        min-height: 130px !important;
+        transform: scale(0.65) !important;
+        animation: up 3s linear infinite !important;
+    }
+
+    .envelope {
+        width: 200px !important;
+        height: 130px !important;
+    }
+
+    .envelope:before {
+        width: 141px !important;
+        height: 141px !important;
+        top: -70px !important;
+        left: 29px !important;
+    }
+
+    .card {
+        width: 180px !important;
+        height: 113px !important;
+        top: 3px !important;
+        left: 10px !important;
+    }
+
+    .card:before {
+        width: 160px !important;
+        height: 93px !important;
+        left: 8px !important;
+        top: 8px !important;
+        border-width: 2px !important;
+    }
+
+    .text {
+        font-size: 20px !important;
+        line-height: 18px !important;
+        top: 12px !important;
+        left: 57px !important;
+    }
+
+    .heart {
+        width: 20px !important;
+        height: 20px !important;
+        top: 73px !important;
+        left: 70px !important;
+    }
+
+    .heart:before,
+    .heart:after {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .heart:before {
+        top: -10px !important;
+    }
+
+    .heart:after {
+        left: 10px !important;
+    }
+
+    .one,
+    .two,
+    .three,
+    .four,
+    .five {
+        width: 7px !important;
+        height: 7px !important;
+        top: 33px !important;
+    }
+
+    .one:before,
+    .one:after,
+    .two:before,
+    .two:after,
+    .three:before,
+    .three:after,
+    .four:before,
+    .four:after,
+    .five:before,
+    .five:after {
+        width: 7px !important;
+        height: 7px !important;
+    }
+
+    .one:before,
+    .two:before,
+    .three:before,
+    .four:before,
+    .five:before {
+        top: -3.5px !important;
+    }
+
+    .one:after,
+    .two:after,
+    .three:after,
+    .four:after,
+    .five:after {
+        left: 3.5px !important;
+    }
+
+    .one {
+        left: 7px !important;
+    }
+
+    .two {
+        left: 20px !important;
+    }
+
+    .three {
+        left: 33px !important;
+    }
+
+    .four {
+        left: 47px !important;
+    }
+
+    .five {
+        left: 60px !important;
+    }
+
+    .front {
+        border-right-width: 120px !important;
+        border-top-width: 63px !important;
+        border-bottom-width: 67px !important;
+        left: 80px !important;
+        top: 3px !important;
+    }
+
+    .front:before {
+        border-left-width: 200px !important;
+        border-top-width: 130px !important;
+        left: -80px !important;
+        top: -63px !important;
+    }
+
+    .shadow {
+        width: 220px !important;
+        height: 17px !important;
+        top: 177px !important;
+        left: -10px !important;
+    }
+
+    .envelope-overlay {
+        width: 200px !important;
+        height: 130px !important;
+    }
+
+    /* Responsive cho Lá Thư trên mobile landscape */
+    .wrapperLetterForm {
+        padding: 2px !important;
+    }
+
+    .boxLetter .formLetter {
+        width: 78vw !important;
+        max-width: 80vw !important;
+        height: 59vh !important;
+        max-height: 59vh !important;
+        padding: 6px 5px !important;
+        margin-bottom: 40px !important;
+    }
+
+    .formLetter .wrapperLetter {
+        height: 100% !important;
+        border-width: 1px !important;
+        padding: 3px !important;
+    }
+
+    .boxLetter .before {
+        width: 80vw !important;
+        max-width: 80vw !important;
+        height: 67vh !important;
+        max-height: 67vh !important;
+        margin-bottom: 40px !important;
+        transform: rotate(-6deg) !important;
+    }
+
+    .giftbox {
+       width: 25% !important;
+       height: 100% !important;
+    }
+    .giftbox .img {
+        position: absolute;
+        width: 100px;
+    }
+
+    .textLetter {
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0 !important;
+        justify-content: flex-start !important;
+    }
+
+    .textLetter h2 {
+        font-size: 25px !important;
+        margin-bottom: 2px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .textLetter .contentLetter {
+        font-size: 16px !important;
+        padding: 0 5px !important;
+        margin-top: 3px !important;
+        margin-bottom: 15px !important;
+        flex: 1 1 auto !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        max-height: calc(70vh - 50px) !important;
+        line-height: 1.4 !important;
+    }
+
+    .heartLetter {
+        width: 15px !important;
+        height: 15px !important;
+    }
+
+    .heartLetter .heartLetterItem {
+        width: 5px !important;
+        height: 5px !important;
+    }
+
+    .heartLetter:first-child {
+        right: 2px !important;
+        top: 3px !important;
+    }
+
+    .heartLetter:nth-child(2) {
+        left: 2px !important;
+        bottom: 3px !important;
+    }
+
+    .heartAnimation {
+        width: 60px !important;
+        bottom: 5px !important;
+    }
+
+    .mewmew1,
+    .mewmew2 {
+        width: 35px !important;
+    }
+
+    .signature {
+        font-size: 12px !important;
+        bottom: 3px !important;
+        right: 40px !important;
+    }
+
+    .fa-xmark {
+        font-size: 16px !important;
+        right: 8px !important;
+        top: 8px !important;
+    }
+
+    .close-arrow-btn {
+        width: 25px !important;
+        height: 25px !important;
+        right: 3px !important;
+        bottom: 2px !important;
+    }
+
+    .close-arrow-btn i {
+        font-size: 12px !important;
+    }
+
+    /* Responsive cho Gallery Ảnh Bay trên mobile landscape */
+    #photoGallery {
+        background: rgba(0, 0, 0, 0.25) !important;
+        backdrop-filter: blur(1px) !important;
+    }
+
+    .flying-photo {
+        max-width: 150px !important;
+        max-height: 150px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4),
+                    0 0 12px rgba(255, 255, 255, 0.25),
+                    0 0 24px rgba(255, 255, 255, 0.15),
+                    0 0 36px rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .flying-photo:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5),
+                    0 0 18px rgba(255, 255, 255, 0.3),
+                    0 0 36px rgba(255, 255, 255, 0.2),
+                    0 0 54px rgba(255, 255, 255, 0.12) !important;
+    }
+
+    .flying-photo img {
+        border-radius: 12px !important;
+    }
+
+    /* Điều chỉnh animation cho nhanh hơn trên landscape */
+    .flying-photo {
+        animation-duration: var(--gallery-cycle-duration, 8s), 2s !important;
+    }
+
+    /* Điều chỉnh keyframe animation cho phù hợp với màn hình ngang */
+    @keyframes flyAcrossLandscape {
+        0% {
+            left: -200px;
+            opacity: 0;
+            transform: translateY(-50%) rotate(-3deg) scale(0.7);
+        }
+        5% {
+            opacity: 1;
+        }
+        50% {
+            transform: translateY(-50%) rotate(0deg) scale(0.9);
+        }
+        95% {
+            opacity: 1;
+        }
+        100% {
+            left: var(--td-view-width, 100vw);
+            opacity: 0;
+            transform: translateY(-50%) rotate(3deg) scale(0.7);
+        }
+    }
+
+}
+/* Use one visible viewport for both envelope and open letter, including Safari chrome. */
+#envelopeContainer, .wrapperLetterForm, #photoGallery {
+    box-sizing: border-box;
+    left: var(--td-view-left, 0px);
+    top: var(--td-view-top, 0px);
+    width: var(--td-view-width, 100vw);
+    height: var(--td-view-height, 100dvh);
+}
+.wrapperLetterForm { padding: 0 !important; }
+.boxLetter .formLetter, .boxLetter .before {
+    box-sizing: border-box;
+    width: min(630px, calc(var(--td-view-width, 100vw) * .88)) !important;
+    max-width: none !important;
+    height: min(390px, calc(var(--td-view-height, 100dvh) * .76)) !important;
+    max-height: none !important;
+    margin: 0 !important;
+    flex-shrink: 0;
+}
+.boxLetter .before { transform: rotate(-6deg) !important; }
+.formLetter .wrapperLetter { box-sizing: border-box; }
+.textLetter, .textLetter .contentLetter { min-height: 0; }
+
+/* Anchor differently shaped photos by their center, not by their top edge. */
+#photoGallery { --gallery-photo-size: min(400px, calc(var(--td-view-height, 100dvh) * .66)); }
+#photoGallery .flying-photo {
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: var(--gallery-photo-size) !important;
+    max-height: var(--gallery-photo-size) !important;
+}
+#photoGallery .flying-photo img {
+    max-width: var(--gallery-photo-size) !important;
+    max-height: var(--gallery-photo-size) !important;
+}
+@media (max-width: 480px) {
+    #photoGallery { --gallery-photo-size: min(200px, calc(var(--td-view-height, 100dvh) * .66)); }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+    #photoGallery { --gallery-photo-size: min(150px, calc(var(--td-view-height, 100dvh) * .66)); }
+}
+
+/* Center the envelope inscription as a whole, regardless of line length. */
+#envelopeCard .text {
+    inset: 18px 20px 50px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Dancing Script', cursive;
+    font-size: 25px !important;
+    font-weight: 700;
+    line-height: 1.2 !important;
+    letter-spacing: .01em;
+    text-align: center;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+    color: #713b45;
+    text-shadow: 0 1px 0 #fff8;
+    pointer-events: none;
+}
+@media (max-height: 500px) and (orientation: landscape) {
+    #envelopeCard .text {
+        inset: 11px 12px 33px !important;
+        font-size: 20px !important;
+        line-height: 1.1 !important;
+    }
+}
+
+/* Three calm, opposing ribbons of memories. Geometry follows the visible viewport. */
+#photoGallery.td-photo-gallery {
+    background: radial-gradient(ellipse at center, #442131d9, #110b16ed 75%) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    isolation: isolate;
+}
+.td-gallery-lanes {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center;
+    gap: var(--gallery-gap);
+}
+.td-gallery-lane {
+    height: var(--gallery-row-height); flex: 0 0 auto;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+.td-gallery-track {
+    display: flex; width: max-content; height: 100%;
+    animation: tdGalleryRibbon linear infinite;
+    will-change: transform;
+}
+.td-gallery-group {
+    display: flex; flex: 0 0 auto; gap: var(--gallery-gap);
+    height: 100%; padding-right: var(--gallery-gap); box-sizing: content-box;
+}
+.td-gallery-photo {
+    position: relative; flex: 0 0 var(--gallery-card-width);
+    width: var(--gallery-card-width); height: 100%; box-sizing: border-box;
+    border: 2px solid #fff5; border-radius: 13px; overflow: hidden;
+    background: #352734; box-shadow: inset 0 0 0 1px #fff1;
+}
+.td-gallery-backdrop {
+    position: absolute; inset: -12%; width: 124%; height: 124%;
+    object-fit: cover; filter: blur(14px) brightness(.5); pointer-events: none;
+}
+.td-gallery-image {
+    position: relative; display: block; width: 100%; height: 100%;
+    object-fit: contain; user-select: none;
+}
+@keyframes tdGalleryRibbon {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(calc(-1 * var(--gallery-distance)), 0, 0); }
+}
+.td-photo-gallery.is-paused .td-gallery-track { animation-play-state: paused; }
+.td-gallery-close, .td-gallery-pause {
+    position: absolute; z-index: 2; display: grid; place-items: center;
+    border: 1px solid #ffffff40; background: #211321c9; color: #fff5f8;
+    font: 500 13px/1 Arial, sans-serif; cursor: pointer;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.td-gallery-close { top: 8px; right: max(12px, env(safe-area-inset-right)); width: 32px; height: 32px; border-radius: 50%; font-size: 24px; }
+.td-gallery-pause { bottom: 8px; left: 50%; transform: translateX(-50%); padding: 8px 15px; min-height: 30px; border-radius: 999px; }
+.td-gallery-close:focus-visible, .td-gallery-pause:focus-visible { outline: 2px solid #ffd6e5; outline-offset: 3px; }

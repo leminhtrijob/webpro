@@ -1,0 +1,91 @@
+/* Coiny's slash glyph leans backwards. Override only U+002F with Baloo 2. */
+@font-face {
+    font-family: 'TD Forward Slash';
+    src: url('../fonts/baloo2-slash.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    unicode-range: U+002F;
+}
+/* Solid Coiny lettering, shared visual treatment with Happy-Birthday. */
+  .td-hero-center {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      padding: 0 2vw;
+  }
+  .td-hero-word {
+      margin: 0;
+      font-family: "TD Forward Slash", "Coiny", "Baloo 2", sans-serif;
+      font-size: clamp(64px, 13vw, 220px);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      text-align: center;
+      display: grid;
+      filter: drop-shadow(0 18px 24px rgba(var(--bw-glow-rgb, 255, 20, 120), 0.2));
+      will-change: transform;
+  }
+  .td-hero-word > .bw-depth,
+  .td-hero-word > .bw-face {
+      grid-area: 1 / 1;
+      padding-top: var(--ink-pad-top, 0px);
+      padding-bottom: var(--ink-pad-bottom, 0px);
+  }
+  .td-hero-word > .bw-depth {
+      color: var(--bw-depth, #ff4a9d);
+      text-shadow:
+          0 2px 0 var(--bw-s1, #cf1b68),
+          0 5px 0 var(--bw-s2, #a30e4e),
+          0 9px 0 var(--bw-s3, #68072f),
+          0 12px 18px rgba(0, 0, 0, 0.75),
+          0 0 14px rgba(var(--bw-glow-rgb, 255, 63, 154), 0.65),
+          0 0 36px rgba(var(--bw-glow-rgb, 255, 63, 154), 0.35);
+  }
+  .td-hero-word > .bw-face {
+      color: transparent;
+      background: linear-gradient(180deg,
+              var(--bw-f0, #ffe0ed) 0%,
+              var(--bw-f1, #ff9bc7) var(--grad-m, 0%),
+              var(--bw-f0, #ffe0ed) var(--grad-a, 0%),
+              var(--bw-f1, #ff9bc7) var(--grad-b, 22%),
+              var(--bw-f2, #ff559f) var(--grad-c, 55%),
+              var(--bw-f3, #e91e76) 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+  }
+  .td-hero-word.is-in {
+      animation: tdWordAppear 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes tdWordAppear {
+      from {
+          opacity: 0;
+          transform: translateY(28px) scale(0.86);
+          filter: blur(12px);
+      }
+      60% {
+          opacity: 1;
+          transform: translateY(-3px) scale(1.03);
+          filter: blur(0);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+      }
+  }
+  @media (prefers-reduced-motion: reduce) {
+      .td-hero-word.is-in { animation: none; }
+  }
+
+.td-hero-center { box-sizing: border-box; }
+body.td-creator .td-hero-center { padding: 124px 4vw 90px; }
+body.td-form-phase .td-hero-center, body.td-checkout-phase .td-hero-center, body.td-payment-flow .td-hero-center { visibility: hidden; }
+@media (max-height: 500px) and (orientation: landscape) {
+ body.td-creator .td-hero-center { padding: 108px 4vw 62px; }
+}
+
+body.td-modern-text #matrix-rain { opacity: .4; }

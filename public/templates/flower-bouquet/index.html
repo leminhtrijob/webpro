@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <script src="/vendor/trikun-bridge.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ghép ảnh vào bó hoa</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f0f2f5;
+      color: #111;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; }
+
+    /* ─── Phần đầu: Các bước tạo ─── */
+    .steps-intro {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    .steps-intro h2 {
+      margin: 0 0 16px 0;
+      font-size: 1.25rem;
+      color: #c2185b;
+    }
+    .steps-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .steps-list li {
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .steps-list li strong { color: #111; }
+
+    /* ─── Công cụ theo từng bước ─── */
+    .step-block {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    .step-block .step-title {
+      font-weight: 600;
+      color: #c2185b;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    .step-block .hint {
+      font-size: 13px;
+      color: #666;
+      margin-top: 8px;
+    }
+    .step-block .hint.accent { color: #c2185b; }
+    .tools-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 10px 16px;
+      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+      color: #333;
+      display: inline-block;
+    }
+    .btn:hover { border-color: #c2185b; color: #c2185b; background: #fff5f9; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary { background: #c2185b; color: #fff; border-color: #c2185b; }
+    .btn-primary:hover { background: #ad1457; border-color: #ad1457; color: #fff; }
+    .btn-primary:disabled { background: #ccc; border-color: #ccc; }
+    input[type="file"].btn { padding: 10px 16px; cursor: pointer; }
+
+    /* Canvas kết quả */
+    .canvas-wrap {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    #canvas {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+  </style>
+  
+  <script type="text/javascript">
+    (function() {
+      try {
+        if (typeof DisableDevtool !== 'undefined') {
+          /* DisableDevtool removed */
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <section class="steps-intro">
+      <h2>🌸 Các bước</h2>
+      <ol class="steps-list">
+        <li>Hãy xóa nền 1–5 ảnh (dùng link bên dưới) → ảnh chỉ còn người.</li>
+        <li>Chọn 1–5 ảnh đã xóa nền → ghép lên bó hoa.</li>
+        <li>Chưa ưng? Bấm <strong>Sửa bó hoa</strong>. Xong bấm <strong>Tải ảnh</strong>.</li>
+        <li>Quay lại trang tạo → mục <strong>Ảnh bó hoa</strong> → Chọn ảnh vừa tải.</li>
+      </ol>
+    </section>
+
+    <div class="step-block">
+      <div class="step-title">1. Hãy xóa nền 1–5 ảnh</div>
+      <div class="tools-row">
+        <a href="https://www.pixelcut.ai/vi/xoa-nen" target="_blank" rel="noopener" class="btn">Mở web xóa nền</a>
+      </div>
+    </div>
+
+    <div class="step-block">
+      <div class="step-title">2. Chọn ảnh</div>
+      <div class="tools-row">
+        <label class="btn" style="margin:0;">
+          Chọn 1–5 ảnh
+          <input id="pick" type="file" accept="image/*" multiple style="position:absolute;width:0.1px;height:0.1px;opacity:0;">
+        </label>
+      </div>
+    </div>
+
+    <div class="step-block">
+      <div class="step-title">3. Lưu ảnh</div>
+      <div class="tools-row">
+        <button id="regen" class="btn" disabled>Sửa bó hoa</button>
+        <button id="download" class="btn btn-primary" disabled>Tải ảnh</button>
+      </div>
+    </div>
+
+    <div class="step-block">
+      <div class="tools-row">
+        <button id="backBtn" class="btn">← Quay lại</button>
+      </div>
+    </div>
+
+    <!-- Kết quả -->
+    <div class="canvas-wrap">
+      <canvas id="canvas" width="649" height="1000" aria-label="Kết quả ghép ảnh bó hoa"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // CẤU HÌNH
+    // ═══════════════════════════════════════════════════════════════
+    const CONFIG = {
+      bgImageSrc: 'flower.png',
+      baseWidth: 649,
+      baseHeight: 1000,
+      maxUserImages: 5
+    };
+
+    // Tọa độ các “bông hoa” trên ảnh nền (ảnh gốc 649x1000). Mỗi phần tử: tâm (x,y), bán kính r, lớp z (vẽ sau = đè lên), góc xoay rot (độ).
+    const BLOOM_POINTS = [
+      { x: 180, y: 250, r: 70, z: 0, rot: -16 },
+      { x: 225, y: 230, r: 138, z: 2, rot: -5 },
+      { x: 305, y: 205, r: 180, z: 0, rot: 0 },
+      { x: 380, y: 230, r: 138, z: 2, rot: 5 },
+      { x: 440, y: 250, r: 70, z: 0, rot: 16 },
+      { x: 370, y: 285, r: 170, z: 3, rot: -14 },
+      { x: 270, y: 285, r: 170, z: 3, rot: 14 },
+      { x: 155, y: 320, r: 56, z: 1, rot: -17 },
+      { x: 175, y: 340, r: 66, z: 2, rot: -13 },
+      { x: 205, y: 370, r: 110, z: 2, rot: -9 },
+      { x: 260, y: 375, r: 170, z: 5, rot: -5 },
+      { x: 300, y: 365, r: 170, z: 6, rot: 0 },
+      { x: 340, y: 375, r: 170, z: 5, rot: 5 },
+      { x: 400, y: 370, r: 110, z: 3, rot: 9 },
+      { x: 450, y: 340, r: 66, z: 2, rot: 13 },
+      { x: 470, y: 320, r: 56, z: 1, rot: 17 }
+    ];
+
+    // ═══════════════════════════════════════════════════════════════
+    // HÀM PHỤ: TÍNH TOÁN & VẼ
+    // ═══════════════════════════════════════════════════════════════
+    function scalePoints(points, baseW, baseH, targetW, targetH) {
+      const sx = targetW / baseW;
+      const sy = targetH / baseH;
+      return points.map(function (p) {
+        return {
+          x: p.x * sx,
+          y: p.y * sy,
+          r: Math.min(p.r * sx, p.r * sy),
+          z: p.z != null ? p.z : 0,
+          rot: p.rot != null ? p.rot : 0
+        };
+      });
+    }
+
+    function drawImageCentered(ctx, img, cx, cy, r) {
+      var h = r * 2;
+      var w = h * (img.width / img.height);
+      ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
+    }
+
+    function drawImageRotated(ctx, img, cx, cy, r, rotationDeg) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate((rotationDeg * Math.PI) / 180);
+      var h = r * 2;
+      var w = h * (img.width / img.height);
+      ctx.drawImage(img, -w / 2, -h / 2, w, h);
+      ctx.restore();
+    }
+
+    function fillPinkGradient(ctx, width, height) {
+      var cx = width / 2;
+      var cy = height / 2;
+      var innerR = Math.min(width, height) * 0.05;
+      var outerR = Math.hypot(width, height) * 0.8;
+      var g = ctx.createRadialGradient(cx, cy, innerR, cx, cy, outerR);
+      g.addColorStop(0, '#ff6fa5');
+      g.addColorStop(0.15, '#ff8db9');
+      g.addColorStop(0.35, '#ffb3d1');
+      g.addColorStop(0.6, '#ffd7e8');
+      g.addColorStop(0.82, '#ffecf5');
+      g.addColorStop(1, '#ffffff');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // VẼ TOÀN BỘ CANVAS
+    // ═══════════════════════════════════════════════════════════════
+    function drawAll(state) {
+      var bg = state.bgImage;
+      var canvas = state.canvas;
+      var ctx = state.ctx;
+      if (!bg.complete || !canvas || !ctx) return;
+
+      canvas.width = bg.naturalWidth || bg.width;
+      canvas.height = bg.naturalHeight || bg.height;
+      var w = canvas.width;
+      var h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+      fillPinkGradient(ctx, w, h);
+
+      var points = scalePoints(BLOOM_POINTS, CONFIG.baseWidth, CONFIG.baseHeight, w, h);
+      state.pointsScaled = points;
+
+      var userImgs = state.userImages;
+      if (userImgs && userImgs.length > 0) {
+        if (state.needReassign || !state.assignments || state.assignments.length !== points.length) {
+          state.assignments = points.map(function () {
+            return Math.floor(Math.random() * userImgs.length);
+          });
+          state.needReassign = false;
+        }
+        var indices = points.map(function (_, i) { return i; }).sort(function (a, b) {
+          return (points[a].z || 0) - (points[b].z || 0);
+        });
+        for (var i = 0; i < indices.length; i++) {
+          var idx = indices[i];
+          var p = points[idx];
+          var img = userImgs[state.assignments[idx]];
+          if (!img) continue;
+          if (p.rot) {
+            drawImageRotated(ctx, img, p.x, p.y, p.r, p.rot);
+          } else {
+            drawImageCentered(ctx, img, p.x, p.y, p.r);
+          }
+        }
+      }
+      ctx.drawImage(bg, 0, 0, w, h);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // TẢI ẢNH TỪ FILE
+    // ═══════════════════════════════════════════════════════════════
+    function loadImagesFromFiles(files, callback) {
+      var list = [];
+      var count = 0;
+      var n = Math.min(files.length, CONFIG.maxUserImages);
+      if (n === 0) { callback([]); return; }
+      for (var i = 0; i < n; i++) {
+        (function (file) {
+          var url = URL.createObjectURL(file);
+          var img = new Image();
+          img.onload = function () {
+            URL.revokeObjectURL(url);
+            list.push(img);
+            count++;
+            if (count === n) callback(list);
+          };
+          img.onerror = function () {
+            URL.revokeObjectURL(url);
+            count++;
+            if (count === n) callback(list);
+          };
+          img.src = url;
+        })(files[i]);
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // TẢI ẢNH XUỐNG MÁY (hoặc Share trên mobile)
+    // ═══════════════════════════════════════════════════════════════
+    function downloadCanvas(state) {
+      var canvas = state.canvas;
+      if (!canvas) return;
+      var dataURL = canvas.toDataURL('image/png');
+      var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      if (navigator.share && isMobile) {
+        fetch(dataURL)
+          .then(function (res) { return res.blob(); })
+          .then(function (blob) {
+            var file = new File([blob], 'bo-hoa-ghep-anh.png', { type: 'image/png' });
+            return navigator.share({ title: 'Bó hoa ghép ảnh', files: [file] });
+          })
+          .catch(function () { fallbackDownload(dataURL); });
+      } else {
+        fallbackDownload(dataURL);
+      }
+    }
+
+    function fallbackDownload(dataURL) {
+      var a = document.createElement('a');
+      a.download = 'bo-hoa-ghep-anh.png';
+      a.href = dataURL;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // KHỞI TẠO TRANG
+    // ═══════════════════════════════════════════════════════════════
+    window.addEventListener('DOMContentLoaded', function () {
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      var pickInput = document.getElementById('pick');
+      var backBtn = document.getElementById('backBtn');
+      var downloadBtn = document.getElementById('download');
+      var regenBtn = document.getElementById('regen');
+
+      var state = {
+        canvas: canvas,
+        ctx: ctx,
+        bgImage: new Image(),
+        userImages: [],
+        assignments: null,
+        needReassign: true,
+        pointsScaled: null
+      };
+
+      state.bgImage.src = CONFIG.bgImageSrc;
+      state.bgImage.onload = function () { drawAll(state); };
+
+      function setButtonsEnabled(enabled) {
+        downloadBtn.disabled = !enabled;
+        regenBtn.disabled = !enabled;
+      }
+
+      pickInput.addEventListener('change', function (e) {
+        var files = e.target.files ? Array.from(e.target.files) : [];
+        if (files.length === 0) return;
+        loadImagesFromFiles(files, function (list) {
+          state.userImages = list;
+          state.needReassign = true;
+          state.assignments = null;
+          drawAll(state);
+          setButtonsEnabled(list.length > 0);
+        });
+        e.target.value = '';
+      });
+
+      regenBtn.addEventListener('click', function () {
+        state.needReassign = true;
+        state.assignments = null;
+        drawAll(state);
+      });
+
+      downloadBtn.addEventListener('click', function () {
+        downloadCanvas(state);
+      });
+
+      backBtn.addEventListener('click', function () {
+        if (window.history.length > 1) {
+          history.back();
+        } else if (window.opener) {
+          window.close();
+        } else {
+          window.location.href = 'config.html';
+        }
+      });
+
+      window.addEventListener('resize', function () { drawAll(state); });
+
+      
+      setButtonsEnabled(false);
+      // Tự động nạp 5 ảnh demo cute vào bó hoa ngay khi mở trang
+      (function preloadDemoBouquetPhotos() {
+        var demoUrls = ['/demo/photos/1.jpg', '/demo/photos/2.jpg', '/demo/photos/3.jpg', '/demo/photos/4.jpg', '/demo/photos/5.jpg'];
+        var loaded = [];
+        var done = 0;
+        demoUrls.forEach(function(u) {
+          var im = new Image();
+          im.crossOrigin = 'anonymous';
+          im.onload = function() {
+            loaded.push(im);
+            done++;
+            if (done === demoUrls.length && state.userImages.length === 0) {
+              state.userImages = loaded;
+              state.needReassign = true;
+              state.assignments = null;
+              drawAll(state);
+              setButtonsEnabled(true);
+            }
+          };
+          im.onerror = function() { done++; };
+          im.src = u;
+        });
+      })();
+    });
+  </script>
+</body>
+</html>

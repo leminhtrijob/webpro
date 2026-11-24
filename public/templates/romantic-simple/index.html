@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <script src="/vendor/trikun-bridge.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/png" href="/assets/images/icons/couple.png" id="linkFavicon">
+    <link rel="apple-touch-icon" href="/assets/images/icons/couple.png" id="linkAppIcon">
+    <meta name="theme-color" content="#2d0a30">
+    <title>Món Quà Nhỏ</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
+    <style>
+
+/* ══════════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: #fff8fb;
+    color: #3d1128;
+    overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════════
+   PASSCODE SCREEN (full-screen, trước page)
+══════════════════════════════════════════ */
+#passcodeScreen {
+    position: fixed; inset: 0; z-index: 9000;
+    background:
+        linear-gradient(rgba(50,5,32,0.88), rgba(20,3,15,0.94)),
+        linear-gradient(150deg, #1e0927, #070410);
+    display: none; flex-direction: column; align-items: center;
+    padding: env(safe-area-inset-top,24px) 20px env(safe-area-inset-bottom,24px);
+    overflow: hidden;
+    touch-action: manipulation; user-select: none; -webkit-user-select: none;
+    font-family: -apple-system, sans-serif;
+}
+#passcodeScreen.visible { display: flex; }
+#passcodeScreen.hiding  { opacity: 0; pointer-events: none; transition: opacity 0.5s ease-out; }
+
+.pc-bears {
+    position: relative; width: 100%; max-width: 400px;
+    height: clamp(155px,38vw,205px); flex-shrink: 0;
+}
+.pc-bear {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    height: clamp(140px,31vw,200px); width: auto; object-fit: contain;
+    transition: left 0.4s ease, right 0.4s ease;
+}
+.pc-bear.left  { left: 5%; }
+.pc-bear.right { right: 5%; left: auto; }
+.pc-bear.left.p0  { left:  5%; } .pc-bear.right.p0  { right:  5%; }
+.pc-bear.left.p1  { left: 10%; } .pc-bear.right.p1  { right: 10%; }
+.pc-bear.left.p2  { left: 18%; } .pc-bear.right.p2  { right: 18%; }
+.pc-bear.left.p3  { left: 27%; } .pc-bear.right.p3  { right: 27%; }
+.pc-bear.left.p4  { left: 37%; } .pc-bear.right.p4  { right: 37%; }
+.pc-couple {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    height: clamp(170px,36vw,235px); width: auto; object-fit: contain;
+    opacity: 0; pointer-events: none;
+}
+.pc-bears.show-couple .pc-bear   { opacity: 0; transition: opacity 0.4s; }
+.pc-bears.show-couple .pc-couple { opacity: 1; transition: opacity 0.8s ease-out 0.2s; }
+.pc-bears.show-couple ~ .pc-title,
+.pc-bears.show-couple ~ .pc-sub,
+.pc-bears.show-couple ~ .pc-dots { display: none !important; }
+
+.pc-hearts { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+.pc-bears.show-couple ~ .pc-hearts { opacity: 1; }
+.hfly { animation: heartFlyUp 4s linear infinite; position: absolute; font-size: 1.3rem; }
+.hfly:nth-child(1)  { left:  5%; animation-delay: 0s;   animation-duration: 3.5s; }
+.hfly:nth-child(2)  { left: 15%; animation-delay: 0.3s; animation-duration: 4s;   }
+.hfly:nth-child(3)  { left: 28%; animation-delay: 0.7s; animation-duration: 3.8s; }
+.hfly:nth-child(4)  { left: 42%; animation-delay: 0.1s; animation-duration: 4.2s; }
+.hfly:nth-child(5)  { left: 55%; animation-delay: 0.5s; animation-duration: 3.5s; }
+.hfly:nth-child(6)  { left: 68%; animation-delay: 0.9s; animation-duration: 4.1s; }
+.hfly:nth-child(7)  { left: 88%; animation-delay: 0.6s; animation-duration: 4.4s; }
+@keyframes heartFlyUp {
+    0%  { bottom:-20px; opacity:0; transform:scale(0.8); }
+    15% { opacity:1; }
+    100%{ bottom:110%; opacity:0; transform:scale(1.1) rotate(12deg); }
+}
+.pc-title { color:#fff; font-size:18px; font-weight:600; margin-bottom:5px; text-align:center; }
+.pc-sub   { color:rgba(255,255,255,0.5); font-size:13px; margin-bottom:20px; text-align:center; }
+.pc-dots  { display:flex; gap:14px; margin-bottom:28px; }
+.pc-dot   { width:14px; height:14px; border-radius:50%; border:2px solid rgba(255,255,255,0.32); transition:all 0.2s; }
+.pc-dot.filled { background:#fff; border-color:#fff; }
+.pc-dot.error  { border-color:#ff3b30; background:#ff3b30; animation:shake 0.4s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+.pc-keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; max-width:275px; width:100%; margin-top:auto; }
+.pc-btn {
+    width:67px; height:67px; border-radius:50%; justify-self:center;
+    background:rgba(255,255,255,0.13); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,0.22); color:#fff; font-size:24px; cursor:pointer;
+    transition:background 0.15s, transform 0.12s;
+}
+.pc-btn:active { background:rgba(255,255,255,0.28); transform:scale(0.92); }
+.pc-btn.empty  { background:transparent; border-color:transparent; box-shadow:none; cursor:default; }
+.pc-btn.empty:active { transform:none; }
+.pc-cancel { margin-top:16px; color:rgba(255,255,255,0.38); font-size:14px; background:none; border:none; cursor:pointer; padding:8px 24px; }
+
+/* ══════════════════════════════════════════
+   PAGE WRAPPER
+══════════════════════════════════════════ */
+#page { display: none; }
+#page.visible { display: block; }
+
+/* ══════════════════════════════════════════
+   SECTION 1 — HERO (cover)
+══════════════════════════════════════════ */
+.s-hero {
+    min-height: 100svh;
+    background: linear-gradient(160deg, #1a0528 0%, #3a0b42 45%, #180620 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    text-align: center;
+    padding: max(env(safe-area-inset-top),60px) 32px 80px;
+}
+.hero-glow {
+    position: absolute; top: 30%; left: 50%; translate: -50% -50%;
+    width: clamp(300px,70vw,540px); height: clamp(250px,55vw,420px);
+    background: radial-gradient(circle, rgba(200,40,130,0.22), transparent 65%);
+    pointer-events: none;
+}
+.hero-glow2 {
+    position: absolute; bottom: 10%; right: -5%;
+    width: 280px; height: 220px;
+    background: radial-gradient(circle, rgba(130,20,100,0.15), transparent 65%);
+    pointer-events: none;
+}
+
+/* Floating petals in hero */
+.hero-petal {
+    position: absolute; pointer-events: none;
+    font-size: 1rem; opacity: 0;
+    animation: heroPetal linear infinite;
+}
+@keyframes heroPetal {
+    0%   { opacity: 0;   transform: translateY(0)    rotate(0deg)   scale(0.8); }
+    8%   { opacity: 0.7; }
+    90%  { opacity: 0.4; }
+    100% { opacity: 0;   transform: translateY(-80vh) rotate(360deg) scale(1.1); }
+}
+
+.hero-icon {
+    font-size: clamp(3rem,8vw,4.5rem);
+    margin-bottom: 24px;
+    filter: drop-shadow(0 0 24px rgba(255,130,190,0.5));
+    animation: iconFloat 3s ease-in-out infinite;
+}
+@keyframes iconFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+.hero-title {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(2rem, 8vw, 3.8rem);
+    color: #fda4cf;
+    line-height: 1.25;
+    text-shadow: 0 0 60px rgba(253,164,207,0.45), 0 2px 20px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+}
+
+.hero-divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; margin: 0 auto 20px;
+    color: rgba(253,164,207,0.3); font-size: 0.65rem; letter-spacing: 8px;
+    max-width: 180px;
+}
+.hero-divider::before, .hero-divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: rgba(253,164,207,0.2);
+}
+
+.hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 3.5vw, 1.3rem);
+    color: rgba(255,215,235,0.72);
+    font-style: italic; line-height: 1.7; letter-spacing: 0.2px;
+    max-width: 310px; margin: 0 auto;
+}
+
+.scroll-down {
+    position: absolute; bottom: max(env(safe-area-inset-bottom,0px),32px);
+    left: 50%; translate: -50% 0;
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    color: rgba(253,164,207,0.45); font-size: 0.68rem; letter-spacing: 3px;
+    animation: scrollBounce 2.2s ease-in-out infinite;
+    cursor: pointer;
+}
+.scroll-down svg { width: 22px; height: 22px; stroke: rgba(253,164,207,0.45); }
+@keyframes scrollBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(7px)} }
+
+/* ══════════════════════════════════════════
+   DIVIDER DECORATION
+══════════════════════════════════════════ */
+.sec-divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; padding: 0 32px; margin: 0;
+    color: rgba(194,24,91,0.22); font-size: 0.7rem; letter-spacing: 6px;
+}
+.sec-divider::before, .sec-divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(194,24,91,0.2), transparent);
+}
+
+/* ══════════════════════════════════════════
+   SECTION 2 — WORDS
+══════════════════════════════════════════ */
+.s-words {
+    padding: 72px 24px 60px;
+    background: #fff8fb;
+    text-align: center;
+}
+
+.words-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(194,24,91,0.45); margin-bottom: 48px;
+}
+
+.word-item {
+    padding: 24px 16px;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.word-item.in-view { opacity: 1; transform: translateY(0); }
+
+.word-text {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(2.2rem, 9vw, 4.5rem);
+    color: #c2185b;
+    line-height: 1.2;
+    text-shadow: 0 2px 16px rgba(194,24,91,0.12);
+}
+
+.word-sep {
+    display: inline-block;
+    color: rgba(194,24,91,0.2); font-size: 1rem;
+    letter-spacing: 10px; padding: 8px 0;
+}
+
+/* ══════════════════════════════════════════
+   SECTION 3 — PHOTOS
+══════════════════════════════════════════ */
+.s-photos {
+    padding: 60px 16px 72px;
+    background: linear-gradient(to bottom, #fff8fb, #fff0f5);
+}
+
+.section-heading {
+    text-align: center; margin-bottom: 36px;
+}
+.section-heading h2 {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    color: #c2185b; margin-bottom: 8px;
+}
+.section-heading p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem; letter-spacing: 3px;
+    color: rgba(194,24,91,0.4); text-transform: uppercase;
+}
+
+.photo-grid {
+    columns: 2; column-gap: 10px;
+    max-width: 680px; margin: 0 auto;
+}
+@media (min-width: 600px) { .photo-grid { columns: 3; } }
+
+.photo-cell {
+    break-inside: avoid; margin-bottom: 10px;
+    border-radius: 14px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(180,40,100,0.1);
+    opacity: 0; transform: translateY(24px) scale(0.97);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+    background: #f5e6ed;
+}
+.photo-cell.in-view { opacity: 1; transform: translateY(0) scale(1); }
+.photo-cell img {
+    width: 100%; display: block;
+    transition: transform 0.4s ease;
+}
+.photo-cell:hover img { transform: scale(1.04); }
+
+/* ══════════════════════════════════════════
+   SECTION 4 — LETTER
+══════════════════════════════════════════ */
+.s-letter {
+    padding: 60px 20px max(env(safe-area-inset-bottom,0px),80px);
+    background: linear-gradient(to bottom, #fff0f5, #fff8fb);
+}
+
+.letter-wrap {
+    max-width: 660px; margin: 0 auto;
+}
+
+.letter-envelope-icon {
+    text-align: center; font-size: 3rem; margin-bottom: 32px;
+    opacity: 0; transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(16px);
+}
+.letter-envelope-icon.in-view { opacity: 1; transform: translateY(0); }
+
+.letter-card {
+    background: linear-gradient(135deg, #fffbfc 0%, #fff5f8 60%, #fffbfc 100%);
+    border: 1px solid rgba(194,24,91,0.1);
+    border-radius: 24px;
+    padding: clamp(28px,7vw,52px) clamp(24px,6vw,48px);
+    box-shadow:
+        0 12px 50px rgba(180,40,100,0.1),
+        0 2px 12px rgba(180,40,100,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+    position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s;
+}
+.letter-card.in-view { opacity: 1; transform: translateY(0); }
+
+/* Subtle texture lines */
+.letter-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+        transparent,
+        transparent 31px,
+        rgba(194,24,91,0.04) 31px,
+        rgba(194,24,91,0.04) 32px
+    );
+    pointer-events: none;
+}
+
+.letter-deco {
+    text-align: center; color: rgba(194,24,91,0.22);
+    font-size: 0.9rem; letter-spacing: 10px; margin-bottom: 28px;
+    position: relative; z-index: 1;
+}
+
+.letter-text {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(0.88rem, 2.5vw, 1.05rem);
+    color: #7a2850; line-height: 2;
+    white-space: pre-wrap; word-break: break-word;
+    text-align: center; position: relative; z-index: 1;
+}
+
+.letter-photo-wrap {
+    margin-top: 36px; text-align: center;
+    position: relative; z-index: 1;
+}
+.letter-photo-wrap img {
+    max-width: min(88%, 380px); width: auto; height: auto;
+    max-height: 45vh; border-radius: 16px;
+    box-shadow: 0 10px 36px rgba(160,40,90,0.18);
+}
+.letter-photo-caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.1rem;
+    color: #c2185b; letter-spacing: 5px; margin-top: 14px;
+    text-shadow: 0 0 10px rgba(194,24,91,0.2);
+}
+
+.letter-closing {
+    text-align: center; margin-top: 36px;
+    color: rgba(194,24,91,0.25); font-size: 0.85rem;
+    letter-spacing: 10px; position: relative; z-index: 1;
+}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+.s-footer {
+    background: linear-gradient(160deg, #1a0528, #3a0b42 50%, #180620);
+    padding: 60px 24px max(env(safe-area-inset-bottom,0px),60px);
+    text-align: center;
+}
+.footer-icon {
+    font-size: 2.5rem; display: block; margin-bottom: 18px;
+    animation: iconFloat 3s ease-in-out infinite;
+}
+.footer-text {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(1rem, 3.5vw, 1.4rem);
+    color: rgba(253,164,207,0.8);
+    text-shadow: 0 0 30px rgba(253,164,207,0.3);
+    margin-bottom: 10px;
+}
+.footer-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 0.9rem;
+    color: rgba(255,215,235,0.45); letter-spacing: 1px;
+}
+
+/* ══════════════════════════════════════════
+   SCROLL ANIMATION
+══════════════════════════════════════════ */
+.fade-up {
+    opacity: 0; transform: translateY(26px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up.in-view { opacity: 1; transform: translateY(0); }
+
+/* ══════════════════════════════════════════
+   LOADING OVERLAY
+══════════════════════════════════════════ */
+#loadingOverlay {
+    position: fixed; inset: 0; z-index: 8000;
+    background: #1a0528;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    transition: opacity 0.8s ease;
+}
+#loadingOverlay.gone { opacity: 0; pointer-events: none; }
+.load-bloom { font-size: 3.5rem; animation: iconFloat 1.5s ease-in-out infinite; }
+.load-text {
+    font-family: 'Pacifico', cursive; font-size: 0.88rem;
+    color: rgba(253,164,207,0.65); letter-spacing: 3px; margin-top: 18px;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 370px) {
+    .pc-keypad { gap: 10px; }
+    .pc-btn { width: 60px; height: 60px; font-size: 22px; }
+}
+
+    </style>
+</head>
+<body>
+
+<!-- ── Loading overlay ──────────────────── -->
+<div id="loadingOverlay">
+    <span class="load-bloom">🌸</span>
+    <div class="load-text">Đang tải...</div>
+</div>
+
+<!-- ── Passcode ─────────────────────────── -->
+<div id="passcodeScreen">
+    <div class="pc-bears" id="pcBears">
+        <img src="/assets/images/characters/bearwait.png"   alt="" class="pc-bear left p0"  id="bearL">
+        <img src="/assets/images/characters/bearflower.png" alt="" class="pc-bear right p0" id="bearR">
+        <img src="/assets/images/icons/couple.png"          alt="" class="pc-couple"         id="coupleImg">
+    </div>
+    <div class="pc-hearts">
+        <span class="hfly">💕</span><span class="hfly">❤️</span>
+        <span class="hfly">💗</span><span class="hfly">💖</span>
+        <span class="hfly">💕</span><span class="hfly">❤️</span>
+        <span class="hfly">💗</span>
+    </div>
+    <div class="pc-title" id="pcTitle">Nhập mật khẩu</div>
+    <div class="pc-sub"   id="pcSub">Mở món quà đặc biệt</div>
+    <div class="pc-dots">
+        <div class="pc-dot"></div>
+        <div class="pc-dot"></div>
+        <div class="pc-dot"></div>
+        <div class="pc-dot"></div>
+    </div>
+    <div class="pc-keypad">
+        <button class="pc-btn" data-n="1">1</button>
+        <button class="pc-btn" data-n="2">2</button>
+        <button class="pc-btn" data-n="3">3</button>
+        <button class="pc-btn" data-n="4">4</button>
+        <button class="pc-btn" data-n="5">5</button>
+        <button class="pc-btn" data-n="6">6</button>
+        <button class="pc-btn" data-n="7">7</button>
+        <button class="pc-btn" data-n="8">8</button>
+        <button class="pc-btn" data-n="9">9</button>
+        <button class="pc-btn empty"></button>
+        <button class="pc-btn" data-n="0">0</button>
+        <button class="pc-btn empty"></button>
+    </div>
+    <button class="pc-cancel" id="pcCancel">Hủy</button>
+</div>
+
+<!-- ══════════════════════════════════════
+     MAIN PAGE (scrollable)
+══════════════════════════════════════ -->
+<div id="page">
+
+    <!-- SECTION 1: Hero / Cover -->
+    <section class="s-hero" id="sHero">
+        <div class="hero-glow"></div>
+        <div class="hero-glow2"></div>
+        <span class="hero-icon">🌸</span>
+        <h1 class="hero-title" id="heroTitle">Chào em ♡</h1>
+        <div class="hero-divider">✦ ✦ ✦</div>
+        <p class="hero-sub" id="heroSub">Có một món quà nhỏ<br>dành riêng cho em...</p>
+        <div class="scroll-down" onclick="document.getElementById('sWords')?.scrollIntoView({behavior:'smooth'}) || document.getElementById('sPhotos')?.scrollIntoView({behavior:'smooth'})">
+            <span style="font-size:0.62rem;letter-spacing:3px">cuộn xuống</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- SECTION 2: Words (if enabled) -->
+    <div id="sWords" style="display:none">
+        <div class="sec-divider">✦ ♡ ✦</div>
+        <section class="s-words">
+            <p class="words-label">♡ Gửi đến em ♡</p>
+            <div id="wordsContainer"></div>
+        </section>
+    </div>
+
+    <!-- SECTION 3: Photos (if enabled) -->
+    <div id="sPhotos" style="display:none">
+        <div class="sec-divider">✦ ♡ ✦</div>
+        <section class="s-photos">
+            <div class="section-heading fade-up">
+                <h2>Những khoảnh khắc ♡</h2>
+                <p>Cuộn để xem thêm</p>
+            </div>
+            <div class="photo-grid" id="photoGrid"></div>
+        </section>
+    </div>
+
+    <!-- SECTION 4: Letter (if enabled) -->
+    <div id="sLetter" style="display:none">
+        <div class="sec-divider">✦ ♡ ✦</div>
+        <section class="s-letter">
+            <div class="letter-wrap">
+                <div class="letter-envelope-icon">💌</div>
+                <div class="letter-card">
+                    <div class="letter-deco">✦ ♡ ✦</div>
+                    <div class="letter-text" id="letterText"></div>
+                    <div class="letter-photo-wrap" id="letterPhotoWrap" style="display:none">
+                        <img id="letterImg" src="" alt="">
+                        <div class="letter-photo-caption" id="letterCap">♥</div>
+                    </div>
+                    <div class="letter-closing">✦ ♡ ✦</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="s-footer">
+        <span class="footer-icon">💕</span>
+        <p class="footer-text" id="footerText">Yêu em ♡</p>
+        <p class="footer-sub">Món quà nhỏ từ trái tim</p>
+    </footer>
+
+</div><!-- #page -->
+
+<!-- ── Music ──────────────────────────────── -->
+<audio id="bgAudio" loop preload="auto"></audio>
+
+<!-- ── Scripts ──────────────────────────── -->
+
+<script>
+    /* DisableDevtool removed */
+</script>
+
+<script src="/vendor/lz-string.min.js"></script>
+<script>
+/* ── TriKun gift config ── */
+window.DEFAULT_APP_CONFIG = {
+    appTitle: 'Món Quà Nhỏ', appIcon: '/assets/images/icons/couple.png',
+    passcode: '0308', passcodeTitle: 'Nhập mật khẩu', passcodeSubtitle: 'Mở món quà đặc biệt',
+    morphTexts: ['happy', "women's day", 'em iu'],
+    particleImage: '/assets/images/characters/bearflower.png', enablePasscode: false, sphereImages: ['/demo/photos/1.jpg','/demo/photos/2.jpg','/demo/photos/3.jpg','/demo/photos/4.jpg','/demo/photos/5.jpg','/demo/photos/6.jpg'],
+    letter: { text: "Happy Women's Day!\n\nEm iu, chúc em luôn xinh đẹp và hạnh phúc.", image: '/demo/photos/1.jpg', caption: 'Thương em rất nhiều ♥' },
+    bgMusic: '/audio/leduong.mp3', bgVolume: 0.6
+};
+(function () {
+    const p = new URLSearchParams(location.search);
+    const mapGift = (gift) => ({
+        appTitle: gift.tabTitle || 'Món quà nhỏ',
+        appIcon: '/assets/images/icons/couple.png',
+        enablePasscode: !!gift.passcodeEnabled,
+        enableMorphEffect: gift.particlesEnabled !== false,
+        enableSphere: gift.showSphere3D !== false,
+        enableLetter: gift.letterEnabled !== false,
+        enableWebsiteInfo: true,
+        passcode: gift.passcode || '0308',
+        passcodeTitle: 'Nhập mật khẩu yêu thương',
+        passcodeSubtitle: gift.passcodeHint || '',
+        morphTexts: [gift.recipientName || 'Người thương', gift.senderName || 'Người gửi'],
+        particleImage: '/assets/images/characters/bearflower.png',
+        sphereImages: (gift.images && gift.images.length ? gift.images : ['/demo/photos/1.jpg','/demo/photos/2.jpg','/demo/photos/3.jpg','/demo/photos/4.jpg','/demo/photos/5.jpg','/demo/photos/6.jpg']),
+        letter: { text: gift.letterContent || '', image: (gift.images && gift.images[0]) || '/demo/photos/1.jpg', caption: gift.senderName || '' },
+        bgMusic: gift.musicUrl || '/audio/trikun-theme.wav',
+        bgVolume: 0.55
+    });
+    if (p.has('data')) {
+        try {
+            const json = LZString.decompressFromEncodedURIComponent(p.get('data'));
+            if (!json) throw new Error('Dữ liệu quà không hợp lệ');
+            window.APP_CONFIG = mapGift(JSON.parse(json));
+            window.APP_CONFIG_PROMISE = Promise.resolve(window.APP_CONFIG);
+        } catch (error) { window.APP_CONFIG_PROMISE = Promise.reject(error); }
+        return;
+    }
+    if (p.has('id')) {
+        window.APP_CONFIG_PROMISE = fetch('/api/gifts?id=' + encodeURIComponent(p.get('id')) + '&view=1')
+          .then(r => { if (!r.ok) throw new Error('Không tìm thấy quà'); return r.json(); })
+          .then(result => { window.APP_CONFIG = mapGift(result.data); return window.APP_CONFIG; });
+        return;
+    }
+    if (p.get('preview') === '1') {
+        try { var s = localStorage.getItem('WOMENDAY_CONFIG'); if (s) { window.APP_CONFIG = JSON.parse(s); window.APP_CONFIG_PROMISE = Promise.resolve(window.APP_CONFIG); return; } } catch(e) {}
+    }
+    if (!window.APP_CONFIG) window.APP_CONFIG = window.DEFAULT_APP_CONFIG;
+    if (!window.APP_CONFIG_PROMISE) window.APP_CONFIG_PROMISE = Promise.resolve(window.APP_CONFIG);
+})();
+</script>
+
+<script>
+(async function () {
+
+/* ── Config ──────────────────────────────── */
+let cfg;
+try { cfg = await (window.APP_CONFIG_PROMISE || Promise.resolve(window.APP_CONFIG || window.DEFAULT_APP_CONFIG || {})); }
+catch (e) { return; }
+
+const enablePasscode = cfg.enablePasscode !== false;
+const enableMorph    = cfg.enableMorphEffect !== false;
+const enableSphere   = cfg.enableSphere !== false;
+const enableLetter   = cfg.enableLetter !== false;
+const enableWebInfo  = cfg.enableWebsiteInfo !== false;
+const WORDS          = (cfg.morphTexts   && cfg.morphTexts.length)   ? cfg.morphTexts   : ['happy', "women's day", 'em iu'];
+const PHOTOS         = (cfg.sphereImages && cfg.sphereImages.length) ? cfg.sphereImages : [];
+const LETTER_TEXT    = (cfg.letter && cfg.letter.text)  ? cfg.letter.text  : '';
+const LETTER_IMG     = (cfg.letter && cfg.letter.image && String(cfg.letter.image).trim()) ? cfg.letter.image : '';
+const LETTER_CAP     = (cfg.letter && cfg.letter.caption != null) ? String(cfg.letter.caption) : '♥';
+
+/* ── Meta ──────────────────────────────── */
+if (enableWebInfo && cfg.appTitle) {
+    document.title = cfg.appTitle;
+    const m = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+    if (m) m.content = cfg.appTitle;
+}
+if (enableWebInfo && cfg.appIcon) {
+    ['linkFavicon','linkAppIcon'].forEach(id => { const el = document.getElementById(id); if (el) el.href = cfg.appIcon; });
+}
+if (cfg.passcodeTitle)    document.getElementById('pcTitle').textContent = cfg.passcodeTitle;
+if (cfg.passcodeSubtitle) document.getElementById('pcSub').textContent   = cfg.passcodeSubtitle;
+
+/* ── Music ──────────────────────────────── */
+const audio = document.getElementById('bgAudio');
+audio.src = (cfg.bgMusic && !cfg.bgMusic.includes('trikun-theme.wav')) ? cfg.bgMusic : '/audio/leduong.mp3';
+audio.volume = typeof cfg.bgVolume === 'number' ? cfg.bgVolume : 0.6;
+function startMusic() {
+    audio.currentTime = 0;
+    audio.play().catch(() => {
+        document.addEventListener('pointerdown', function r() {
+            audio.play().catch(() => {});
+            document.removeEventListener('pointerdown', r);
+        }, { once: true });
+    });
+}
+
+/* ── Build page content ─────────────────── */
+function buildPage() {
+    // Hero
+    const appTitle = (enableWebInfo && cfg.appTitle && cfg.appTitle !== 'Món Quà Nhỏ')
+        ? cfg.appTitle : 'Chào em ♡';
+    document.getElementById('heroTitle').textContent = appTitle;
+    document.getElementById('footerText').textContent = appTitle !== 'Chào em ♡' ? appTitle + ' ♡' : 'Yêu em mãi ♡';
+
+    // Hero floating petals
+    const hero = document.getElementById('sHero');
+    const PETALS = ['🌸','🌺','🌹','✿','❀','💮'];
+    for (let i = 0; i < 14; i++) {
+        const p = document.createElement('span');
+        p.className = 'hero-petal';
+        p.textContent = PETALS[i % PETALS.length];
+        const dur = 10 + Math.random() * 14;
+        p.style.cssText = `left:${Math.random()*100}%;bottom:-30px;font-size:${0.7+Math.random()*0.8}rem;
+            animation-duration:${dur}s;animation-delay:-${Math.random()*dur}s`;
+        hero.appendChild(p);
+    }
+
+    // Words section
+    if (enableMorph && WORDS.length) {
+        document.getElementById('sWords').style.display = '';
+        const cont = document.getElementById('wordsContainer');
+        WORDS.forEach((w, i) => {
+            const div = document.createElement('div');
+            div.className = 'word-item';
+            div.style.transitionDelay = `${i * 0.1}s`;
+            div.innerHTML = `<div class="word-text">${escHtml(w)}</div>`;
+            cont.appendChild(div);
+            if (i < WORDS.length - 1) {
+                const sep = document.createElement('div');
+                sep.className = 'word-sep';
+                sep.textContent = '✦';
+                cont.appendChild(sep);
+            }
+        });
+    }
+
+    // Photos section
+    if (enableSphere && PHOTOS.length) {
+        document.getElementById('sPhotos').style.display = '';
+        const grid = document.getElementById('photoGrid');
+        PHOTOS.forEach((url, i) => {
+            const cell = document.createElement('div');
+            cell.className = 'photo-cell';
+            cell.style.transitionDelay = `${(i % 3) * 0.12}s`;
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = `Ảnh ${i + 1}`;
+            img.loading = i < 4 ? 'eager' : 'lazy';
+            cell.appendChild(img);
+            grid.appendChild(cell);
+        });
+    }
+
+    // Letter section
+    if (enableLetter) {
+        document.getElementById('sLetter').style.display = '';
+        document.getElementById('letterText').textContent = LETTER_TEXT;
+        if (LETTER_IMG) {
+            const wrap = document.getElementById('letterPhotoWrap');
+            document.getElementById('letterImg').src = LETTER_IMG;
+            document.getElementById('letterCap').textContent = LETTER_CAP || '♥';
+            if (!LETTER_CAP) document.getElementById('letterCap').style.display = 'none';
+            wrap.style.display = '';
+        }
+    }
+}
+
+/* ── Intersection Observer (scroll reveal) ─ */
+function initScrollReveal() {
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll(
+        '.word-item, .photo-cell, .fade-up, .letter-card, .letter-envelope-icon'
+    ).forEach(el => io.observe(el));
+}
+
+/* ── Show page ───────────────────────────── */
+function showPage() {
+    buildPage();
+    document.getElementById('page').classList.add('visible');
+    startMusic();
+    requestAnimationFrame(() => setTimeout(initScrollReveal, 200));
+}
+
+/* ── Loading ────────────────────────────── */
+const loadEl = document.getElementById('loadingOverlay');
+setTimeout(() => {
+    loadEl.classList.add('gone');
+    setTimeout(() => { loadEl.style.display = 'none'; }, 820);
+    if (!enablePasscode) {
+        showPage();
+    } else {
+        document.getElementById('passcodeScreen').classList.add('visible');
+    }
+}, 800);
+
+/* ── Passcode ───────────────────────────── */
+(function () {
+    if (!enablePasscode) return;
+    const PASSCODE = cfg.passcode || '0308';
+    let inp = '';
+    const dotEls  = document.querySelectorAll('.pc-dot');
+    const bearL   = document.getElementById('bearL');
+    const bearR   = document.getElementById('bearR');
+    const pcBears = document.getElementById('pcBears');
+    const psEl    = document.getElementById('passcodeScreen');
+
+    function refreshDots() {
+        dotEls.forEach((d, i) => { d.classList.toggle('filled', i < inp.length); d.classList.remove('error'); });
+    }
+    function refreshBears() {
+        const p = inp.length;
+        bearL.className = `pc-bear left p${p}`;
+        bearR.className = `pc-bear right p${p}`;
+    }
+    function doError() {
+        dotEls.forEach(d => d.classList.add('error'));
+        setTimeout(() => { inp = ''; dotEls.forEach(d => d.classList.remove('filled','error')); bearL.className='pc-bear left p0'; bearR.className='pc-bear right p0'; }, 600);
+    }
+    function doSuccess() {
+        pcBears.classList.add('show-couple');
+        startMusic();
+        setTimeout(() => {
+            psEl.classList.add('hiding');
+            setTimeout(() => { psEl.classList.remove('visible','hiding'); pcBears.classList.remove('show-couple'); showPage(); }, 500);
+        }, 2200);
+    }
+
+    document.querySelectorAll('.pc-btn[data-n]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (inp.length >= 4) return;
+            inp += btn.dataset.n; refreshDots(); refreshBears();
+            if (inp.length === 4) { if (inp === PASSCODE) doSuccess(); else doError(); }
+        });
+    });
+    document.getElementById('pcCancel').addEventListener('click', () => { inp = ''; refreshDots(); refreshBears(); });
+    psEl.addEventListener('touchmove', e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
+})();
+
+/* ── Helpers ──────────────────────────────── */
+function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+})();
+</script>
+</body>
+</html>

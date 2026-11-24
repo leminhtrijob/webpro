@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Trái tim TriKun">
+  <defs><radialGradient id="sky"><stop stop-color="#592750"/><stop offset="1" stop-color="#130b20"/></radialGradient><radialGradient id="glow"><stop stop-color="#ff88c3" stop-opacity=".8"/><stop offset="1" stop-color="#ff88c3" stop-opacity="0"/></radialGradient></defs>
+  <rect width="800" height="500" fill="url(#sky)"/><circle cx="400" cy="245" r="200" fill="url(#glow)"/>
+  <path d="M400 391C214 263 240 146 322 134c38-5 64 17 78 44 14-27 40-49 78-44 82 12 108 129-78 257Z" fill="#f85698" opacity=".95"/>
+  <path d="M400 359C253 252 276 162 338 155c29-4 52 14 62 37 10-23 33-41 62-37 62 7 85 97-62 204Z" fill="#ff99c6" opacity=".28"/>
+  <g fill="#ffd0e5"><circle cx="113" cy="96" r="3"/><circle cx="689" cy="98" r="2"/><circle cx="153" cy="373" r="2"/><circle cx="643" cy="391" r="3"/><circle cx="573" cy="62" r="2"/><circle cx="289" cy="66" r="2"/></g>
+  <text x="400" y="459" text-anchor="middle" font-family="system-ui,sans-serif" font-size="26" font-weight="700" fill="#fff">TriKun Love Studio</text>
+</svg>

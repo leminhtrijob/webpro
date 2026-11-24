@@ -1,26 +1,305 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FFFBFC;
+  --foreground: #2D1F24;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #FFF2F7;
+  background-image: url('/images/bg-pastel-sakura.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  color: #2D1424;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  overflow-x: clip;
 }
+
+/* Cùng ngôn ngữ pha lê hồng tím với khu vực Công nghệ hiện đại. */
+.tk-home-panel {
+  position: relative;
+  background: linear-gradient(140deg, rgba(255,255,255,.94), rgba(255,241,250,.82) 55%, rgba(247,235,255,.82));
+  border: 1.5px solid rgba(255,178,222,.85);
+  box-shadow: 0 14px 34px rgba(194,75,155,.13), inset 0 2px 2px rgba(255,255,255,.96);
+  backdrop-filter: blur(16px) saturate(135%);
+}
+
+.tk-home-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 12% auto;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.98), transparent);
+  pointer-events: none;
+}
+
+.tk-home-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 800;
+  line-height: 1.17;
+  color: #63208f;
+  text-shadow: 0 2px 0 #fff, 0 5px 10px rgba(122,54,177,.25);
+}
+
+.tk-home-kicker {
+  border: 1px solid rgba(255,151,218,.88);
+  background: linear-gradient(100deg, rgba(238,195,255,.9), rgba(255,238,250,.94), rgba(255,175,224,.9));
+  box-shadow: 0 5px 18px rgba(173,85,220,.16), inset 0 1px 2px #fff;
+  color: #481765;
+}
+
+.tk-home-card {
+  border-color: rgba(255,170,222,.9);
+  background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(255,245,252,.93) 58%, rgba(247,237,255,.93));
+  box-shadow: 0 10px 26px rgba(169,75,154,.12), inset 0 2px 2px #fff;
+}
+
+.tk-home-card:hover {
+  border-color: #ff67b1;
+  box-shadow: 0 16px 34px rgba(255,38,139,.2), 0 0 0 3px rgba(255,255,255,.7), inset 0 2px 2px #fff;
+}
+
+.tk-home-focus:focus-visible {
+  outline: 3px solid #853bff;
+  outline-offset: 3px;
+}
+
+/* Viền LED giữ màu ở trạng thái nghỉ, chỉ chạy khi người dùng tương tác. */
+.tk-luxury-tech-section .tk-led-ring-mask > div,
+.tk-luxury-tech-section .tk-led-glow-mask > div {
+  animation-play-state: paused !important;
+}
+
+@media (hover: hover) {
+  .tk-luxury-tech-section .group:hover .tk-led-ring-mask > div,
+  .tk-luxury-tech-section .group:hover .tk-led-glow-mask > div {
+    animation-play-state: running !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .animate-sakura { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tk-home-card,
+  .tk-home-card * {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Các font chữ nghệ thuật, thư pháp & viết tay dễ thương */
+.font-calligraphy {
+  font-family: 'Dancing Script', cursive, sans-serif;
+}
+
+.font-handwriting {
+  font-family: 'Caveat', cursive, sans-serif;
+}
+
+.font-cute {
+  font-family: 'Playpen Sans', cursive, sans-serif;
+}
+
+/* Ngôi sao nhấp nháy chậm lung linh */
+@keyframes twinkleSlow {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.85) rotate(0deg);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.15) rotate(45deg);
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.95));
+  }
+}
+
+.animate-twinkle {
+  animation: twinkleSlow 4.5s ease-in-out infinite;
+}
+
+/* Cánh hoa anh đào & tim nhỏ bay nhẹ nhàng */
+@keyframes sakuraFloatSlow {
+  0% {
+    transform: translate3d(0, -20px, 0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.75;
+  }
+  85% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(50px, 105vh, 0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-sakura {
+  animation: sakuraFloatSlow 14s linear infinite;
+}
+
+/* Tôn trọng người dùng không thích chuyển động mạnh */
+@media (prefers-reduced-motion: reduce) {
+  .animate-twinkle,
+  .animate-sakura,
+  .animate-marquee,
+  .animate-marquee-reverse,
+  .tk-float,
+  .tk-heart {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Hiệu ứng LED Marquee chạy chữ vô tận */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-reverse {
+  animation: marqueeReverse 28s linear infinite;
+}
+
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
+/* Hiệu ứng vệt sao lấp lánh theo chuột */
+@keyframes sparkleAnim {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.2) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -80%) scale(0.3) rotate(90deg);
+  }
+}
+
+.animate-sparkle {
+  animation: sparkleAnim 0.75s ease-out forwards;
+}
+
+/* Viền LED chuyển sắc 360 độ */
+@keyframes borderRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-border-rotate {
+  animation: borderRotate 4s linear infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 79, 134, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 79, 134, 0.7);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2.5s infinite;
+}
+
+/* Hide scrollbar for category pills on mobile */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ========================================================================= */
+/* HIỆU ỨNG CUỘN TRANG BI-DIRECTIONAL SCROLL REVEAL (BAY NHẢY RA VÀO MƯỢT MÀ)   */
+/* ========================================================================= */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(36px) scale(0.97);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.reveal-from-left {
+  opacity: 0;
+  transform: translateX(-45px) scale(0.97);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-from-left.is-revealed {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.reveal-from-right {
+  opacity: 0;
+  transform: translateX(45px) scale(0.97);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-from-right.is-revealed {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-scale.is-revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Các cấp độ delay để hiệu ứng bay so le nhau (Staggered Animation) */
+.reveal-delay-1 { transition-delay: 80ms; }
+.reveal-delay-2 { transition-delay: 160ms; }
+.reveal-delay-3 { transition-delay: 240ms; }
+.reveal-delay-4 { transition-delay: 320ms; }
+.reveal-delay-5 { transition-delay: 400ms; }

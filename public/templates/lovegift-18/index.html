@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <base href="/templates/lovegift-18/">
+  <script src="/vendor/trikun-bridge.js"></script>
+    <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=92cb5929-9ab3-4466-92aa-fbee6742bd07
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- SEO Meta Tags -->
+    <title>Thiệp Tình Yêu Online</title>
+    <meta name="description" content="Tạo thiệp tình yêu online miễn phí với hiệu ứng độc đáo. Gửi lời yêu thương đến người thân yêu một cách lãng mạn và đặc biệt nhất.">
+    <meta name="keywords" content="thiệp tình yêu, tạo thiệp, thiệp online, thiệp lãng mạn, tỏ tình, love card">
+    <meta name="author" content="LoveGift">
+    <meta name="robots" content="index, follow">
+
+    <!-- Sitemap -->
+    
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="Thiệp Tình Yêu Online - Tạo Thiệp Độc Đáo">
+    <meta property="og:description" content="Tạo thiệp tình yêu online miễn phí với hiệu ứng độc đáo. Gửi lời yêu thương đến người thân yêu một cách lãng mạn nhất.">
+    <meta property="og:image" content="/templates/lovegift-18/assets/749cd5bc7eadbb6b.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Thiệp Tình Yêu Online">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Thiệp Tình Yêu Online - Tạo Thiệp Độc Đáo">
+    <meta name="twitter:description" content="Tạo thiệp tình yêu online miễn phí với hiệu ứng độc đáo. Gửi lời yêu thương đến người thân yêu một cách lãng mạn nhất.">
+    <meta name="twitter:image" content="/templates/lovegift-18/assets/749cd5bc7eadbb6b.png">
+    <meta name="twitter:image:alt" content="Thiệp Tình Yêu Online">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#FFB6C1">
+    <meta name="msapplication-navbutton-color" content="#FFB6C1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FFB6C1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/templates/lovegift-18/assets/749cd5bc7eadbb6b.png" type="image/png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="/templates/lovegift-18/assets/4fc4900e5896d741.bin" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Pako library for decompression -->
+    <script src="/templates/lovegift-18/assets/320aedbd61fe225f.js"></script>
+</head>
+<body>
+    <!-- Screen 1: Heart Lock -->
+    <div id="lock-screen" class="screen active">
+        <div class="heart-lock-container">
+            <img src="heart.png" alt="Heart Lock" class="heart-lock-image">
+            <div class="lock-overlay">
+                <p id="preview-notice" class="preview-notice" style="display: none;">Đang xem ở chế độ demo - Mã mở khóa: 1402</p>
+                <p class="lock-title">Ngày Chúng Mình Bên Nhau</p>
+                <div class="number-inputs">
+                    <div class="number-box">
+                        <button class="arrow up" data-index="0">▲</button>
+                        <input type="text" class="digit" value="0" readonly data-index="0">
+                        <button class="arrow down" data-index="0">▼</button>
+                    </div>
+                    <div class="number-box">
+                        <button class="arrow up" data-index="1">▲</button>
+                        <input type="text" class="digit" value="0" readonly data-index="1">
+                        <button class="arrow down" data-index="1">▼</button>
+                    </div>
+                    <div class="number-box">
+                        <button class="arrow up" data-index="2">▲</button>
+                        <input type="text" class="digit" value="0" readonly data-index="2">
+                        <button class="arrow down" data-index="2">▼</button>
+                    </div>
+                    <div class="number-box">
+                        <button class="arrow up" data-index="3">▲</button>
+                        <input type="text" class="digit" value="0" readonly data-index="3">
+                        <button class="arrow down" data-index="3">▼</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 2: Valentine Card with Scratch -->
+    <div id="card-screen" class="screen">
+        <div class="valentine-card">
+            <div class="card-border">
+                <div class="card-content">
+                    <div class="card-left">
+                        <h1 class="card-title">CHÚC MỪNG 2 NĂM<br>BÊN NHAU</h1>
+                        <p class="card-message">
+                            Ba năm bên em là khoảng thời gian tuyệt vời nhất
+                            cuộc đời anh. Mỗi khoảnh khắc, mỗi nụ cười, mỗi
+                            cái nắm tay đều khiến anh thêm yêu em hơn.
+                            Em là nguồn sáng, là nơi bình yên của anh.
+                            Cảm ơn em đã đến bên anh và cho anh một tình yêu
+                            trọn vẹn đến như vậy.
+                        </p>
+                        <p class="scratch-instruction">Cào để xem những điều bí mật nhé.<br><em>Yêu Em Mãi!</em></p>
+                    </div>
+                    <div class="card-right">
+                        <div class="scratch-container">
+                            <canvas id="scratch-canvas"></canvas>
+                            <div class="photo-gallery">
+                                <img src="1.jpeg" alt="Kỷ niệm của chúng mình">
+                                <img src="2.jpeg" alt="Kỷ niệm của chúng mình">
+                                <img src="3.jpeg" alt="Kỷ niệm của chúng mình">
+                                <img src="4.jpeg" alt="Kỷ niệm của chúng mình">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Zoom Modal -->
+    <div id="image-modal" class="image-modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+
+    <!-- Social Share Buttons -->
+    <div class="social-share-container">
+        <a href="https://lovegift.online/" target="_blank" class="create-link">
+            Tạo ngay
+        </a>
+    </div>
+
+    <!-- Floating Hearts -->
+    <div class="floating-hearts-container">
+        <span class="heart" style="left: 10%;"></span>
+        <span class="heart" style="left: 20%;"></span>
+        <span class="heart" style="left: 30%;"></span>
+        <span class="heart" style="left: 40%;"></span>
+        <span class="heart" style="left: 50%;"></span>
+        <span class="heart" style="left: 60%;"></span>
+        <span class="heart" style="left: 70%;"></span>
+        <span class="heart" style="left: 80%;"></span>
+        <span class="heart" style="left: 15%;"></span>
+        <span class="heart" style="left: 25%;"></span>
+        <span class="heart" style="left: 35%;"></span>
+        <span class="heart" style="left: 45%;"></span>
+        <span class="heart" style="left: 55%;"></span>
+        <span class="heart" style="left: 65%;"></span>
+        <span class="heart" style="left: 75%;"></span>
+        <span class="heart" style="left: 85%;"></span>
+        <span class="heart" style="left: 5%;"></span>
+        <span class="heart" style="left: 90%;"></span>
+        <span class="heart" style="left: 95%;"></span>
+        <span class="heart" style="left: 12%;"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

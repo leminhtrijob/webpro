@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    <url>
+        <loc>https://yourdomain.com/</loc>
+        <lastmod>2026-01-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://cdn.shopify.com/s/files/1/0757/9700/4572/files/tim.png?v=1767367148</image:loc>
+            <image:title>Thiệp Tình Yêu Online</image:title>
+        </image:image>
+    </url>
+</urlset>

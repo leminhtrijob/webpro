@@ -1,0 +1,9 @@
+import { UserController } from '@/controllers/UserController';
+
+export async function GET(request: Request) {
+  return UserController.getProfile(request);
+}
+
+export async function PATCH(request: Request) {
+  return UserController.updateProfile(request);
+}
