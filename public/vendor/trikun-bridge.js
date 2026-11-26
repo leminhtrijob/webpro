@@ -18,6 +18,7 @@
   var initialParams = new URLSearchParams(window.location.search);
   var initialGiftId = initialParams.get('id') || '';
   var initialDataParam = initialParams.get('data') || '';
+  var initialTplSlug = (initialParams.get('tpl') || '').toLowerCase();
   var initialPathname = window.location.pathname || '';
 
   var DEMO_PHOTOS = [
@@ -38,6 +39,13 @@
     'Thương em nhất trên đời 💕'
   ];
 
+  var THEME_COLORS = ['#ff4f86', '#ff2a85', '#a855f7', '#ec4899', '#f43f5e', '#fb7185', '#e879f9', '#38bdf8'];
+  var tplHash = 0;
+  for (var ti = 0; ti < initialTplSlug.length; ti++) {
+    tplHash = (tplHash * 31 + initialTplSlug.charCodeAt(ti)) >>> 0;
+  }
+  var defaultColor = initialTplSlug ? THEME_COLORS[tplHash % THEME_COLORS.length] : '#ff4f86';
+
   var DEFAULT_GIFT = {
     recipientName: 'Bé Yêu ♡',
     senderName: 'Người Thương Của Em',
@@ -51,8 +59,41 @@
     passcodeEnabled: false,
     passcode: '',
     passcodeHint: '',
-    particleColor: '#ff4f86'
+    particleColor: defaultColor
   };
+
+  if (initialTplSlug.includes('20-11') || initialTplSlug.includes('nha-giao') || initialTplSlug.includes('thay-co')) {
+    DEFAULT_GIFT.recipientName = 'Thầy Cô Kính Yêu 💐';
+    DEFAULT_GIFT.senderName = 'Học Trò Của Thầy Cô';
+    DEFAULT_GIFT.letterTitle = 'Tri Ân Ngày Nhà Giáo Việt Nam 20/11 💐';
+    DEFAULT_GIFT.letterContent = 'Nhân ngày Nhà giáo Việt Nam 20/11, chúng em xin gửi tới Thầy Cô lời tri ân sâu sắc và chân thành nhất. Chúc Thầy Cô luôn dồi dào sức khỏe, hạnh phúc và mãi giữ ngọn lửa nhiệt huyết trên hành trình gieo chữ!';
+    DEFAULT_GIFT.messages = ['Chúc mừng 20/11 💐', 'Tri ân Thầy Cô kính yêu ✨', 'Người lái đò thầm lặng 🌸', 'Chúc Thầy Cô luôn mạnh khỏe 💖', 'Ngập tràn niềm vui & hạnh phúc 🌷'];
+  } else if (initialTplSlug.includes('sinh-nhat') || initialTplSlug.includes('birthday')) {
+    DEFAULT_GIFT.recipientName = 'Bé Yêu Sinh Nhật Vui Vẻ 🎂';
+    DEFAULT_GIFT.letterTitle = 'Happy Birthday — Chúc Mừng Sinh Nhật Ngọt Ngào 🎉';
+    DEFAULT_GIFT.letterContent = 'Chúc mừng sinh nhật người đặc biệt nhất! Chúc em tuổi mới luôn rạng rỡ như ánh nắng ban mai, mọi ước nguyện đều trở thành hiện thực và luôn ngập tràn tiếng cười bên anh nhé! 🎂💖';
+    DEFAULT_GIFT.messages = ['Happy Birthday 🎂', 'Tuổi mới thật rực rỡ ✨', 'Luôn xinh đẹp & hạnh phúc 💖', 'Mọi điều ước đều thành sự thật 🎉', 'Yêu em nhiều lắm 💕'];
+  } else if (initialTplSlug.includes('trung-thu')) {
+    DEFAULT_GIFT.recipientName = 'Đêm Trăng Đoàn Viên 🌕';
+    DEFAULT_GIFT.letterTitle = 'Trung Thu Ấm Áp & Trọn Vẹn Yêu Thương 🏮';
+    DEFAULT_GIFT.letterContent = 'Chúc em một mùa Trung Thu thật ấm áp, bình an và ngập tràn niềm vui. Dưới ánh trăng rằm sáng tỏ, mong mọi điều tốt đẹp và ngọt ngào nhất sẽ luôn đến bên em! 🌕🏮';
+    DEFAULT_GIFT.messages = ['Trung Thu Vui Vẻ 🌕', 'Đêm trăng rằm ấm áp 🏮', 'Trọn vẹn yêu thương ✨', 'Bình an & Hạnh phúc 💖'];
+  } else if (initialTplSlug.includes('noel') || initialTplSlug.includes('giang-sinh') || initialTplSlug.includes('christmas') || initialTplSlug.includes('merry')) {
+    DEFAULT_GIFT.recipientName = 'Giáng Sinh An Lành 🎄';
+    DEFAULT_GIFT.letterTitle = 'Merry Christmas — Mùa Đông Ấm Áp Bên Nhau ❄️';
+    DEFAULT_GIFT.letterContent = 'Giáng Sinh lại về, chúc người anh thương một mùa lễ hội thật ấm áp, an lành và tràn ngập phép màu. Cảm ơn em đã làm mùa đông của anh trở nên thật ngọt ngào! 🎄❄️';
+    DEFAULT_GIFT.messages = ['Merry Christmas 🎄', 'Giáng Sinh An Lành ❄️', 'Mùa đông ấm áp bên nhau ♡', 'Ngập tràn phép màu & yêu thương ✨'];
+  } else if (initialTplSlug.includes('nam-moi') || initialTplSlug.includes('tet') || initialTplSlug.includes('firework') || initialTplSlug.includes('countdown')) {
+    DEFAULT_GIFT.recipientName = 'Năm Mới Rực Rỡ 🎆';
+    DEFAULT_GIFT.letterTitle = 'Happy New Year — Khởi Đầu Bình An & Hạnh Phúc ✨';
+    DEFAULT_GIFT.letterContent = 'Chúc mừng năm mới! Mong rằng365 ngày sắp tới của chúng mình sẽ luôn ngập tràn tiếng cười, may mắn, bình an và thật nhiều kỷ niệm tuyệt đẹp bên nhau! 🎆💖';
+    DEFAULT_GIFT.messages = ['Happy New Year 🎆', 'Vạn sự như ý ✨', 'Năm mới bình an & hạnh phúc 💖', 'Mãi bên nhau nhé 💕'];
+  } else if (initialTplSlug.includes('20-10') || initialTplSlug.includes('8-3') || initialTplSlug.includes('women') || initialTplSlug.includes('phu-nu') || initialTplSlug.includes('bo-hoa')) {
+    DEFAULT_GIFT.recipientName = 'Bông Hoa Xinh Đẹp Nhất 🌷';
+    DEFAULT_GIFT.letterTitle = 'Gửi Ngàn Hoa Tươi Thắm Tặng Người Anh Thương 💐';
+    DEFAULT_GIFT.letterContent = 'Gửi tặng em bó hoa tươi thắm nhất cùng trọn vẹn tình yêu của anh. Chúc bông hoa xinh đẹp của anh mỗi ngày đều rạng rỡ, kiêu sa và luôn được yêu thương chiều chuộng! 🌷💐';
+    DEFAULT_GIFT.messages = ['Luôn xinh đẹp & rạng rỡ 🌷', 'Bông hoa đẹp nhất đời anh 💐', 'Ngập tràn yêu thương 💖', 'Hạnh phúc mỗi ngày ♡'];
+  }
 
   var currentGift = JSON.parse(JSON.stringify(DEFAULT_GIFT));
   var giftResolvePromise = null;
@@ -109,8 +150,9 @@
             !u.includes('trikun-heart.svg')
           );
         })
-      : [];
-    var imgs = validImgs.length > 0 ? validImgs : DEMO_PHOTOS.slice();
+      : null;
+    // Tôn trọng mảng ảnh do người dùng đã thao tác (dù xóa còn 0 ảnh hay 1 ảnh), không tự ép lại DEMO_PHOTOS
+    var imgs = validImgs !== null ? validImgs : DEMO_PHOTOS.slice();
 
     var rawMusic = raw.musicUrl || raw.bgMusic || raw.music || '';
     if (!rawMusic || rawMusic.includes('trikun-theme.wav')) {
@@ -140,6 +182,9 @@
       passcodeEnabled: !!raw.passcodeEnabled,
       passcode: raw.passcode || '',
       passcodeHint: raw.passcodeHint || '',
+      keypadPinEnabled: raw.keypadPinEnabled !== false,
+      keypadPin: raw.keypadPin || raw.passcode || '1402',
+      keypadPinHint: raw.keypadPinHint || raw.passcodeHint || '',
       particleColor: raw.particleColor || DEFAULT_GIFT.particleColor
     };
   }
@@ -258,9 +303,19 @@
         images: g.images,
         photos: g.images,
         music: g.musicUrl,
-        color: g.particleColor || '#ff4f86'
+        color: g.particleColor || '#ff4f86',
+        pinCode: g.keypadPin || '1402',
+        pin: g.keypadPin || '1402',
+        keypadPin: g.keypadPin || '1402',
+        keypadPinEnabled: g.keypadPinEnabled !== false,
+        keypadPinHint: g.keypadPinHint || ''
       }
     };
+    payloadData.pinCode = g.keypadPin || '1402';
+    payloadData.pin = g.keypadPin || '1402';
+    payloadData.keypadPin = g.keypadPin || '1402';
+    payloadData.keypadPinEnabled = g.keypadPinEnabled !== false;
+    payloadData.keypadPinHint = g.keypadPinHint || '';
     payloadData.config = Object.assign({}, payloadData);
 
     return {
@@ -283,7 +338,20 @@
         letterContent: g.letterContent,
         letterSignature: g.senderName,
         envelopeText: 'Gửi\n' + g.recipientName + '\n♡',
-        photos: g.images
+        photos: g.images,
+        music: g.musicUrl,
+        countdown: 3,
+        matrixText: 'HAPPYBIRTHDAY',
+        matrixColor1: g.particleColor || '#ff69b4',
+        matrixColor2: '#ff1493',
+        sequence: 'HAPPY|SPECIAL|DAY|' + (g.recipientName || 'BÉ YÊU').toUpperCase(),
+        sequenceColor: g.particleColor || '#ff69b4',
+        gift: '',
+        enableBook: false,
+        enableHeart: true,
+        isSave: true,
+        colorTheme: 'pink',
+        pages: []
       });
 
       window.LOVEGIFT_IMAGES = g.images.slice();
@@ -315,9 +383,12 @@
     var p = initialPathname;
     var activeId = initialGiftId || 'TRIKUN_DEMO';
 
-    if (/\/dlove-(?:1|2|5|6)\//.test(p)) {
-      curUrl.searchParams.set('preview', '1');
-      window.history.replaceState(null, '', curUrl.pathname + '?' + curUrl.searchParams.toString());
+    if (/\/dlove-(?:1|6)\//.test(p)) {
+      window.history.replaceState(null, '', curUrl.pathname + '?preview=1');
+    } else if (p.includes('/dlove-2/')) {
+      window.history.replaceState(null, '', curUrl.pathname);
+    } else if (p.includes('/dlove-5/')) {
+      window.history.replaceState(null, '', curUrl.pathname + '?demo=1');
     } else if (p.includes('/dlove-7/')) {
       window.history.replaceState(null, '', '/galaxy-viewer.html?demo=1');
     } else if (p.includes('/dlove-8/')) {
@@ -436,6 +507,27 @@
       '}',
       '.tk-music-btn.playing { animation: tkSpin 5s linear infinite; background: linear-gradient(135deg, #FF1E6A, #A838FF); color: #fff; }',
       '@keyframes tkSpin { 100% { transform: rotate(360deg); } }',
+      '.tk-heart-burst-btn {',
+      '  width: 40px; height: 40px; padding: 0; justify-content: center; border-radius: 50%;',
+      '  background: rgba(255, 255, 255, 0.92); border: 1.5px solid #FFB3D1; font-size: 18px;',
+      '  cursor: pointer; transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);',
+      '}',
+      '.tk-heart-burst-btn:hover { transform: scale(1.15) rotate(6deg); background: #FFF0F5; }',
+      '.tk-burst-heart {',
+      '  position: fixed; pointer-events: none; z-index: 999999; user-select: none;',
+      '  animation: tkFlyHeart 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;',
+      '}',
+      '@keyframes tkFlyHeart {',
+      '  0% { transform: translate3d(0, 0, 0) scale(0.6); opacity: 1; }',
+      '  100% { transform: translate3d(var(--tx), -280px, 0) scale(1.8) rotate(var(--rot)); opacity: 0; }',
+      '}',
+      '#tk-thank-you-btn {',
+      '  background: linear-gradient(90deg, #0068FF, #0084FF); color: #fff; padding: 8px 14px;',
+      '  border-radius: 999px; text-decoration: none; font-size: 11.5px; font-weight: 800;',
+      '  display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0, 104, 255, 0.28);',
+      '  transition: transform 0.2s, box-shadow 0.2s;',
+      '}',
+      '#tk-thank-you-btn:hover { transform: scale(1.04); box-shadow: 0 6px 16px rgba(0, 104, 255, 0.4); }',
       '#trikun-letter-modal {',
       '  position: fixed; inset: 0; z-index: 99995; display: none; align-items: center; justify-content: center;',
       '  padding: 18px; background: rgba(14, 5, 24, 0.72); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);',
@@ -515,6 +607,9 @@
         '  <span>💌</span>',
         '  <span id="tk-recipient-pill">Thư gửi Bé Yêu ♡</span>',
         '</button>',
+        '<button type="button" id="tk-heart-burst-btn" class="tk-crystal-btn tk-heart-burst-btn" title="Thả tim yêu thương ♡">',
+        '  <span>💖</span>',
+        '</button>',
         '<button type="button" id="tk-toggle-music-btn" class="tk-crystal-btn tk-music-btn" title="Bật / Tắt nhạc nền">',
         '  <span>🎵</span>',
         '</button>'
@@ -524,6 +619,35 @@
       document.getElementById('tk-open-letter-btn').addEventListener('click', function () {
         var modal = document.getElementById('trikun-letter-modal');
         if (modal) modal.classList.add('open');
+      });
+
+      document.getElementById('tk-heart-burst-btn').addEventListener('click', function (e) {
+        if (navigator.vibrate) {
+          try { navigator.vibrate(40); } catch (err) {}
+        }
+        var btnRect = e.currentTarget.getBoundingClientRect();
+        var originX = btnRect.left + btnRect.width / 2;
+        var originY = btnRect.top + btnRect.height / 2;
+        var hearts = ['💖', '💕', '❤️', '🌸', '✨', '💝', '🥰', '🌹'];
+        for (var h = 0; h < 10; h++) {
+          (function (idx) {
+            setTimeout(function () {
+              var el = document.createElement('div');
+              el.className = 'tk-burst-heart';
+              el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+              var tx = (Math.random() - 0.5) * 160;
+              var rot = (Math.random() - 0.5) * 60;
+              el.style.left = (originX - 14) + 'px';
+              el.style.top = (originY - 14) + 'px';
+              el.style.setProperty('--tx', tx + 'px');
+              el.style.setProperty('--rot', rot + 'deg');
+              document.body.appendChild(el);
+              setTimeout(function () {
+                if (el.parentNode) el.parentNode.removeChild(el);
+              }, 1450);
+            }, idx * 60);
+          })(h);
+        }
       });
 
       document.getElementById('tk-toggle-music-btn').addEventListener('click', function () {
@@ -542,8 +666,13 @@
         '  <div class="tk-modal-body" id="tk-letter-content"></div>',
         '  <div class="tk-modal-gallery" id="tk-letter-gallery"></div>',
         '  <div class="tk-modal-footer">',
-        '    <span>Người gửi tặng:</span>',
-        '    <span class="tk-modal-sender" id="tk-letter-sender">Trí Kun ♡</span>',
+        '    <div>',
+        '      <span>Người gửi: </span>',
+        '      <span class="tk-modal-sender" id="tk-letter-sender">Trí Kun ♡</span>',
+        '    </div>',
+        '    <a id="tk-thank-you-btn" href="#" target="_blank" title="Gửi lời cảm ơn qua Zalo">',
+        '      <span>💬 Cảm ơn qua Zalo</span>',
+        '    </a>',
         '  </div>',
         '</div>'
       ].join('');
@@ -680,6 +809,14 @@
       senderEl.textContent = gift.senderName + ' ♡';
     }
 
+    var thankBtn = document.getElementById('tk-thank-you-btn');
+    if (thankBtn) {
+      var thankMsg = encodeURIComponent(
+        'Em đã nhận được món quà của ' + (gift.senderName || 'anh') + ' rồi nè! Cảm ơn ' + (gift.senderName || 'anh') + ' nhiều lắm, món quà xinh xắn và ngọt ngào quá ♡\n' + window.location.href
+      );
+      thankBtn.href = 'https://zalo.me/share?url=' + encodeURIComponent(window.location.href) + '&text=' + thankMsg;
+    }
+
     var galleryEl = document.getElementById('tk-letter-gallery');
     if (galleryEl) {
       galleryEl.innerHTML = '';
@@ -715,6 +852,27 @@
       audioEl.src = gift.musicUrl;
       if (wasPlaying) audioEl.play().catch(function () {});
     }
+
+    // Đẩy dữ liệu thời gian thực sang AppData của lovegift-14 / template tương tác
+    try {
+      if (window.AppData) {
+        var ap = window.AppData.data || {};
+        ap.pinCode = gift.keypadPin || '1402';
+        ap.sender = gift.senderName;
+        ap.recipient = gift.recipientName;
+        ap.title = gift.letterTitle;
+        ap.popupMessage = [gift.letterContent];
+        ap.cardBody = [gift.letterContent];
+        if (Array.isArray(gift.images)) {
+          ap.images = gift.images;
+          ap.popupPhoto = gift.images[0] || '';
+        }
+        window.AppData.data = ap;
+        if (typeof window.applyAppDataToDOM === 'function') {
+          window.applyAppDataToDOM(ap);
+        }
+      }
+    } catch (e) {}
   }
 
   window.addEventListener('message', function (event) {

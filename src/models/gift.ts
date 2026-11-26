@@ -50,9 +50,14 @@ export interface GiftConfig {
   autoPlay: boolean;
 
   // 5. Màn hình mật khẩu
-  passcodeEnabled: boolean;
-  passcode: string;
-  passcodeHint: string;
+  passcodeEnabled: boolean; // Khóa toàn bộ link web khi truy cập
+  passcode: string; // Mật khẩu mở link web
+  passcodeHint: string; // Gợi ý mật khẩu link
+
+  // Mã PIN bàn phím số bên trong thiệp (dành cho các mẫu tương tác bàn phím 4 số như lovegift-14, secret-letter)
+  keypadPinEnabled?: boolean;
+  keypadPin?: string; // Mã PIN 4 số (vd: 1402, 2305, 0000)
+  keypadPinHint?: string; // Gợi ý mã PIN trong thiệp
 
   // 6. Tùy chỉnh nâng cao
   themeColor: string;

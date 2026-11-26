@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <base href="/templates/port-galaxyz/">
   <script src="/vendor/trikun-bridge.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -105,10 +106,10 @@
 
             init() {
                 // Đường dẫn nhạc cố định
-                this.audio = new Audio('./Ks.wav');
+                this.audio = new Audio('/demo/music/romantic.mp3');
                 this.audio.loop = true;
                 this.audio.volume = 0.7;
-                this.audio.preload = "auto";
+                this.audio.preload = "none";
 
                 this.audio.onplay = () => {
                     this.isPlaying = true;

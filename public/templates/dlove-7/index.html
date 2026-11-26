@@ -11,57 +11,7 @@
     <!-- Tự cứu màn hình trắng do cache cũ — giống index.html. Route động cũng nạp
          cùng bundle, nên máy cũ vào /:slug cũng có thể dính bundle hash đã bị xoá. -->
     <script>
-      (function () {
-        var KEY = 'dg-recovered';
-        function recover(reason) {
-          try {
-            if (sessionStorage.getItem(KEY)) return;
-            sessionStorage.setItem(KEY, reason);
-          } catch (e) {}
-          try {
-            if ('serviceWorker' in navigator)
-              navigator.serviceWorker.getRegistrations().then(function (rs) {
-                rs.forEach(function (r) { r.unregister(); });
-              });
-            if (window.caches && caches.keys)
-              caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); });
-          } catch (e) {}
-          var sep = location.search ? '&' : '?';
-          location.replace(location.pathname + location.search + sep + '_r=' + Date.now());
-        }
-        window.addEventListener('error', function (e) {
-          var t = e && e.target;
-          if (!t) return;
-          var url = t.src || t.href || '';
-          if ((t.tagName === 'SCRIPT' || t.tagName === 'LINK') && url.indexOf('/assets/') !== -1)
-            recover('asset');
-        }, true);
-        setTimeout(function () {
-          if (!window.__DG_BOOTED__) recover('blank');
-        }, 8000);
-        // Gỡ mọi service worker còn sót (site không dùng SW) + reload 1 lần nếu SW
-        // đang điều khiển trang — giống index.html.
-        try {
-          if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations) {
-            navigator.serviceWorker.getRegistrations().then(function (rs) {
-              if (!rs || !rs.length) return;
-              Promise.all(rs.map(function (r) { return r.unregister(); })).then(function () {
-                var done = function () {
-                  if (navigator.serviceWorker.controller && !sessionStorage.getItem('dg-sw-killed')) {
-                    try { sessionStorage.setItem('dg-sw-killed', '1'); } catch (e) {}
-                    location.reload();
-                  }
-                };
-                if (window.caches && caches.keys)
-                  caches.keys().then(function (ks) {
-                    return Promise.all(ks.map(function (k) { return caches.delete(k); }));
-                  }).then(done, done);
-                else done();
-              });
-            });
-          }
-        } catch (e) {}
-      })();
+      window.__DG_BOOTED__ = true;
     </script>
 
     <!-- Shell tối giản cho ROUTE ĐỘNG (/:slug, /dashboard, /admin, /galaxy...).

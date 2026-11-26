@@ -105,37 +105,45 @@ html { background: var(--tan-400); }
     position: fixed;
     top: 20px;
     right: 20px;
-    font-size: 20px;
-    background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(185, 28, 28, 0.3));
-    border: 2px solid rgba(220, 38, 38, 0.6);
-    border-radius: 50%;
-    width: 56px;
-    height: 56px;
-    display: flex;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.88), rgba(185, 28, 28, 0.95));
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    border-radius: 999px;
+    height: 42px;
+    padding: 0 16px 0 12px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     cursor: pointer;
     z-index: 9999;
-    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4), 0 0 20px rgba(220, 38, 38, 0.2);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 18px rgba(220, 38, 38, 0.5), 0 0 20px rgba(220, 38, 38, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: #fff;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding: 0;
+}
+
+#musicToggle .music-tooltip {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    font-family: var(--font-ui);
 }
 
 #musicToggle svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     fill: #fff;
     filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
 }
 
 #musicToggle:hover {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.4), rgba(220, 38, 38, 0.5));
-    border-color: rgba(239, 68, 68, 0.9);
-    box-shadow: 0 6px 25px rgba(239, 68, 68, 0.6), 0 0 30px rgba(239, 68, 68, 0.4);
-    transform: scale(1.1);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(220, 38, 38, 1));
+    border-color: #fff;
+    box-shadow: 0 6px 25px rgba(239, 68, 68, 0.7), 0 0 30px rgba(239, 68, 68, 0.5);
+    transform: scale(1.05);
 }
 
 #musicToggle:active {

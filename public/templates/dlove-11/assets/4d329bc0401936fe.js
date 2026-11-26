@@ -366,7 +366,7 @@ function resetWebsiteState() {
 
     // Apply music settings
     if (birthdayAudio && window.settings) {
-        birthdayAudio.src = window.settings.music;
+        if(window.settings.music)birthdayAudio.src=window.settings.music;
         if (typeof isPlaying !== 'undefined' && isPlaying) {
             birthdayAudio.play().catch(error => {
             });
@@ -375,7 +375,7 @@ function resetWebsiteState() {
 
     // Reset and restart matrix rain với màu mới
     if (window.settings && typeof matrixChars !== 'undefined') {
-        matrixChars = window.settings.matrixText.split('');
+        matrixChars = (window.settings.matrixText||'HAPPYBIRTHDAY').split('');
 
         if (typeof matrixInterval !== 'undefined' && matrixInterval) {
             clearInterval(matrixInterval);
@@ -443,7 +443,7 @@ function applyLoadedSettings() {
     // Apply music settings
     const birthdayAudio = document.getElementById('birthdayAudio');
     if (birthdayAudio) {
-        birthdayAudio.src = settings.music;
+        if(settings.music)birthdayAudio.src=settings.music;
     }
 
     // Apply gift image
@@ -453,7 +453,7 @@ function applyLoadedSettings() {
     }
 
     // Update matrix rain
-    matrixChars = settings.matrixText.split('');
+    matrixChars = (settings.matrixText||'HAPPYBIRTHDAY').split('');
 
     if (matrixInterval) {
         clearInterval(matrixInterval);

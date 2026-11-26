@@ -58,11 +58,13 @@ window.Phase3 = (function () {
         const paragraphs = popup.querySelectorAll('.popup-text p');
         const result = [];
         paragraphs.forEach((p) => {
-            const text = p.textContent;
+            const raw = (p.textContent || '').normalize('NFC');
             p.textContent = '';
             const chars = [];
-            // Array.from handles surrogate pairs (emoji ❤️) correctly.
-            Array.from(text).forEach((ch) => {
+            // Gom đúng cụm grapheme Unicode NFC tiếng Việt, tránh tách rời dấu thanh/dấu mũ thành span riêng
+            const segmenter = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter('vi', { granularity: 'grapheme' }) : null;
+            const segments = segmenter ? Array.from(segmenter.segment(raw), s => s.segment) : Array.from(raw);
+            segments.forEach((ch) => {
                 const span = document.createElement('span');
                 span.className = 'pt-char';
                 span.textContent = ch;
@@ -72,6 +74,17 @@ window.Phase3 = (function () {
             result.push({ p, chars });
         });
         preparedParas = result;
+    }
+
+    function fastForward() {
+        if (!preparedParas) return;
+        if (typeTimer) clearTimeout(typeTimer);
+        preparedParas.forEach((item) => {
+            item.chars.forEach((span) => span.classList.add('is-on'));
+            const c = item.p.querySelector('.pt-caret');
+            if (c) c.remove();
+        });
+        popup.classList.add('is-ready');
     }
 
     function showPopup() {
@@ -97,7 +110,12 @@ window.Phase3 = (function () {
             if (dismissed) return;
             const onAction = e.target.closest('.popup-close, .popup-heart');
             const onPopup  = e.target.closest('.popup');
-            if (onAction || !onPopup) tryDismiss();
+            if (onAction || !onPopup) {
+                tryDismiss();
+            } else {
+                // Nhấp vào thân thiệp/chữ để hiện ngay toàn bộ lời chúc mà không phải đợi gõ chậm
+                fastForward();
+            }
         };
         onKeydown = (e) => {
             if (e.key === 'Escape' || e.key === 'Esc') tryDismiss();
@@ -119,10 +137,10 @@ window.Phase3 = (function () {
 
         // Letter-reading pace — slow enough that long Vietnamese paragraphs
         // feel deliberate, fast enough not to overstay the welcome.
-        const CHAR_MS_DEFAULT = 55;     // baseline char tick (~18 cps)
-        const CHAR_MS_PUNCT   = 360;    // dwell on , . ; : ? !
-        const CHAR_MS_SPACE   = 30;     // spaces fly past quickly
-        const PARA_PAUSE_MS   = 850;    // breath between paragraphs
+        const CHAR_MS_DEFAULT = 24;     // tốc độ chữ mượt mà (~42 cps)
+        const CHAR_MS_PUNCT   = 120;    // dấu câu ngừng nhẹ
+        const CHAR_MS_SPACE   = 15;     // khoảng trắng
+        const PARA_PAUSE_MS   = 350;    // khoảng cách giữa các đoạn
 
         function attachCaret(p) {
             const caret = document.createElement('span');

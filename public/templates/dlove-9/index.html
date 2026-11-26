@@ -320,16 +320,9 @@
 
             const audio = document.getElementById('backgroundMusic');
 
-            if (raw.startsWith('http://') || raw.startsWith('https://')) {
-                // Test URL trước khi sử dụng
-                const isValid = await testAudioUrl(raw);
-                if (isValid) {
-                    audio.src = raw;
-                    console.log('Đã cập nhật audio source từ URL:', raw);
-                } else {
-                    console.log('URL audio không hợp lệ, sử dụng audio mặc định');
-                    audio.src = 'music/anhnangcuaanh.mp3';
-                }
+            if (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('/')) {
+                audio.src = raw;
+                console.log('Đã cập nhật audio source từ URL:', raw);
             } else if (raw.startsWith('musics/')) {
                 // V2 preset path — viewer chỉ có folder `music/` (số ít), strip prefix.
                 const filename = raw.slice('musics/'.length);

@@ -17,18 +17,26 @@ import {
   LayoutGrid
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import BottomNav from '@/components/layout/BottomNav';
 import ProductCard from '@/components/cards/ProductCard';
 import LedMarquee from '@/components/effects/LedMarquee';
-import ThreeStepsProcess from '@/components/home/ThreeStepsProcess';
-import LuxuryTechFeatures from '@/components/home/LuxuryTechFeatures';
-import FaqSection from '@/components/home/FaqSection';
-import HomeClosingCta from '@/components/home/HomeClosingCta';
 import { AVAILABLE_TEMPLATES } from '@/data/availableTemplates';
 import { CATALOG_TEMPLATES } from '@/data/catalogTemplates';
 import { TemplateItem } from '@/models/gift';
 import { getLocalTemplateEnginePath } from '@/lib/templateEngineMap';
+import {
+  DANH_MUC_TAT_CA,
+  locDanhSachMau,
+  tinhSoLuongDanhMucRealtime,
+  tinhSoLuongTheoGiaRealtime
+} from '@/controllers/TemplateController';
+
+// Dynamic load các khối bên dưới màn hình đầu & hiệu ứng nặng để giảm JS bundle khởi tạo
+const ThreeStepsProcess = dynamic(() => import('@/components/home/ThreeStepsProcess'));
+const LuxuryTechFeatures = dynamic(() => import('@/components/home/LuxuryTechFeatures'));
+const FaqSection = dynamic(() => import('@/components/home/FaqSection'));
+const HomeClosingCta = dynamic(() => import('@/components/home/HomeClosingCta'));
+const Footer = dynamic(() => import('@/components/layout/Footer'));
 
 // Dynamic load Three.js WebGL & Cursor Sparkles (Client-side only)
 const ThreeHeartGalaxy = dynamic(() => import('@/components/effects/ThreeHeartGalaxy'), {
@@ -100,23 +108,35 @@ export default function HomePage() {
     return { total: AVAILABLE_TEMPLATES.length, free };
   }, []);
 
+  // Tính số lượng mẫu theo từng danh mục REALTIME khi người dùng chọn Tất cả / Miễn phí / Trả phí hoặc gõ tìm kiếm
   const categories = useMemo(
     () =>
-      CATEGORY_DEFS.map((c) => ({ ...c, count: CATALOG_TEMPLATES.filter((t) => matchCategory(t, c.key)).length })).filter(
-        (c) => c.count > 0
-      ),
-    []
+      tinhSoLuongDanhMucRealtime(CATALOG_TEMPLATES, CATEGORY_DEFS, {
+        boLocGia: priceFilter,
+        tuKhoa: searchQuery
+      }),
+    [priceFilter, searchQuery]
   );
 
-  const filteredTemplates = useMemo(() => {
-    const q = normalize(searchQuery.trim());
-    return CATALOG_TEMPLATES.filter((item) => {
-      if (!matchCategory(item, selectedCategory)) return false;
-      if (priceFilter !== 'all' && (item.sourceSite || item.priceType !== priceFilter)) return false;
-      if (!q) return true;
-      return normalize(`${item.name} ${item.descriptions} ${item.category} ${(item.tags || []).join(' ')}`).includes(q);
-    });
-  }, [selectedCategory, priceFilter, searchQuery]);
+  // Tính số lượng mẫu theo từng nút giá (Tất cả / Miễn phí / Trả phí) REALTIME theo danh mục & từ khóa đang chọn
+  const priceCounts = useMemo(
+    () =>
+      tinhSoLuongTheoGiaRealtime(CATALOG_TEMPLATES, {
+        danhMuc: selectedCategory,
+        tuKhoa: searchQuery
+      }),
+    [selectedCategory, searchQuery]
+  );
+
+  const filteredTemplates = useMemo(
+    () =>
+      locDanhSachMau(CATALOG_TEMPLATES, {
+        danhMuc: selectedCategory,
+        boLocGia: priceFilter,
+        tuKhoa: searchQuery
+      }),
+    [selectedCategory, priceFilter, searchQuery]
+  );
 
   const totalPages = Math.max(1, Math.ceil(filteredTemplates.length / itemsPerPage));
   const safePage = Math.min(currentPage, totalPages);
@@ -159,7 +179,7 @@ export default function HomePage() {
       `}</style>
 
       {/* Lớp overlay trắng hồng mỏng nhẹ để nền pastel hoa anh đào hiển thị lung linh & chữ sắc nét */}
-      <div className="fixed inset-0 bg-gradient-to-b from-white/30 via-[#FFF5FA]/25 to-[#FDF2FF]/35 backdrop-blur-[0.5px] pointer-events-none -z-10" />
+      <div className="fixed inset-0 bg-gradient-to-b from-white/30 via-[#FFF5FA]/25 to-[#FDF2FF]/35 pointer-events-none -z-10" />
 
       {/* Những ngôi sao nhỏ nhấp nháy chậm & cánh hoa bay lãng mạn nhẹ nhàng */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
@@ -183,9 +203,9 @@ export default function HomePage() {
       {/* ========================================================================= */}
       <section className="relative min-h-[calc(100vh-72px)] lg:h-[calc(100vh-72px)] flex flex-col justify-center overflow-hidden border-b border-[#F8C9E8]/70">
         {/* Nền mềm mại tôn ảnh nền hoa anh đào & mây bồng bềnh */}
-        <div className="absolute inset-0 -z-20 bg-white/10 backdrop-blur-[0.5px]" />
-        <div className="absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full bg-[#FF8FBC]/20 blur-[140px] -z-20" />
-        <div className="absolute top-10 right-0 w-[560px] h-[560px] rounded-full bg-[#A56BFF]/20 blur-[150px] -z-20" />
+        <div className="absolute inset-0 -z-20 bg-white/10" />
+        <div className="absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full bg-[radial-gradient(circle,rgba(255,143,188,0.22)_0%,transparent_70%)] -z-20 pointer-events-none" />
+        <div className="absolute top-10 right-0 w-[560px] h-[560px] rounded-full bg-[radial-gradient(circle,rgba(165,107,255,0.22)_0%,transparent_70%)] -z-20 pointer-events-none" />
 
         {/* Vũ trụ hạt Three.js WebGL bao phủ toàn màn hình Hero */}
         <ThreeHeartGalaxy />
@@ -351,14 +371,15 @@ export default function HomePage() {
             </div>
 
             {/* 6 Thẻ ảnh Anime Chibi cặp đôi AI bay bồng bềnh */}
-            {HERO_COUPLE_PHOTOS.map((p) => (
+            {HERO_COUPLE_PHOTOS.map((p, idx) => (
               <div key={p.src} className={`absolute ${p.cls} z-30 pointer-events-none`}>
                 <div className="tk-float" style={{ animationDelay: p.delay }}>
                   <div className="aspect-square rounded-[22px] bg-white p-1.5 sm:p-2 shadow-[0_12px_28px_rgba(255,45,117,0.22)] border-2 border-white ring-1 ring-[#FFD6E3] hover:scale-105 transition-transform">
                     <img
                       src={p.src}
                       alt="Cặp đôi ngọt ngào"
-                      loading="eager"
+                      loading={idx < 2 ? 'eager' : 'lazy'}
+                      decoding="async"
                       className="w-full h-full rounded-[16px] object-cover shadow-xs"
                     />
                   </div>
@@ -432,7 +453,7 @@ export default function HomePage() {
         )}
 
         {/* ============================== KHO MẪU QUÀ TẶNG SỐ ============================== */}
-        <section id="san-pham" className="space-y-6 scroll-mt-24 reveal-on-scroll">
+        <section id="san-pham" className="space-y-6 scroll-mt-24">
           <div className="text-center space-y-2">
             <div className="font-calligraphy text-2xl sm:text-3xl text-[#A56BFF] font-bold select-none">
               ~ Khám phá kho báu tình yêu ~
@@ -478,26 +499,36 @@ export default function HomePage() {
               <div className="flex items-center gap-1.5 p-1 bg-white/80 rounded-2xl border-2 border-[#F8C9E8] self-start md:self-auto">
                 {(
                   [
-                    ['all', 'Tất cả'],
-                    ['free', 'Miễn phí'],
-                    ['paid', 'Trả phí']
+                    ['all', 'Tất cả', priceCounts.all],
+                    ['free', 'Miễn phí', priceCounts.free],
+                    ['paid', 'Trả phí', priceCounts.paid]
                   ] as const
-                ).map(([key, label]) => (
-                  <button
-                    key={key}
-                    onClick={() => {
-                      setPriceFilter(key);
-                      setCurrentPage(1);
-                    }}
-                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer ${
-                      priceFilter === key
-                        ? 'bg-gradient-to-r from-[#FF2D75] to-[#FF8FBC] text-white shadow-md'
-                        : 'text-[#7A5A6A] hover:text-[#2D1424]'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
+                ).map(([key, label, countVal]) => {
+                  const isPriceActive = priceFilter === key;
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => {
+                        setPriceFilter(key);
+                        setCurrentPage(1);
+                      }}
+                      className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer inline-flex items-center gap-1.5 ${
+                        isPriceActive
+                          ? 'bg-gradient-to-r from-[#FF2D75] to-[#FF8FBC] text-white shadow-md'
+                          : 'text-[#7A5A6A] hover:text-[#2D1424]'
+                      }`}
+                    >
+                      <span>{label}</span>
+                      <span
+                        className={`px-1.5 py-0.5 rounded-full text-[10px] font-black leading-none ${
+                          isPriceActive ? 'bg-white/25 text-white' : 'bg-[#FFF0F4] text-[#FF2D75]'
+                        }`}
+                      >
+                        {countVal}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -517,7 +548,7 @@ export default function HomePage() {
                     className={`max-w-full px-3 sm:px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer ${
                       isSelected
                         ? 'bg-gradient-to-r from-[#FF2D75] via-[#FF5C98] to-[#A56BFF] text-white shadow-md shadow-[#FF2D75]/20 border-2 border-transparent'
-                        : 'bg-white/85 backdrop-blur-md border-2 border-[#F8C9E8] text-[#5C3B4E] hover:bg-white hover:text-[#FF2D75] hover:border-[#FF2D75]'
+                        : 'bg-white/92 border-2 border-[#F8C9E8] text-[#5C3B4E] hover:bg-white hover:text-[#FF2D75] hover:border-[#FF2D75]'
                     }`}
                   >
                     <span>{cat.icon}</span>

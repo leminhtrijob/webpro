@@ -23,13 +23,14 @@ export default function ThreeHeartGalaxy() {
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.z = 52;
 
+    const isMobile = width < 768;
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: true,
+      antialias: !isMobile,
       powerPreference: 'high-performance'
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.25));
     container.appendChild(renderer.domElement);
 
     // 2. Texture hạt phát sáng mềm mịn (Radial Glow Dot)
@@ -52,8 +53,8 @@ export default function ThreeHeartGalaxy() {
 
     const particleTexture = createGlowTexture();
 
-    // 3. BỤI SAO TINH TẾ & MỎNG NHẸ (Loại bỏ các cụm hạt bụi dày đặc che ảnh theo yêu cầu người dùng)
-    const dustCount = 80;
+    // 3. BỤI SAO TINH TẾ & MỎNG NHẸ (Tối ưu số lượng hạt trên Mobile để cuộn trang mượt 60fps)
+    const dustCount = isMobile ? 36 : 80;
     const dustPositions = new Float32Array(dustCount * 3);
     const dustColors = new Float32Array(dustCount * 3);
 
@@ -105,7 +106,7 @@ export default function ThreeHeartGalaxy() {
       targetY = -y * 0.8;
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     // Render only while the hero is visible, capped at roughly 30 FPS.
     let animationFrameId = 0;
@@ -154,7 +155,7 @@ export default function ThreeHeartGalaxy() {
       renderer.setSize(width, height);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -169,8 +170,6 @@ export default function ThreeHeartGalaxy() {
       dustMat.dispose();
       particleTexture.dispose();
       renderer.dispose();
-      particleTexture.dispose();
-      renderer.dispose();
     };
   }, []);
 
@@ -178,7 +177,6 @@ export default function ThreeHeartGalaxy() {
     <div
       ref={mountRef}
       className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible select-none"
-      style={{ filter: 'drop-shadow(0 0 30px rgba(255, 46, 116, 0.45))' }}
     />
   );
 }

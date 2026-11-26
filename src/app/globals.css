@@ -18,8 +18,32 @@ body {
   background-repeat: no-repeat;
   min-height: 100vh;
   color: #2D1424;
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+}
+
+/* Chuẩn hóa toàn bộ font-sans và font-serif hỗ trợ 100% dấu tiếng Việt sắc nét, không bao giờ lỗi tách dấu */
+.font-sans {
+  font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+}
+
+.font-serif {
+  font-family: 'Lora', 'Be Vietnam Pro', 'Playfair Display', serif !important;
+}
+
+/* Tối ưu hóa hiệu năng cuộn trang trên điện thoại (tránh giật lag do background-attachment: fixed và blur nặng) */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll !important;
+    background-size: 100% auto;
+    background-repeat: repeat-y;
+  }
+  .tk-home-panel {
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+  }
 }
 
 /* Cùng ngôn ngữ pha lê hồng tím với khu vực Công nghệ hiện đại. */
@@ -42,10 +66,10 @@ body {
 }
 
 .tk-home-heading {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Be Vietnam Pro', 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-weight: 800;
-  line-height: 1.17;
+  line-height: 1.22;
   color: #63208f;
   text-shadow: 0 2px 0 #fff, 0 5px 10px rgba(122,54,177,.25);
 }
@@ -98,17 +122,17 @@ body {
   }
 }
 
-/* Các font chữ nghệ thuật, thư pháp & viết tay dễ thương */
+/* Các font chữ nghệ thuật, thư pháp & viết tay dễ thương (có fallback tiếng Việt chuẩn) */
 .font-calligraphy {
-  font-family: 'Dancing Script', cursive, sans-serif;
+  font-family: 'Dancing Script', 'Playpen Sans', 'Be Vietnam Pro', cursive, sans-serif;
 }
 
 .font-handwriting {
-  font-family: 'Caveat', cursive, sans-serif;
+  font-family: 'Playpen Sans', 'Caveat', 'Be Vietnam Pro', cursive, sans-serif;
 }
 
 .font-cute {
-  font-family: 'Playpen Sans', cursive, sans-serif;
+  font-family: 'Playpen Sans', 'Be Vietnam Pro', cursive, sans-serif;
 }
 
 /* Ngôi sao nhấp nháy chậm lung linh */
@@ -256,6 +280,7 @@ body {
 .reveal-on-scroll.is-revealed {
   opacity: 1;
   transform: translateY(0) scale(1);
+  will-change: auto;
 }
 
 .reveal-from-left {
@@ -269,6 +294,7 @@ body {
 .reveal-from-left.is-revealed {
   opacity: 1;
   transform: translateX(0) scale(1);
+  will-change: auto;
 }
 
 .reveal-from-right {
@@ -282,6 +308,7 @@ body {
 .reveal-from-right.is-revealed {
   opacity: 1;
   transform: translateX(0) scale(1);
+  will-change: auto;
 }
 
 .reveal-scale {
@@ -295,6 +322,7 @@ body {
 .reveal-scale.is-revealed {
   opacity: 1;
   transform: scale(1);
+  will-change: auto;
 }
 
 /* Các cấp độ delay để hiệu ứng bay so le nhau (Staggered Animation) */

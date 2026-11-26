@@ -29,17 +29,10 @@ window.AppData = (function () {
         music:         '',  // Không có nhạc mặc định: chỉ phát nhạc người dùng tải lên
     };
 
-    // Card body bị giới hạn diện tích → cắt ngắn nếu thư quá dài, thêm "…"
-    const CARD_MAX_PARAS          = 3;
-    const CARD_MAX_CHARS_PER_PARA = 90;
-
+    // Card body hiển thị nội dung trọn vẹn, không cắt cụt chữ
     function truncateForCard(paragraphs) {
-        return paragraphs.slice(0, CARD_MAX_PARAS).map(function (p) {
-            const t = String(p).trim();
-            if (t.length > CARD_MAX_CHARS_PER_PARA) {
-                return t.slice(0, CARD_MAX_CHARS_PER_PARA - 1).trim() + '…';
-            }
-            return t;
+        return paragraphs.map(function (p) {
+            return String(p).trim().normalize('NFC');
         });
     }
 
@@ -72,36 +65,40 @@ window.AppData = (function () {
     function buildData(apiSettings) {
         const s = apiSettings || {};
 
-        const title       = getQuery('title')      || s.title        || DEFAULTS.title;
+        const title       = String(getQuery('title')      || s.title        || DEFAULTS.title).normalize('NFC');
         // Hỗ trợ cả 2 tên field: fromName/toName (theo headingValues) hoặc sender/recipient
-        const sender      = getQuery('sender')     || s.fromName     || s.sender       || DEFAULTS.sender;
-        const recipient   = getQuery('recipient')  || s.toName       || s.recipient    || DEFAULTS.recipient;
-        // Mật khẩu 4 số — chỉ chấp nhận 4 chữ số
-        const pinRaw      = getQuery('pin') || s.pinCode || s.pin || DEFAULTS.pinCode;
-        const pinCode     = /^\d{4}$/.test(String(pinRaw)) ? String(pinRaw) : DEFAULTS.pinCode;
+        const sender      = String(getQuery('sender')     || s.fromName     || s.sender       || DEFAULTS.sender).normalize('NFC');
+        const recipient   = String(getQuery('recipient')  || s.toName       || s.recipient    || DEFAULTS.recipient).normalize('NFC');
+        // Mật khẩu 4 số — ưu tiên keypadPin từ Studio
+        const pinRaw      = getQuery('pin') || s.keypadPin || s.pinCode || s.pin || s.passcode || DEFAULTS.pinCode;
+        const pinDigits   = String(pinRaw || '1402').replace(/\D/g, '').slice(0, 4);
+        const pinCode     = pinDigits.length === 4 ? pinDigits : DEFAULTS.pinCode;
 
         // message từ API → popupMessage (tách theo \n nếu nhiều đoạn)
         // Đây là nguồn DUY NHẤT cho nội dung thư — popup + card cùng dùng.
-        const popupMessage = s.message
-            ? splitParagraphs(s.message)
+        const rawMsg = s.message || s.letterContent || '';
+        const popupMessage = rawMsg
+            ? splitParagraphs(String(rawMsg).normalize('NFC'))
             : DEFAULTS.popupMessage;
 
-        // Card body = cùng nội dung popup, cắt ngắn nếu dài quá
+        // Card body = cùng nội dung popup
         const cardBody = truncateForCard(popupMessage);
 
         // image[] từ API → ảnh finale + ảnh popup
         const images = (Array.isArray(s.image) && s.image.length)
             ? s.image
-            : DEFAULTS.images;
+            : (Array.isArray(s.images) && s.images.length)
+                ? s.images
+                : DEFAULTS.images;
 
         const popupPhoto = images[0] || DEFAULTS.popupPhoto;
 
-        const music      = getQuery('music') || s.music || DEFAULTS.music;
+        const music      = getQuery('music') || s.music || s.musicUrl || DEFAULTS.music;
         const cardCoverDeco = s.cardCoverDeco || DEFAULTS.cardCoverDeco;
-        const forYouLine = s.forYouLine
+        const forYouLine = (s.forYouLine
             || (recipient !== DEFAULTS.recipient
                 ? `Gửi yêu thương đến ${recipient} ❤`
-                : DEFAULTS.forYouLine);
+                : DEFAULTS.forYouLine)).normalize('NFC');
 
         return {
             sender, recipient, pinCode, title, cardCoverDeco,
@@ -187,13 +184,19 @@ window.AppData = (function () {
 
     /** Hiển thị banner "chế độ xem thử" ngay dưới phần mã PIN. */
     function showPreviewNotice(pinCode) {
-        if (document.getElementById('previewNotice')) return;
+        let el = document.getElementById('previewNotice');
+        if (el) {
+            el.innerHTML =
+                '<span class="preview-tag">MÃ PIN</span> ' +
+                '<strong>' + escapeHtml(pinCode) + '</strong>';
+            return;
+        }
         const lockInfo = document.querySelector('#lockFrame .lock-info');
         if (!lockInfo) return;
-        const el = document.createElement('div');
+        el = document.createElement('div');
         el.id = 'previewNotice';
         el.innerHTML =
-            '<span class="preview-tag">XEM THỬ</span> ' +
+            '<span class="preview-tag">MÃ PIN</span> ' +
             '<strong>' + escapeHtml(pinCode) + '</strong>';
         lockInfo.appendChild(el);
     }
@@ -252,10 +255,18 @@ window.AppData = (function () {
             });
     });
 
+    window.applyAppDataToDOM = function (d) {
+        if (!d) return;
+        applyToDOM(d);
+        if (d.pinCode) showPreviewNotice(d.pinCode);
+    };
+
     return {
         ready,
         defaults: DEFAULTS,
+        applyToDOM,
         get data() { return state.data; },
+        set data(v) { state.data = v; },
         get isPreview() { return state.isPreview; },
     };
 })();

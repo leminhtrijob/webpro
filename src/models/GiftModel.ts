@@ -24,6 +24,9 @@ export interface IGiftDocument extends Document {
   passcodeEnabled: boolean;
   passcode?: string;
   passcodeHint?: string;
+  keypadPinEnabled?: boolean;
+  keypadPin?: string;
+  keypadPinHint?: string;
   themeColor: string;
   tabTitle: string;
   isVip: boolean;
@@ -57,6 +60,9 @@ const GiftSchema: Schema = new Schema(
     passcodeEnabled: { type: Boolean, default: false },
     passcode: { type: String, default: '' },
     passcodeHint: { type: String, default: '' },
+    keypadPinEnabled: { type: Boolean, default: true },
+    keypadPin: { type: String, default: '1402' },
+    keypadPinHint: { type: String, default: '' },
     themeColor: { type: String, default: '#FF4F86' },
     tabTitle: { type: String, default: 'Quà Tặng Tình Yêu' },
     isVip: { type: Boolean, default: false },

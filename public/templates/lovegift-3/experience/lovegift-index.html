@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countdown & Vườn Hoa Kỷ Niệm 3D — TriKun Studio</title>
+  <script src="/vendor/trikun-bridge.js"></script>
+  <script src="/templates/lovez-36/assets/three.min.js"></script>
+  <script src="/templates/lovez-36/assets/OrbitControls.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
+      background: radial-gradient(circle at 50% 35%, #2b0938 0%, #090314 75%);
+      font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+      color: #fff;
+      user-select: none;
+    }
+    #canvas-container { position: fixed; inset: 0; z-index: 1; }
+    .hud-overlay {
+      position: fixed; top: 68px; left: 50%; transform: translateX(-50%);
+      z-index: 10; text-align: center; pointer-events: none;
+      width: 92%; max-width: 560px;
+    }
+    .hud-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 999px;
+      background: rgba(255, 42, 133, 0.22);
+      border: 1px solid rgba(255, 148, 194, 0.45);
+      backdrop-filter: blur(10px);
+      font-size: 12px; font-weight: 800; letter-spacing: 1px;
+      color: #ffd1e6; margin-bottom: 10px;
+    }
+    .hud-title {
+      font-size: clamp(22px, 5vw, 36px); font-weight: 900;
+      background: linear-gradient(90deg, #fff 0%, #ff9ec7 50%, #ffd166 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-shadow: 0 8px 28px rgba(255, 30, 106, 0.45);
+      margin-bottom: 8px;
+    }
+    .hud-sub {
+      font-size: clamp(13px, 3.2vw, 15px); color: rgba(255, 235, 245, 0.85);
+      line-height: 1.5;
+    }
+    .countdown-grid {
+      display: inline-grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+      margin-top: 14px; pointer-events: auto;
+    }
+    .cd-box {
+      min-width: 64px; padding: 10px 12px; border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 182, 219, 0.35);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+    .cd-num { font-size: 22px; font-weight: 900; color: #ff7eb3; }
+    .cd-lbl { font-size: 10px; text-transform: uppercase; color: #f8c8dc; margin-top: 2px; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <div class="hud-overlay">
+    <div class="hud-badge">✨ KHOẢNH KHẮC ĐẶC BIỆT ✨</div>
+    <h1 class="hud-title" id="giftTitle">Gửi Người Thương ♡</h1>
+    <p class="hud-sub" id="giftSub">Chạm và xoay không gian 3D để ngắm nhìn những kỷ niệm ngọt ngào</p>
+    <div class="countdown-grid">
+      <div class="cd-box"><div class="cd-num" id="cd-d">365</div><div class="cd-lbl">Ngày</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-h">24</div><div class="cd-lbl">Giờ</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-m">60</div><div class="cd-lbl">Phút</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-s">60</div><div class="cd-lbl">Giây</div></div>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var s = window.settings || {};
+      var titleEl = document.getElementById('giftTitle');
+      var subEl = document.getElementById('giftSub');
+      if (s.letterTitle && titleEl) titleEl.textContent = s.letterTitle;
+      if (s.letterSignature && subEl) subEl.textContent = 'Món quà yêu thương từ ' + s.letterSignature + ' ♡';
+
+      // Countdown
+      var startTs = Date.now();
+      setInterval(function() {
+        var now = new Date();
+        var nextYear = new Date(now.getFullYear() + 1, 0, 1);
+        var diff = Math.max(0, Math.floor((nextYear - now) / 1000));
+        document.getElementById('cd-d').textContent = String(Math.floor(diff / 86400)).padStart(2, '0');
+        document.getElementById('cd-h').textContent = String(Math.floor((diff % 86400) / 3600)).padStart(2, '0');
+        document.getElementById('cd-m').textContent = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
+        document.getElementById('cd-s').textContent = String(diff % 60).padStart(2, '0');
+      }, 1000);
+
+      // 3D Scene
+      var container = document.getElementById('canvas-container');
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 12, 52);
+
+      var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      container.appendChild(renderer.domElement);
+
+      var controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 1.1;
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+      var pLight = new THREE.PointLight(0xff4f9a, 2.2, 160);
+      pLight.position.set(15, 25, 20);
+      scene.add(pLight);
+
+      // Glowing Heart Particle Core
+      var heartCount = 1600;
+      var hPos = new Float32Array(heartCount * 3);
+      for (var i = 0; i < heartCount; i++) {
+        var t = Math.random() * Math.PI * 2;
+        var r = 0.65 + Math.random() * 0.35;
+        var x = 16 * Math.pow(Math.sin(t), 3) * r * 0.55;
+        var y = (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * r * 0.55;
+        var z = (Math.random() - 0.5) * 6;
+        hPos[i*3] = x;
+        hPos[i*3+1] = y;
+        hPos[i*3+2] = z;
+      }
+      var hGeo = new THREE.BufferGeometry();
+      hGeo.setAttribute('position', new THREE.BufferAttribute(hPos, 3));
+      var hMat = new THREE.PointsMaterial({ color: 0xff3b8d, size: 0.55, transparent: true, opacity: 0.9 });
+      var heartPoints = new THREE.Points(hGeo, hMat);
+      scene.add(heartPoints);
+
+      // Orbiting Photo Cards
+      var photos = (window.LOVEGIFT_IMAGES && window.LOVEGIFT_IMAGES.length)
+        ? window.LOVEGIFT_IMAGES
+        : ['/demo/photos/1.jpg', '/demo/photos/2.jpg', '/demo/photos/3.jpg', '/demo/photos/4.jpg', '/demo/photos/5.jpg', '/demo/photos/6.jpg'];
+      var photoGroup = new THREE.Group();
+      scene.add(photoGroup);
+      var loader = new THREE.TextureLoader();
+      for (var j = 0; j < 8; j++) {
+        (function(idx) {
+          var angle = (idx / 8) * Math.PI * 2;
+          var radius = 21;
+          var url = photos[idx % photos.length];
+          loader.load(url, function(tex) {
+            var mat = new THREE.SpriteMaterial({ map: tex, transparent: true });
+            var sp = new THREE.Sprite(mat);
+            sp.position.set(Math.cos(angle) * radius, Math.sin(idx * 1.4) * 3.5, Math.sin(angle) * radius);
+            sp.scale.set(6.5, 6.5, 1);
+            photoGroup.add(sp);
+          });
+        })(j);
+      }
+
+      var clock = new THREE.Clock();
+      function animate() {
+        requestAnimationFrame(animate);
+        var elapsed = clock.getElapsedTime();
+        var s = 1 + Math.sin(elapsed * 2.8) * 0.06;
+        heartPoints.scale.set(s, s, s);
+        photoGroup.rotation.y = elapsed * 0.25;
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', function() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    })();
+  </script>
+</body>
+</html>

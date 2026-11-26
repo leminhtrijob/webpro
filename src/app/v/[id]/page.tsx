@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useParams } from 'next/navigation';
 import { ArrowLeft, Sparkles, X } from 'lucide-react';
@@ -10,24 +10,58 @@ import { AVAILABLE_TEMPLATES } from '@/data/availableTemplates';
 function GiftRecipientContent() {
   const params = useParams();
   const searchParams = useSearchParams();
-  const slug = (params?.id as string) || 'trikun-heart';
+  const rawSlugOrId = (params?.id as string) || 'trikun-heart';
   const dataParam = searchParams.get('data') || '';
   const idParam = searchParams.get('id') || '';
   const previewParam = searchParams.get('preview') || '';
   const [showHelperBar, setShowHelperBar] = useState(true);
 
-  const isCreatedGift = Boolean(idParam || dataParam);
-  const matchedTemplate = AVAILABLE_TEMPLATES.find((t) => t.slug === slug);
-  const studioSlug = matchedTemplate?.slug || slug;
+  // Hỗ trợ trường hợp người dùng truy cập /v/TK... (mã quà trực tiếp ở pathname)
+  const isDirectGiftCode = /^TK[A-Z0-9]{10,}$/i.test(rawSlugOrId);
+  const effectiveGiftId = idParam || (isDirectGiftCode ? rawSlugOrId : '');
+  const [resolvedTemplateSlug, setResolvedTemplateSlug] = useState<string>(
+    isDirectGiftCode ? '' : rawSlugOrId
+  );
+
+  useEffect(() => {
+    if (!effectiveGiftId) {
+      setResolvedTemplateSlug(rawSlugOrId);
+      return;
+    }
+    // Nếu pathname là mã quà TK... hoặc cần đồng bộ đúng templateSlug đã lưu trong DB
+    let cancelled = false;
+    fetch(`/api/gifts?id=${encodeURIComponent(effectiveGiftId)}`)
+      .then((r) => r.json())
+      .then((res) => {
+        if (!cancelled && res?.success && res?.data?.templateSlug) {
+          setResolvedTemplateSlug(res.data.templateSlug);
+        } else if (!cancelled && !resolvedTemplateSlug) {
+          setResolvedTemplateSlug('chuc-mung-20-11-1');
+        }
+      })
+      .catch(() => {
+        if (!cancelled && !resolvedTemplateSlug) {
+          setResolvedTemplateSlug(isDirectGiftCode ? 'chuc-mung-20-11-1' : rawSlugOrId);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [effectiveGiftId, rawSlugOrId, isDirectGiftCode, resolvedTemplateSlug]);
+
+  const activeSlug = resolvedTemplateSlug || (isDirectGiftCode ? 'chuc-mung-20-11-1' : rawSlugOrId);
+  const isCreatedGift = Boolean(effectiveGiftId || dataParam);
+  const matchedTemplate = AVAILABLE_TEMPLATES.find((t) => t.slug === activeSlug);
+  const studioSlug = matchedTemplate?.slug || activeSlug;
 
   // Xác định engine mẫu HTML/CSS/JS local tương ứng với slug hoặc id
-  const templateSrc = getLocalTemplateEnginePath(slug);
+  const templateSrc = getLocalTemplateEnginePath(activeSlug);
 
-  const queryParts: string[] = [];
-  if (idParam) queryParts.push(`id=${encodeURIComponent(idParam)}`);
+  const queryParts: string[] = [`tpl=${encodeURIComponent(activeSlug)}`];
+  if (effectiveGiftId) queryParts.push(`id=${encodeURIComponent(effectiveGiftId)}`);
   if (dataParam) queryParts.push(`data=${encodeURIComponent(dataParam)}`);
   if (previewParam) queryParts.push(`preview=${encodeURIComponent(previewParam)}`);
-  const finalSrc = queryParts.length > 0 ? `${templateSrc}?${queryParts.join('&')}` : templateSrc;
+  const finalSrc = `${templateSrc}?${queryParts.join('&')}`;
 
   return (
     <div className="fixed inset-0 w-screen h-screen overflow-hidden bg-black select-none z-50">
@@ -62,6 +96,7 @@ function GiftRecipientContent() {
       )}
 
       <iframe
+        key={finalSrc}
         src={finalSrc}
         className="w-full h-full border-0 block"
         allow="autoplay; encrypted-media; fullscreen"

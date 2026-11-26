@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Eye, ArrowRight, Flame, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TemplateItem } from '@/models/gift';
@@ -17,6 +18,12 @@ interface ProductCardProps {
  * - Nút "Xem mẫu": Mở cửa sổ xem thử tương tác trực tiếp (Live Demo HTML/CSS/JS)
  */
 export default function ProductCard({ template, onPreview }: ProductCardProps) {
+  const [imgSrc, setImgSrc] = useState(template.image);
+
+  useEffect(() => {
+    setImgSrc(template.image);
+  }, [template.image]);
+
   const fireConfetti = (e: React.MouseEvent) => {
     const rect = (e.target as HTMLElement).getBoundingClientRect();
     const x = (rect.left + rect.width / 2) / window.innerWidth;
@@ -31,7 +38,7 @@ export default function ProductCard({ template, onPreview }: ProductCardProps) {
   };
 
   return (
-    <div className="tk-home-card relative bg-white/90 backdrop-blur-md rounded-3xl border-2 border-[#F8C9E8] hover:border-[#FF2D75] shadow-[0_10px_28px_rgba(255,45,117,0.1)] hover:shadow-[0_16px_36px_rgba(255,45,117,0.22)] overflow-hidden transition-[border-color,box-shadow,transform] duration-200 flex flex-col group hover:-translate-y-1">
+    <div className="tk-home-card relative bg-white/95 rounded-3xl border-2 border-[#F8C9E8] hover:border-[#FF2D75] shadow-[0_10px_28px_rgba(255,45,117,0.1)] hover:shadow-[0_16px_36px_rgba(255,45,117,0.22)] overflow-hidden transition-[border-color,box-shadow,transform] duration-200 flex flex-col group hover:-translate-y-1">
       {/* Glare Sheen */}
       <div className="absolute inset-0 pointer-events-none rounded-3xl z-20 opacity-0 group-hover:opacity-40 transition-opacity duration-200 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,.7),transparent_60%)]" />
 
@@ -56,18 +63,22 @@ export default function ProductCard({ template, onPreview }: ProductCardProps) {
         onClick={() => onPreview?.(template)}
         className="relative aspect-[16/10] bg-[#FFF0F4] overflow-hidden border-b-2 border-[#F8C9E8]/70 cursor-pointer"
       >
-        <img
-          src={template.image}
+        <Image
+          src={imgSrc}
           alt={template.name}
-          loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 ease-out"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = '/images/templates/tpl_7.gif';
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          unoptimized={imgSrc.toLowerCase().endsWith('.gif')}
+          className="object-cover group-hover:scale-108 transition-transform duration-500 ease-out"
+          onError={() => {
+            if (imgSrc !== '/images/templates/tpl_7.gif') {
+              setImgSrc('/images/templates/tpl_7.gif');
+            }
           }}
         />
 
         {/* Price tag badge (top right) */}
-        <div className="absolute top-2.5 right-2.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border-2 border-[#F8C9E8] text-xs font-black text-[#2D1424] shadow-md">
+        <div className="absolute top-2.5 right-2.5 px-3 py-1 rounded-full bg-white/95 border-2 border-[#F8C9E8] text-xs font-black text-[#2D1424] shadow-md">
           {template.priceText}
         </div>
 

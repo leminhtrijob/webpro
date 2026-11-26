@@ -76,6 +76,9 @@ export async function POST(req: Request) {
             passcodeEnabled: config.passcodeEnabled || false,
             passcode: config.passcode || '',
             passcodeHint: config.passcodeHint || '',
+            keypadPinEnabled: config.keypadPinEnabled !== false,
+            keypadPin: config.keypadPin || '1402',
+            keypadPinHint: config.keypadPinHint || '',
             themeColor: config.themeColor || '#FF4F86',
             tabTitle: config.tabTitle || 'Quà Tặng Tình Yêu',
             isVip: false
@@ -171,5 +174,83 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ success: true, message: 'Đã xóa quà thành công' });
   } catch (error) {
     return NextResponse.json({ success: false, message: 'Lỗi xóa quà' }, { status: 500 });
+  }
+}
+
+// PATCH: Cập nhật thông tin Quà Tặng hoặc Nhân bản (Clone) quà tặng
+export async function PATCH(req: Request) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
+
+  try {
+    const body = await req.json();
+    const { giftId, action } = body;
+
+    if (!giftId || typeof giftId !== 'string') {
+      return NextResponse.json({ success: false, message: 'Thiếu mã giftId' }, { status: 400 });
+    }
+
+    const db = await connectToDatabase();
+    if (!db) {
+      return NextResponse.json({ success: false, message: 'Chưa kết nối database' }, { status: 500 });
+    }
+
+    const existing = await GiftModel.findOne({ giftId }).lean();
+    if (!existing) {
+      return NextResponse.json({ success: false, message: 'Không tìm thấy quà tặng' }, { status: 404 });
+    }
+
+    // Nhân bản quà (Clone)
+    if (action === 'clone') {
+      const newGiftId = `TK${crypto.randomUUID().replace(/-/g, '').slice(0, 20).toUpperCase()}`;
+      const cloneData = {
+        ...existing,
+        _id: undefined,
+        giftId: newGiftId,
+        recipientName: `${existing.recipientName} (Bản sao)`,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        viewsCount: 0
+      };
+      const created = await GiftModel.create(cloneData);
+      return NextResponse.json({
+        success: true,
+        message: 'Đã nhân bản quà tặng thành công',
+        data: created
+      });
+    }
+
+    // Cập nhật các trường được phép
+    const updateFields: Record<string, any> = {};
+    if (typeof body.recipientName === 'string') updateFields.recipientName = body.recipientName.trim();
+    if (typeof body.senderName === 'string') updateFields.senderName = body.senderName.trim();
+    if (typeof body.letterTitle === 'string') updateFields.letterTitle = body.letterTitle.trim();
+    if (typeof body.letterContent === 'string') updateFields.letterContent = body.letterContent;
+    if (typeof body.isVip === 'boolean') updateFields.isVip = body.isVip;
+    if (typeof body.passcodeEnabled === 'boolean') updateFields.passcodeEnabled = body.passcodeEnabled;
+    if (typeof body.passcode === 'string') updateFields.passcode = body.passcode.trim();
+    if (typeof body.passcodeHint === 'string') updateFields.passcodeHint = body.passcodeHint.trim();
+    if (typeof body.keypadPinEnabled === 'boolean') updateFields.keypadPinEnabled = body.keypadPinEnabled;
+    if (typeof body.keypadPin === 'string') updateFields.keypadPin = body.keypadPin.trim();
+    if (typeof body.keypadPinHint === 'string') updateFields.keypadPinHint = body.keypadPinHint.trim();
+    if (typeof body.musicTitle === 'string') updateFields.musicTitle = body.musicTitle.trim();
+    if (typeof body.musicUrl === 'string') updateFields.musicUrl = body.musicUrl.trim();
+    if (typeof body.particleColor === 'string') updateFields.particleColor = body.particleColor.trim();
+    if (Array.isArray(body.images)) updateFields.images = body.images;
+
+    const updated = await GiftModel.findOneAndUpdate(
+      { giftId },
+      { $set: updateFields },
+      { new: true }
+    ).lean();
+
+    return NextResponse.json({
+      success: true,
+      message: 'Đã cập nhật thông tin quà tặng thành công',
+      data: updated
+    });
+  } catch (error) {
+    console.error('Lỗi PATCH /api/gifts:', error);
+    return NextResponse.json({ success: false, message: 'Lỗi cập nhật quà tặng' }, { status: 500 });
   }
 }

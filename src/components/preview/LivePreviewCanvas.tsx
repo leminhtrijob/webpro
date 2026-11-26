@@ -53,6 +53,9 @@ export default function LivePreviewCanvas({ config, fullscreen = false }: LivePr
     config.musicTitle,
     config.passcodeEnabled,
     config.passcode,
+    config.keypadPinEnabled,
+    config.keypadPin,
+    config.keypadPinHint,
     config.particleColor,
     config.images
   ]);
@@ -309,8 +312,8 @@ export default function LivePreviewCanvas({ config, fullscreen = false }: LivePr
                     </div>
                   )}
 
-                  <p className="text-xs sm:text-sm text-[#4A373E] whitespace-pre-line leading-relaxed font-serif italic">
-                    {config.letterContent || 'Em iu, cảm ơn em vì đã đến bên anh...'}
+                  <p className="text-xs sm:text-sm text-[#4A373E] whitespace-pre-line leading-relaxed font-sans font-medium">
+                    {(config.letterContent || 'Em iu, cảm ơn em vì đã đến bên anh...').normalize('NFC')}
                   </p>
 
                   <div className="mt-4 pt-3 border-t border-[#F0DDE3]/60 text-right">

@@ -660,7 +660,22 @@
                         document.body.innerHTML = '<div style="position:fixed;inset:0;width:100%;height:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem;font-family:system-ui;text-align:center;background:linear-gradient(135deg,#1a0a0f,#2d1b2e);box-sizing:border-box;"><div style="font-size:64px;margin-bottom:16px;">😢</div><h1 style="color:#fff;font-size:1.5rem;margin-bottom:12px;">Không tìm thấy website</h1></div>';
                         return;
                     }
-                    window.APP_CONFIG = data.data.config;
+                    var prevCfg = window.APP_CONFIG || {};
+                    var incomingCfg = data.data.config || {};
+                    var normalizedMsgs = Array.isArray(incomingCfg.messages)
+                        ? incomingCfg.messages.map(function(m, idx) {
+                            if (m && typeof m === 'object' && typeof m.text === 'string') return m;
+                            return { side: idx % 2 === 0 ? 'left' : 'right', text: String(m || '') };
+                        })
+                        : (prevCfg.messages || [{ side: 'left', text: 'Chào em ♡' }]);
+                    window.APP_CONFIG = Object.assign({}, prevCfg, incomingCfg, {
+                        templates: incomingCfg.templates || prevCfg.templates || [{ key: 'template1', name: 'Love', theme: {} }],
+                        selectedTemplateKey: incomingCfg.selectedTemplateKey || prevCfg.selectedTemplateKey || 'template1',
+                        messageDelayMsPerChar: incomingCfg.messageDelayMsPerChar || prevCfg.messageDelayMsPerChar || 50,
+                        messageDelayMinMs: incomingCfg.messageDelayMinMs || prevCfg.messageDelayMinMs || 900,
+                        messageDelayMaxMs: incomingCfg.messageDelayMaxMs || prevCfg.messageDelayMaxMs || 2500,
+                        messages: normalizedMsgs.length > 0 ? normalizedMsgs : (prevCfg.messages || [{ side: 'left', text: 'Chào em ♡' }])
+                    });
                     window.HEART_MESSAGE_CONFIG = data.data.config.heart || {};
                     var c = data.data.config;
                     var t = document.getElementById('pageTitle'); if (t && c.websiteTitle) t.textContent = c.websiteTitle;
@@ -881,10 +896,10 @@
                 containerToHide.style.opacity = '0';
                 if (!window.THREE) {
                     var s1 = document.createElement('script');
-                    s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+                    s1.src = '/templates/lovez-36/assets/three.min.js';
                     s1.onload = function() {
                         var s2 = document.createElement('script');
-                        s2.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js';
+                        s2.src = '/templates/lovez-36/assets/OrbitControls.js';
                         s2.onload = function() { scriptsLoaded = true; init3DScene(); };
                         document.body.appendChild(s2);
                     };
