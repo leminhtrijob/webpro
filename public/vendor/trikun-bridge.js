@@ -122,6 +122,17 @@
       var el = e && e.target;
       if (el && el.tagName === 'IMG') {
         var curSrc = el.getAttribute('src') || '';
+        if (!curSrc || curSrc.startsWith('data:')) return;
+        // Không bao giờ thay thế các ảnh UI/khung thoại/nhân vật/sticker bằng ảnh mẫu Chibi lớn
+        if (
+          /chibi-chat-bubble|bear-letter|boys-day|characters|sample-head|sticker|decor|icon|logo|bubble|envelope|flower|petal|ribbon|balloon|hat|garland/i.test(
+            curSrc
+          )
+        ) {
+          el.style.opacity = '0';
+          el.style.pointerEvents = 'none';
+          return;
+        }
         if (el.dataset.tkHealed === '2') return;
         el.dataset.tkHealed = el.dataset.tkHealed === '1' ? '2' : '1';
         var pool =
