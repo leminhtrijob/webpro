@@ -711,7 +711,7 @@ export default function HomePage() {
               <iframe
                 src={`${getLocalTemplateEnginePath(previewTemplate.slug)}?preview=1`}
                 className="w-full h-full border-0 block"
-                allow="autoplay; encrypted-media; fullscreen"
+                allow="camera; microphone; autoplay; encrypted-media; fullscreen"
                 title={`Xem thử mẫu ${previewTemplate.name}`}
               />
             </div>

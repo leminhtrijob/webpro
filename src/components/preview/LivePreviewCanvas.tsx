@@ -248,7 +248,7 @@ export default function LivePreviewCanvas({ config, fullscreen = false }: LivePr
             src={iframeSrc}
             onLoad={syncConfigToIframe}
             className="w-full h-full min-h-[415px] border-0 block bg-black"
-            allow="autoplay; encrypted-media; fullscreen"
+            allow="camera; microphone; autoplay; encrypted-media; fullscreen"
             title="TriKun Studio Live Template Engine"
           />
         ) : (
