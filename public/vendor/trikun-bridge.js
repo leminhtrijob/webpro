@@ -125,7 +125,14 @@
         if (!curSrc || curSrc.startsWith('data:')) return;
         // Không bao giờ thay thế các ảnh UI/khung thoại/nhân vật/sticker bằng ảnh mẫu Chibi lớn
         if (
-          /chibi-chat-bubble|bear-letter|boys-day|characters|sample-head|sticker|decor|icon|logo|bubble|envelope|flower|petal|ribbon|balloon|hat|garland/i.test(
+          /characters|sample-head/i.test(curSrc) &&
+          !curSrc.includes('/templates/dlove-2/assets/boys-day/characters/lavender-gift/sample-head.webp')
+        ) {
+          el.src = '/templates/dlove-2/assets/boys-day/characters/lavender-gift/sample-head.webp';
+          return;
+        }
+        if (
+          /chibi-chat-bubble|bear-letter|boys-day|sticker|decor|icon|logo|bubble|envelope|flower|petal|ribbon|balloon|hat|garland/i.test(
             curSrc
           )
         ) {
