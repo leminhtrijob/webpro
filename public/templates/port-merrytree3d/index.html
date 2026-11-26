@@ -141,14 +141,38 @@
         // ==========================================
         // 1. RESOURCES CONFIG
         // ==========================================
-        const MUSIC_URL = "./audio.wav";
+        const giftData = window.__TRIKUN_GIFT__ || {};
+        const MUSIC_URL = (giftData.musicUrl && typeof giftData.musicUrl === "string") ? giftData.musicUrl : "./audio.wav";
         let bgMusic = new Audio(MUSIC_URL);
         bgMusic.loop = true; bgMusic.volume = 1.0;
 
         const loader = new THREE.TextureLoader();
-        const photoFiles = ['./img/a1.jpg', './img/a2.jpg', './img/a3.jpg', './img/a4.jpg']; //Thay hoặc thêm số ảnh dòng 319 sửa ở đây và folder img
+        loader.setCrossOrigin("anonymous");
+        const defaultPhotos = ["./img/a1.jpg", "./img/a2.jpg", "./img/a3.jpg", "./img/a4.jpg"];
+        const customPhotos = Array.isArray(giftData.images) && giftData.images.length > 0 ? giftData.images : defaultPhotos;
+        const photoFiles = customPhotos.slice(0, 8);
         const photoTextures = [];
-        photoFiles.forEach((f, i) => photoTextures[i] = loader.load(f));
+        photoFiles.forEach((f, i) => {
+            photoTextures[i] = loader.load(
+                f,
+                (tex) => {
+                    if (photoMeshes[i] && photoMeshes[i].material) {
+                        photoMeshes[i].material.map = tex;
+                        photoMeshes[i].material.needsUpdate = true;
+                    }
+                },
+                undefined,
+                () => {
+                    loader.load(defaultPhotos[i % defaultPhotos.length], (fallbackTex) => {
+                        photoTextures[i] = fallbackTex;
+                        if (photoMeshes[i] && photoMeshes[i].material) {
+                            photoMeshes[i].material.map = fallbackTex;
+                            photoMeshes[i].material.needsUpdate = true;
+                        }
+                    });
+                }
+            );
+        });
 
         function createCustomTexture(type) {
             const canvas = document.createElement('canvas');
@@ -311,9 +335,9 @@
             const borderGeo = new THREE.PlaneGeometry(9, 9);
             const borderMat = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
 
-            for (let i = 0; i < 7; i++) { //số ảnh hiển thị 4
+            for (let i = 0; i < photoFiles.length; i++) {
                 const mat = new THREE.MeshBasicMaterial({
-                    map: photoTextures[i], side: THREE.DoubleSide
+                    map: photoTextures[i % photoTextures.length], side: THREE.DoubleSide
                 });
                 const mesh = new THREE.Mesh(geo, mat);
                 const border = new THREE.Mesh(borderGeo, borderMat);
@@ -479,7 +503,7 @@
                 titleMesh.visible = false; starMesh.visible = false;
 
                 const baseAngle = groupGold.rotation.y;
-                const angleStep = (Math.PI * 2) / 5;
+                const angleStep = (Math.PI * 2) / Math.max(1, photoMeshes.length);
                 let bestIdx = 0; let maxZ = -999;
 
                 photoMeshes.forEach((mesh, i) => {
